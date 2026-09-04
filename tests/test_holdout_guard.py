@@ -22,7 +22,11 @@ ALLOWED = {
 }
 ALLOWED_PREFIXES = ("eval/",)
 
-HOLDOUT = re.compile(r"holdout", re.IGNORECASE)
+# Match the ways a module could actually *reach* the held-out split -- a path
+# or a split-name literal -- rather than any mention of the word.  A blunter
+# regex tripped on a docstring citing this file by name, which is a false
+# positive that would eventually get the guard disabled rather than fixed.
+HOLDOUT = re.compile(r"""data/holdout|["']holdout["']""")
 
 
 def _relative_modules() -> list[tuple[str, str]]:
@@ -42,6 +46,16 @@ def test_only_the_harness_and_generator_reference_the_holdout_split() -> None:
     assert offenders == [], (
         f"{offenders} reference the held-out split; only the evaluation harness may"
     )
+
+
+def test_the_guard_would_catch_a_real_leak() -> None:
+    """The guard is only worth having if it fires on the thing it forbids."""
+    assert HOLDOUT.search('load_split(Path("data/holdout"))')
+    assert HOLDOUT.search('if split == "holdout":')
+    assert HOLDOUT.search("truth = load_truth(root / 'holdout')")
+    # ...and stays quiet on prose that merely names the concept or this file.
+    assert not HOLDOUT.search("the held-out split is protected by build rules")
+    assert not HOLDOUT.search("see tests/test_holdout_guard.py for the rule")
 
 
 def test_matching_layers_never_read_data_paths_directly() -> None:

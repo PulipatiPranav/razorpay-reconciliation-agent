@@ -17,8 +17,10 @@ from rich.table import Table
 from recon.eval.scoring import ScoreCard, score
 from recon.io import load_split
 from recon.matcher.baseline import run_baseline, run_id_join_baseline
+from recon.matcher.pipeline import Layer3Resolver, run_layered
 from recon.matcher.types import LinkType, ReconResult
 from recon.models import GroundTruth, SourceBundle
+from recon.obs.logging import DEFAULT_LOG_PATH, CallLog
 
 MatcherFn = Callable[[SourceBundle, str], ReconResult]
 
@@ -27,6 +29,39 @@ BASELINES: dict[str, MatcherFn] = {
     "amount only": lambda sources, split: run_baseline(sources, split, use_date=False),
     "identifier join": run_id_join_baseline,
 }
+
+
+def build_resolver(
+    mode: str, log: CallLog, transcript: Path = DEFAULT_LOG_PATH
+) -> Layer3Resolver | None:
+    """Construct Layer 3 in one of three modes.
+
+    ``off``     Layers 1-2 only.
+    ``replay``  answers from a committed transcript -- deterministic, free, and
+                what ``make eval`` uses so the README numbers reproduce.
+    ``live``    real Claude calls; use it to *record* a transcript, not to
+                report numbers, since a live model is non-deterministic.
+    """
+    if mode == "off":
+        return None
+    from recon.llm.client import AnthropicClient, ReplayClient
+    from recon.matcher.layer3 import LLMResolver
+
+    if mode == "replay":
+        return LLMResolver(ReplayClient(transcript, log))
+    if mode == "live":
+        return LLMResolver(AnthropicClient(log))
+    raise ValueError(f"unknown llm mode: {mode!r}")
+
+
+def matchers_for(resolver: Layer3Resolver | None, threshold: float) -> dict[str, MatcherFn]:
+    """The full comparison set: three baselines plus the layered matcher."""
+    label = "layered L1+L2" if resolver is None else "layered +LLM"
+    return dict(BASELINES) | {
+        label: lambda sources, split: run_layered(
+            sources, split, resolver=resolver, threshold=threshold
+        )
+    }
 
 
 def load_truth(directory: Path) -> GroundTruth:

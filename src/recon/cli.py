@@ -99,6 +99,53 @@ def baseline(
     render_exceptions(console, strongest[0], strongest[2])
 
 
+@app.command()
+def reconcile(
+    data_root: Annotated[Path, typer.Option(help="Root of the generated data.")] = Path("data"),
+    split: Annotated[str, typer.Option(help="dev, holdout, or both.")] = "both",
+    llm: Annotated[str, typer.Option(help="Layer 3 mode: off, replay, or live.")] = "off",
+    threshold: Annotated[float, typer.Option(help="Confidence threshold.")] = 0.70,
+    transcript: Annotated[Path, typer.Option(help="LLM call transcript.")] = Path(
+        "logs/llm_calls.jsonl"
+    ),
+    reports: Annotated[Path, typer.Option(help="Where to write scorecards.")] = Path("reports"),
+) -> None:
+    """Run the layered matcher alongside the baselines and score everything."""
+    from recon.eval.run import (
+        build_resolver,
+        matchers_for,
+        render_comparison,
+        render_exceptions,
+        run_matchers,
+        write_reports,
+    )
+    from recon.eval.scoring import ScoreCard
+    from recon.matcher.types import ReconResult
+    from recon.obs.logging import CallLog
+
+    log = CallLog(transcript if llm == "live" else Path("logs/replay.jsonl"))
+    resolver = build_resolver(llm, log, transcript)
+
+    scored: list[tuple[str, ReconResult, ScoreCard]] = []
+    for name in ["dev", "holdout"] if split == "both" else [split]:
+        scored = run_matchers(data_root, name, matchers_for(resolver, threshold))
+        cards = [(label, card) for label, _, card in scored]
+        render_comparison(console, name, cards)
+        write_reports(reports, name, cards)
+
+    if log.records:
+        summary = log.summary()
+        console.print(
+            f"[cyan]LLM:[/cyan] {int(summary['calls'])} calls, "
+            f"{int(summary['input_tokens'])} in / {int(summary['output_tokens'])} out tokens, "
+            f"${summary['cost_usd']:.4f}, mean {summary['latency_ms_mean']:.0f} ms, "
+            f"{int(summary['schema_failures'])} schema failures, "
+            f"{int(summary['errors'])} errors"
+        )
+    if scored:
+        render_exceptions(console, scored[-1][0], scored[-1][2])
+
+
 @app.command("data-report")
 def data_report(
     directory: Annotated[Path, typer.Argument(help="A split directory.")] = Path("data/dev"),

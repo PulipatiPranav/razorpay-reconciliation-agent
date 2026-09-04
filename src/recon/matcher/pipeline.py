@@ -172,8 +172,8 @@ def run_layered(
                 )
             )
             claimed_bank.update(txn_ids)
-            for part in confident:
-                layer_counts[part.rule] = layer_counts.get(part.rule, 0) + 1
+            for resolved_part in confident:
+                layer_counts[resolved_part.rule] = layer_counts.get(resolved_part.rule, 0) + 1
         for settlement_id, part in zip(payment.settlement_ids, parts, strict=True):
             if part is None or part.confidence < threshold:
                 exceptions.append(

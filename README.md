@@ -6,7 +6,8 @@ Reconciles three sources that legitimately disagree — a Razorpay-style gateway
 settlement report, a bank statement of bundled credits, and an invoice/ERP
 ledger — into matched sets with evidence, plus an honest exception list.
 
-**Status: Phases 1–2 complete (data + scored deterministic baselines). Phases 3–5 pending.**
+**Status: Phases 1–3 complete. Layer 3 is built and unit-tested but has not yet been
+run live — no API credentials in this environment. Phases 4–5 pending.**
 
 ## Architecture
 
@@ -28,7 +29,7 @@ flowchart TB
     DEV --> SRC
     HOLD --> SRC
 
-    subgraph P3["Phase 3 — layered matcher (pending)"]
+    subgraph P3["Phase 3 — layered matcher (done)"]
         L1["Layer 1 · exact deterministic"]
         L2["Layer 2 · fuzzy: amount tolerance,<br/>date windows, net→gross reconstruction"]
         L3["Layer 3 · Claude on the residue only"]
@@ -261,18 +262,143 @@ invoices held-out. Recall is 1.00, so no genuine orphan is missed, but the
 to match. This is the flip side of low recall and should improve as recall
 does; Phase 4 will track it rather than let it hide.
 
+## Phase 3 — layered matcher
+
+`make reconcile` runs Layers 1–2 (deterministic, no key needed).
+`make eval` adds Layer 3 by replaying a committed transcript.
+
+### Results — Layers 1+2 only
+
+Held-out (220 payments, 12 batches):
+
+| matcher | bank P | bank R | invoice P | invoice R | **fully reconciled** | 95% CI | FP |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `amount + date` (spec baseline) | 0.0% | 0.0% | 86.7% | 6.3% | **0.0%** | 0–2% | 0 |
+| `amount only` | 0.0% | 0.0% | 100.0% | 71.8% | **1.8%** | 1–5% | 0 |
+| `identifier join` (strong baseline) | 100.0% | 49.1% | 100.0% | 92.2% | **46.8%** | 40–53% | 0 |
+| **layered L1+L2** | 100.0% | 77.4% | 99.5% | 100.0% | **76.4%** | 70–81% | 1 |
+
+Dev (380 payments, 25 batches): identifier join 52.6%, layered L1+L2 **83.4%** [79–87%].
+
+The invoice leg is fully solved by Layers 1–2 (recall 100%). The bank leg's
+remaining 22.6% is the Layer 3 residue described below.
+
+### Why the corpus was hardened mid-phase
+
+On the original corpus Layers 1–2 alone reached **98.7%** held-out and Layer 3
+inherited a residue of one record. That was not a matcher success — it was a
+data problem, and worth stating plainly because it is the kind of thing a
+synthetic-data project gets wrong by default.
+
+Every defect in the first corpus had an exact deterministic inverse, because
+the corruption and its cure were designed by the same hand. Two of the three
+narration-corruption modes left the full UTR in the narration text; the third
+was an adjacent transposition, which Damerau-Levenshtein reverses at distance
+1. Writing a matcher that inverts corruptions you invented proves nothing.
+
+Three defect classes with no mechanical inverse were added (Phase 1 §"Defect
+classes"): `narration_opaque` (no UTR anywhere, in column or text),
+`unexplained_deduction` (the credit is short by an amount nothing in the
+report explains), and `duplicate_customer_invoice` (a twin open invoice, same
+customer and amount, days apart). Opacity and deductions are **correlated**,
+not independent — both follow from a payout leaving the normal automated path.
+Modelled independently the genuinely hard case occurred ~4% of the time, too
+rare to measure at all.
+
+This changed the config hash and every number above; the previous corpus and
+its scores are in git history, not quietly overwritten.
+
+### The layers
+
+**Layer 1 — exact.** UTR column → bank statement; gateway `order_id` → ERP.
+Resolves 236 of 380 dev payments on the bank leg, 344 on the invoice leg.
+
+**Layer 2 — fuzzy.** Rules tried in descending order of reliability; the first
+that yields exactly one unclaimed candidate wins. A rule finding several
+candidates does not guess — it falls through.
+
+| rule | recovers | held-out firings |
+|---|---|---:|
+| `l2_narration_utr_exact` | UTR present only in the narration string | 14 |
+| `l2_narration_utr_truncated` | narration carries a prefix of the UTR | 34 |
+| `l2_utr_fuzzy` | adjacent transposition (Damerau distance 1) | 0 |
+| `l2_batch_amount_reconstruction` | no reference at all: rebuild the batch total | 12 |
+| `l2_batch_amount_reconstruction_deduped` | …with phantom duplicate refunds collapsed | 0 |
+| `l2_receipt_invoice_hint` | invoice number in the gateway receipt field | 4 |
+| `l2_order_id_normalised` | ERP upper-cased the `order_id` | 1 |
+| `l2_order_id_fuzzy` | transposed `order_id` | 6 |
+| `l2_invoice_amount_date_window` | link absent: unique amount in the issue window | 6 |
+
+Every tolerance was **measured on dev**, never guessed and never read off the
+generator: invoice issue-to-capture lag p99 = 12 days → a 14-day window; worst
+batch amount residual = 5 paise → a 10-paise tolerance; bank value-date drift =
+0 days → a ±2-day window kept anyway, since the amount must still tie.
+
+**Layer 3 — Claude on the residue only.** By the time it runs, what is left is
+batches whose bank credit carries no reference of any kind *and* whose total
+does not tie because of an unitemised deduction. On held-out that is 2 batches
+covering 51 payments (23%); on dev, 5 batches covering 64 payments.
+
+Three rules govern it, all about not being talked into a match:
+
+1. **Declining is a correct answer**, stated in the prompt and made a
+   first-class `null` in the schema rather than an error path.
+2. **Its confidence is capped** at 0.85× whatever it reports, so an LLM
+   proposal can never outrank a deterministic rule whose precision was measured.
+3. **A chosen id outside the offered candidate list is treated as a decline**,
+   not trusted — that is the hallucination path, and it is tested.
+
+### Confidence is measured, not invented
+
+Each rule's confidence is its observed precision on dev, rounded down, capped
+at 0.99 (perfect precision on a few hundred cases is not evidence of
+perfection). Below the 0.70 threshold a proposal is routed to exceptions with
+its rejected reasoning still attached, so an auditor can see what was refused
+and why.
+
+### Reproducibility with a non-deterministic layer
+
+A README claiming reproducible numbers while calling a live model on every run
+would be claiming something untrue. So `make eval` replays a **committed JSONL
+transcript** keyed by a hash of (model, system prompt, user prompt): identical
+matches, identical evidence, identical score, no key and no cost. Change a
+prompt and the hash changes, the transcript misses, and the run says so rather
+than quietly serving a stale answer. `make record-llm` is the only thing that
+spends tokens, and it runs on **dev only**.
+
+### Honest exception behaviour (held-out, L1+L2)
+
+| | bank leg | invoice leg |
+|---|---:|---:|
+| genuinely unresolvable payments | 4 | 14 |
+| correctly routed to exceptions | 4 | 13 |
+| **falsely matched (hallucinations)** | **0** | **1** |
+
+The single false positive is a `l2_invoice_amount_date_window` match on a
+payment whose true invoice does not exist — a twin-invoice collision. It is a
+real defect, not rounding, and it is what the confidence threshold and Layer 3
+exist to catch.
+
+Orphan-counterpart precision is now 1.00 on invoices (was 0.08 with the
+baseline) and 0.60 on bank credits, with recall 1.00 on both. The bank figure
+is still the flip side of the 22.6% recall gap.
+
 ## Reproduce
 
 ```bash
 make install      # uv venv on Python 3.12 + editable install
 make data         # regenerate both splits from seed 42, verify all invariants
 make data-report  # defect mix per split
-make baseline     # run and score the three deterministic baselines
+make baseline     # the three deterministic baselines
+make reconcile    # layered matcher, Layers 1+2 (no API key needed)
+make eval         # everything, replaying the committed LLM transcript
+make record-llm   # re-record the transcript live (dev only; needs ANTHROPIC_API_KEY)
 make check        # ruff + mypy --strict + pytest
 ```
 
-100 tests currently pass; `mypy --strict` is clean across all source modules.
-Scorecards are written to `reports/scorecards_{dev,holdout}.json`.
+178 tests currently pass; `mypy --strict` is clean across all 31 source modules.
+Scorecards are written to `reports/scorecards_{dev,holdout}.json` and every LLM
+call to `logs/llm_calls.jsonl`.
 
 ## Limitations
 
@@ -300,6 +426,12 @@ Scorecards are written to `reports/scorecards_{dev,holdout}.json`.
 - **The baselines were scored on held-out data.** This is safe only because they
   have no parameters to tune; the same will not be true of Layer 2, whose
   tolerances and windows will be fixed on dev before held-out is touched.
+- **Layer 3 has not been run live.** It is fully implemented and unit-tested
+  against a stub client — decline, hallucinated-id rejection, confidence
+  capping, schema-failure handling, candidate filtering — but no
+  `ANTHROPIC_API_KEY` was available in this environment, so no transcript has
+  been recorded and no measured Layer 3 numbers appear above. Every figure
+  quoted is Layers 1–2 only.
 - **The defect attribution above is marginal, not causal.** It reads clearly
   here only because the identifier join fails on exactly one defect class per
   leg. Phase 4 needs the isolated-tag view for cases where it does not.

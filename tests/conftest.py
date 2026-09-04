@@ -21,6 +21,7 @@ from recon.models import (
     Manifest,
     PaymentMethod,
     PaymentView,
+    SettlementBatch,
     SourceBundle,
 )
 
@@ -98,16 +99,43 @@ def make_invoice(
     )
 
 
+def make_batch(
+    settlement_id: str = "setl_1",
+    *,
+    utr: str | None = "HDFC000000000001",
+    payment_ids: list[str] | None = None,
+    settled: date = date(2026, 2, 5),
+    expected: int = 97_000,
+    expected_dedup: int | None = None,
+    refunds: list[str] | None = None,
+    adjustments: list[str] | None = None,
+    duplicates: bool = False,
+) -> SettlementBatch:
+    return SettlementBatch(
+        settlement_id=settlement_id,
+        utr=utr,
+        payment_ids=payment_ids if payment_ids is not None else ["pay_1"],
+        settled_date=settled,
+        expected_credit_paise=expected,
+        expected_credit_dedup_paise=expected if expected_dedup is None else expected_dedup,
+        refund_entity_ids=refunds or [],
+        adjustment_entity_ids=adjustments or [],
+        has_duplicate_refund_rows=duplicates,
+    )
+
+
 def make_sources(
     payments: list[PaymentView] | None = None,
     bank: list[BankRow] | None = None,
     invoices: list[InvoiceRow] | None = None,
+    batches: list[SettlementBatch] | None = None,
 ) -> SourceBundle:
     return SourceBundle(
         payments=payments if payments is not None else [make_payment()],
         refunds=[],
         bank_rows=bank if bank is not None else [make_bank()],
         invoices=invoices if invoices is not None else [make_invoice()],
+        batches=batches if batches is not None else [make_batch()],
     )
 
 

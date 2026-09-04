@@ -4,7 +4,7 @@ SEED ?= 42
 N ?= 600
 DEV ?= 400
 
-.PHONY: install data data-report baseline test lint typecheck check clean
+.PHONY: install data data-report baseline reconcile record-llm eval test lint typecheck check clean
 
 install:
 	$(UV) venv --python 3.12
@@ -22,6 +22,20 @@ data-report:
 ## Run the Phase 2 deterministic baselines and score them.
 baseline:
 	$(PY) -m recon.cli baseline --data-root data --split both
+
+## Layers 1+2 only -- no API key, fully deterministic.
+reconcile:
+	$(PY) -m recon.cli reconcile --data-root data --split both --llm off
+
+## Record a Layer 3 transcript with live Claude calls. Needs ANTHROPIC_API_KEY.
+## Dev only: the held-out set is scored from the transcript, never recorded ad hoc.
+record-llm:
+	$(PY) -m recon.cli reconcile --data-root data --split dev --llm live
+
+## Every number in the README, reproduced from scratch. Replays the committed
+## LLM transcript, so it needs no key and gives identical results every run.
+eval: data
+	$(PY) -m recon.cli reconcile --data-root data --split both --llm replay
 
 test:
 	$(PY) -m pytest tests -q
