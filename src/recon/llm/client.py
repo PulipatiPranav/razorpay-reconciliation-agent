@@ -32,7 +32,11 @@ if TYPE_CHECKING:
     from anthropic.types import MessageParam, OutputConfigParam
 
 DEFAULT_MODEL = "claude-opus-5"
-DEFAULT_MAX_TOKENS = 2048
+# Thinking tokens are billed and counted as output on this model, so the budget
+# has to cover the reasoning *and* the JSON. At 2048 a long deliberation could
+# crowd out the answer and truncate it into a schema failure; 4096 leaves room.
+# It also bounds the worst case: ~20 calls x 4096 output is well under $2.
+DEFAULT_MAX_TOKENS = 4096
 DEFAULT_EFFORT = "high"
 
 
