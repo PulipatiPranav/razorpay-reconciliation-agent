@@ -18,8 +18,8 @@ from recon.eval.scoring import ScoreCard, score
 from recon.io import load_split
 from recon.matcher.baseline import run_baseline, run_id_join_baseline
 from recon.matcher.pipeline import Layer3Resolver, run_layered
-from recon.matcher.types import LinkType, ReconResult
-from recon.models import GroundTruth, SourceBundle
+from recon.matcher.types import LinkType, MatchLayer, ReconResult
+from recon.models import GroundTruth, Manifest, SourceBundle
 from recon.obs.logging import DEFAULT_LOG_PATH, CallLog
 
 MatcherFn = Callable[[SourceBundle, str], ReconResult]
@@ -131,3 +131,13 @@ def write_reports(out_dir: Path, split: str, scored: list[tuple[str, ScoreCard]]
     (out_dir / f"scorecards_{split}.json").write_text(
         json.dumps(payload, indent=2) + "\n", encoding="utf-8"
     )
+
+
+def load_manifest(directory: Path) -> Manifest:
+    data = json.loads((directory / "manifest.json").read_text())
+    return Manifest.model_validate(data["manifest"])
+
+
+def layer3_payment_count(result: ReconResult) -> int:
+    """Payments whose answer came from the model rather than a rule."""
+    return len({m.payment_id for m in result.matches if m.layer is MatchLayer.L3_LLM})

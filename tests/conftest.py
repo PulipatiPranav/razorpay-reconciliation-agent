@@ -14,6 +14,7 @@ import pytest
 
 from recon.models import (
     BankRow,
+    DefectTag,
     GroundTruth,
     GroundTruthBundle,
     GroundTruthLink,
@@ -180,6 +181,8 @@ def make_link(
     invoice_id: str | None = "INV-2026-00001",
     bank_txn_ids: list[str] | None = None,
     unresolvable: str | None = None,
+    defect_tags: list[DefectTag] | None = None,
+    bundle_defect_tags: list[DefectTag] | None = None,
 ) -> GroundTruthLink:
     return GroundTruthLink(
         payment_id=payment_id,
@@ -190,6 +193,8 @@ def make_link(
         bank_txn_ids=bank_txn_ids if bank_txn_ids is not None else ["bank_1"],
         gross_paise=100_000,
         net_paise=97_000,
+        defect_tags=defect_tags or [],
+        bundle_defect_tags=bundle_defect_tags or [],
         unresolvable_reason=unresolvable,
     )
 

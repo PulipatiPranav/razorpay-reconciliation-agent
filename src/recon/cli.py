@@ -10,6 +10,8 @@ import typer
 from rich.console import Console
 from rich.table import Table
 
+from recon.eval.breakdown import Breakdown
+from recon.eval.scoring import ScoreCard
 from recon.generator.config import MessConfig
 from recon.generator.generate import generate_universe
 from recon.generator.validate import (
@@ -18,7 +20,8 @@ from recon.generator.validate import (
     check_universe,
 )
 from recon.generator.writers import write_universe
-from recon.models import DefectTag
+from recon.matcher.types import ReconResult
+from recon.models import DefectTag, Manifest
 
 app = typer.Typer(add_completion=False, help="Multi-source reconciliation agent.")
 console = Console()
@@ -119,8 +122,6 @@ def reconcile(
         run_matchers,
         write_reports,
     )
-    from recon.eval.scoring import ScoreCard
-    from recon.matcher.types import ReconResult
     from recon.obs.logging import CallLog
 
     log = CallLog(transcript if llm == "live" else Path("logs/replay.jsonl"))
@@ -144,6 +145,113 @@ def reconcile(
         )
     if scored:
         render_exceptions(console, scored[-1][0], scored[-1][2])
+
+
+@app.command("eval")
+def evaluate(
+    data_root: Annotated[Path, typer.Option("--data-root", help="Root of the data.")] = Path(
+        "data"
+    ),
+    llm: Annotated[str, typer.Option(help="Layer 3 mode: off, replay, or live.")] = "replay",
+    threshold: Annotated[float, typer.Option(help="Confidence threshold.")] = 0.70,
+    transcript: Annotated[Path, typer.Option(help="LLM call transcript.")] = Path(
+        "logs/llm_calls.jsonl"
+    ),
+    reports: Annotated[Path, typer.Option(help="Where to write reports.")] = Path("reports"),
+    readme: Annotated[Path, typer.Option(help="README to splice results into.")] = Path(
+        "README.md"
+    ),
+    seeds: Annotated[int, typer.Option(help="Seeds for the causal ablation.")] = 8,
+    skip_ablation: Annotated[bool, typer.Option(help="Skip the ablation study.")] = False,
+    check: Annotated[
+        bool, typer.Option(help="Fail if the README's generated block is stale.")
+    ] = False,
+) -> None:
+    """Score everything, run the ablation, and regenerate the README results."""
+    from recon.eval.ablation import DEFAULT_SEEDS, run_ablation
+    from recon.eval.breakdown import build_breakdown
+    from recon.eval.report import ReportContext, build_report, splice
+    from recon.eval.run import (
+        build_resolver,
+        layer3_payment_count,
+        load_manifest,
+        load_truth,
+        matchers_for,
+        run_matchers,
+        write_reports,
+    )
+    from recon.matcher.pipeline import run_layered
+    from recon.obs.logging import CallLog
+
+    manifests: dict[str, Manifest] = {}
+    scorecards: dict[str, list[tuple[str, ScoreCard]]] = {}
+    breakdowns: dict[str, Breakdown] = {}
+
+    for split in ("dev", "holdout"):
+        log = CallLog(reports / f"llm_replay_{split}.jsonl")
+        resolver = build_resolver(llm, log, transcript)
+        scored = run_matchers(data_root, split, matchers_for(resolver, threshold))
+
+        manifests[split] = load_manifest(data_root / split)
+        scorecards[split] = [(name, card) for name, _, card in scored]
+        write_reports(reports, split, scorecards[split])
+
+        name, result, _ = scored[-1]  # the layered matcher is always last
+        breakdowns[split] = build_breakdown(
+            result,
+            load_truth(data_root / split),
+            threshold=threshold,
+            log=log if llm != "off" else None,
+            layer3_records=layer3_payment_count(result),
+        )
+
+    ablation = []
+    seed_tuple = DEFAULT_SEEDS[:seeds]
+    if not skip_ablation:
+        console.print(f"[dim]running causal ablation over {len(seed_tuple)} seeds...[/dim]")
+        ablation = run_ablation(
+            lambda sources, split: run_layered(sources, split, threshold=threshold),
+            seeds=seed_tuple,
+            threshold=threshold,
+        )
+
+    block = build_report(
+        ReportContext(
+            manifests=manifests,
+            scorecards=scorecards,
+            breakdowns=breakdowns,
+            ablation=ablation,
+            ablation_seeds=len(seed_tuple),
+            llm_mode=llm,
+            threshold=threshold,
+        )
+    )
+    reports.mkdir(parents=True, exist_ok=True)
+    (reports / "results.md").write_text(block, encoding="utf-8")
+
+    updated, changed = splice(readme, block)
+    if check:
+        if changed:
+            console.print(
+                "[red]README results are stale.[/red] Run `make eval` and commit the result."
+            )
+            raise typer.Exit(1)
+        console.print("[green]README results are up to date.[/green]")
+        return
+    if changed:
+        readme.write_text(updated, encoding="utf-8")
+        console.print(f"[green]regenerated the results block in {readme}[/green]")
+    else:
+        console.print(f"[green]{readme} already matches this run[/green]")
+
+    for split in ("dev", "holdout"):
+        render_comparison_local(split, scorecards[split])
+
+
+def render_comparison_local(split: str, cards: list[tuple[str, ScoreCard]]) -> None:
+    from recon.eval.run import render_comparison
+
+    render_comparison(console, split, cards)
 
 
 @app.command("data-report")

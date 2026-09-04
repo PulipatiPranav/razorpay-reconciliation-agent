@@ -1,0 +1,220 @@
+"""The causal ablation and the generated-report contract."""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+import pytest
+from conftest import make_link, make_truth
+
+from recon.eval.ablation import _materialise_dev, run_ablation
+from recon.eval.breakdown import build_breakdown
+from recon.eval.report import BEGIN, END, ReportContext, build_report, splice
+from recon.eval.scoring import score
+from recon.generator.config import MessConfig
+from recon.matcher.baseline import run_id_join_baseline
+from recon.matcher.pipeline import run_layered
+from recon.matcher.types import ReconResult
+from recon.models import DefectTag
+
+SMALL = MessConfig(n_payments=200, n_dev_payments=130)
+SEEDS = (42, 101)
+
+
+# --- in-memory materialisation ---------------------------------------------
+def test_the_in_memory_corpus_matches_what_gets_written(tmp_path: Path) -> None:
+    """The ablation must study the same corpus the on-disk pipeline scores."""
+    from recon.eval.run import load_truth
+    from recon.generator.generate import generate_universe
+    from recon.generator.writers import write_universe
+    from recon.io import load_split
+
+    cfg = MessConfig(n_payments=200, n_dev_payments=130, seed=7)
+    write_universe(cfg, generate_universe(cfg), tmp_path)
+    on_disk_sources = load_split(tmp_path / "dev")
+    on_disk_truth = load_truth(tmp_path / "dev")
+
+    in_memory_sources, in_memory_truth = _materialise_dev(cfg)
+    assert [p.payment_id for p in in_memory_sources.payments] == [
+        p.payment_id for p in on_disk_sources.payments
+    ]
+    assert [b.settlement_id for b in in_memory_sources.batches] == [
+        b.settlement_id for b in on_disk_sources.batches
+    ]
+    assert in_memory_truth.model_dump_json() == on_disk_truth.model_dump_json()
+
+
+# --- ablation ---------------------------------------------------------------
+def test_switching_off_the_dominant_defect_recovers_the_most() -> None:
+    rows = run_ablation(
+        run_layered,
+        base=SMALL,
+        seeds=SEEDS,
+        tags=[DefectTag.NARRATION_OPAQUE, DefectTag.TDS],
+    )
+    by_tag = {r.tag: r for r in rows}
+    opaque = by_tag[str(DefectTag.NARRATION_OPAQUE)].delta_points
+    assert opaque > by_tag[str(DefectTag.TDS)].delta_points
+
+
+def test_a_defect_the_matcher_is_immune_to_moves_nothing() -> None:
+    """Fee/TDS-aware reconstruction means TDS should cost exactly zero."""
+    rows = run_ablation(run_layered, base=SMALL, seeds=SEEDS, tags=[DefectTag.TDS])
+    assert rows[0].delta_points == pytest.approx(0.0, abs=0.01)
+
+
+def test_the_ablation_is_paired_against_the_same_seeds() -> None:
+    rows = run_ablation(run_layered, base=SMALL, seeds=SEEDS, tags=[DefectTag.TDS])
+    assert rows[0].seeds == len(SEEDS)
+    assert rows[0].ablated_rate == pytest.approx(rows[0].baseline_rate, abs=1e-9)
+
+
+def test_a_weaker_matcher_loses_more_to_the_same_defect() -> None:
+    """Sanity: the ablation measures the matcher, not just the data."""
+    tags = [DefectTag.NARRATION_OPAQUE]
+    layered = run_ablation(run_layered, base=SMALL, seeds=SEEDS, tags=tags)[0]
+    baseline = run_ablation(run_id_join_baseline, base=SMALL, seeds=SEEDS, tags=tags)[0]
+    assert baseline.delta_points > layered.delta_points
+
+
+def test_noise_flagging_uses_the_standard_error() -> None:
+    rows = run_ablation(run_layered, base=SMALL, seeds=SEEDS, tags=[DefectTag.TDS])
+    row = rows[0]
+    assert row.delta_stderr == 0.0
+    assert row.above_noise is False  # a zero delta is not a finding
+
+
+# --- report -----------------------------------------------------------------
+def _context() -> ReportContext:
+    truth = make_truth([make_link()])
+    result = ReconResult(matcher="layered", split="holdout", matches=[], exceptions=[])
+    card = score(result, truth)
+    return ReportContext(
+        manifests={"dev": _manifest("dev"), "holdout": _manifest("holdout")},
+        scorecards={"holdout": [("layered", card)]},
+        breakdowns={"holdout": build_breakdown(result, truth)},
+        ablation=[],
+        ablation_seeds=2,
+        llm_mode="off",
+        threshold=0.7,
+    )
+
+
+def _manifest(split: str):
+    from datetime import datetime
+
+    from recon.models import Manifest
+
+    return Manifest(
+        split=split,
+        seed=42,
+        generator_version="1.0.0",
+        config_hash="abc123",
+        generated_at=datetime(2026, 1, 1),
+        n_payments=100,
+        n_bundles=10,
+        n_gateway_rows=120,
+        n_bank_rows=12,
+        n_invoice_rows=100,
+        defect_counts={"tds_deducted": 15},
+        bundle_defect_counts={"narration_opaque": 2},
+        payments_affected_by_bundle_defect={"narration_opaque": 20},
+    )
+
+
+def test_the_report_is_deterministic() -> None:
+    context = _context()
+    assert build_report(context) == build_report(context)
+
+
+def test_the_report_states_its_provenance() -> None:
+    text = build_report(_context())
+    assert "generated by `make eval`" in text
+    assert "confidence threshold 0.70" in text
+    assert "abc123" in text  # the config hash of the corpus it scored
+
+
+def test_splice_replaces_only_the_generated_block(tmp_path: Path) -> None:
+    readme = tmp_path / "README.md"
+    readme.write_text(f"intro\n\n{BEGIN}\nold\n{END}\n\noutro\n")
+    updated, changed = splice(readme, "new content\n")
+    assert changed
+    assert updated.startswith("intro")
+    assert updated.endswith("outro\n")
+    assert "old" not in updated and "new content" in updated
+
+
+def test_splice_reports_no_change_when_the_block_already_matches(tmp_path: Path) -> None:
+    readme = tmp_path / "README.md"
+    readme.write_text(f"intro\n\n{BEGIN}\n\nsame\n\n{END}\n\noutro\n")
+    _, changed = splice(readme, "same\n")
+    assert not changed
+
+
+def test_splice_refuses_a_readme_without_markers(tmp_path: Path) -> None:
+    readme = tmp_path / "README.md"
+    readme.write_text("no markers here")
+    with pytest.raises(ValueError, match="markers"):
+        splice(readme, "block")
+
+
+def test_the_shipped_readme_carries_the_markers() -> None:
+    """`make eval` can only keep the README honest if the markers survive edits."""
+    text = Path("README.md").read_text(encoding="utf-8")
+    assert text.count(BEGIN) == 1 and text.count(END) == 1
+
+
+def test_the_report_says_so_when_layer_three_answered_nothing() -> None:
+    """A cost table full of prompts that all missed must not read as work done."""
+    from recon.eval.breakdown import CostRow
+
+    context = _context()
+    context.llm_mode = "replay"
+    breakdown = context.breakdowns["holdout"]
+    breakdown.cost = CostRow(
+        records=220,
+        llm_calls=8,
+        answered=0,
+        transcript_misses=8,
+        calls_per_100_records=3.64,
+        records_reaching_layer3=0,
+        input_tokens=0,
+        output_tokens=0,
+        cost_usd=0.0,
+        cost_usd_per_100_records=0.0,
+        latency_ms_mean=0.0,
+        latency_s_per_100_records=0.0,
+        schema_failures=0,
+        errors=8,
+        replayed=True,
+    )
+    text = build_report(context)
+    assert "Layer 3 answered nothing" in text
+    assert "recorded during the live run" not in text
+
+
+def test_the_report_credits_a_real_transcript() -> None:
+    from recon.eval.breakdown import CostRow
+
+    context = _context()
+    context.llm_mode = "replay"
+    context.breakdowns["holdout"].cost = CostRow(
+        records=220,
+        llm_calls=8,
+        answered=8,
+        transcript_misses=0,
+        calls_per_100_records=3.64,
+        records_reaching_layer3=51,
+        input_tokens=9000,
+        output_tokens=800,
+        cost_usd=0.065,
+        cost_usd_per_100_records=0.0295,
+        latency_ms_mean=2500.0,
+        latency_s_per_100_records=9.1,
+        schema_failures=0,
+        errors=0,
+        replayed=True,
+    )
+    text = build_report(context)
+    assert "Layer 3 answered nothing" not in text
+    assert "recorded during the live run" in text

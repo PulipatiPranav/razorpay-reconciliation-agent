@@ -368,6 +368,37 @@ def allocate_extras(
     return out
 
 
+def materialise_split(
+    universe: Universe,
+    split_name: str,
+    bundle_ids: set[str],
+    noise_bank: list[BankRow],
+    orphan_invoice_ids: list[str],
+) -> tuple[list[GatewayRow], list[BankRow], list[InvoiceRow], GroundTruth]:
+    """Build one split's records and ground truth without touching the disk.
+
+    ``write_split`` serialises exactly what this returns, so the in-memory path
+    used by the ablation study and the on-disk corpus can never drift apart.
+    """
+    payment_ids = {
+        p.payment_id
+        for p in universe.payments
+        if any(bid in bundle_ids for bid, _ in p.portions)
+    }
+    gateway = _gateway_rows_for(universe, bundle_ids)
+    bank = _bank_rows_for(universe, bundle_ids, noise_bank)
+    invoices = _invoice_rows_for(universe, payment_ids, orphan_invoice_ids)
+    ground_truth = build_ground_truth(
+        universe,
+        bundle_ids,
+        split_name,
+        noise_txn_ids=[r.txn_id for r in noise_bank],
+        orphan_invoice_ids=orphan_invoice_ids,
+        counts={"gateway": len(gateway), "bank": len(bank), "invoice": len(invoices)},
+    )
+    return gateway, bank, invoices, ground_truth
+
+
 def write_split(
     universe: Universe,
     split_name: str,
@@ -377,15 +408,9 @@ def write_split(
     orphan_invoice_ids: list[str],
 ) -> Manifest:
     out_dir.mkdir(parents=True, exist_ok=True)
-    payment_ids = {
-        p.payment_id
-        for p in universe.payments
-        if any(bid in bundle_ids for bid, _ in p.portions)
-    }
-
-    gateway = _gateway_rows_for(universe, bundle_ids)
-    bank = _bank_rows_for(universe, bundle_ids, noise_bank)
-    invoices = _invoice_rows_for(universe, payment_ids, orphan_invoice_ids)
+    gateway, bank, invoices, ground_truth = materialise_split(
+        universe, split_name, bundle_ids, noise_bank, orphan_invoice_ids
+    )
 
     _write_csv(
         out_dir / "gateway_settlements.csv",
@@ -458,14 +483,6 @@ def write_split(
         ],
     )
 
-    ground_truth = build_ground_truth(
-        universe,
-        bundle_ids,
-        split_name,
-        noise_txn_ids=[r.txn_id for r in noise_bank],
-        orphan_invoice_ids=orphan_invoice_ids,
-        counts={"gateway": len(gateway), "bank": len(bank), "invoice": len(invoices)},
-    )
     (out_dir / "ground_truth.json").write_text(
         ground_truth.model_dump_json(indent=2) + "\n", encoding="utf-8"
     )
