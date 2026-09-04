@@ -254,6 +254,148 @@ def render_comparison_local(split: str, cards: list[tuple[str, ScoreCard]]) -> N
     render_comparison(console, split, cards)
 
 
+@app.command()
+def audit(
+    data_root: Annotated[Path, typer.Option("--data-root", help="Root of the data.")] = Path(
+        "data"
+    ),
+    split: Annotated[str, typer.Option(help="dev, holdout, or both.")] = "both",
+    llm: Annotated[str, typer.Option(help="Layer 3 mode: off, replay, or live.")] = "replay",
+    threshold: Annotated[float, typer.Option(help="Confidence threshold.")] = 0.70,
+    transcript: Annotated[Path, typer.Option(help="LLM call transcript.")] = Path(
+        "logs/llm_calls.jsonl"
+    ),
+    out_dir: Annotated[Path, typer.Option(help="Where to write the HTML.")] = Path("reports"),
+    with_truth: Annotated[
+        bool, typer.Option(help="Check every row against ground truth.")
+    ] = True,
+) -> None:
+    """Write a self-contained HTML audit trail: one page, no server, no network."""
+    from recon.eval.audit import render_audit
+    from recon.eval.breakdown import build_breakdown
+    from recon.eval.run import (
+        build_resolver,
+        layer3_payment_count,
+        load_manifest,
+        load_truth,
+    )
+    from recon.eval.scoring import score
+    from recon.io import load_split
+    from recon.matcher.pipeline import run_layered
+    from recon.obs.logging import CallLog
+
+    out_dir.mkdir(parents=True, exist_ok=True)
+    for name in ["dev", "holdout"] if split == "both" else [split]:
+        log = CallLog(out_dir / f"llm_audit_{name}.jsonl")
+        resolver = build_resolver(llm, log, transcript)
+        sources = load_split(data_root / name)
+        truth = load_truth(data_root / name)
+        result = run_layered(sources, name, resolver=resolver, threshold=threshold)
+        card = score(result, truth, confidence_threshold=threshold)
+        breakdown = build_breakdown(
+            result,
+            truth,
+            threshold=threshold,
+            log=log if llm != "off" else None,
+            layer3_records=layer3_payment_count(result),
+        )
+        page = render_audit(
+            sources,
+            result,
+            truth,
+            card,
+            breakdown,
+            split=name,
+            with_truth=with_truth,
+            config_hash=load_manifest(data_root / name).config_hash,
+        )
+        target = out_dir / f"audit_{name}.html"
+        target.write_text(page, encoding="utf-8")
+        console.print(
+            f"[green]{target}[/green] — {len(result.matches)} matches, "
+            f"{len(result.exceptions)} exceptions, {target.stat().st_size // 1024} KB"
+        )
+
+
+@app.command()
+def trace(
+    payment_id: Annotated[str, typer.Argument(help="Payment to explain.")],
+    data_root: Annotated[Path, typer.Option("--data-root", help="Root of the data.")] = Path(
+        "data"
+    ),
+    split: Annotated[str, typer.Option(help="Which split holds it.")] = "holdout",
+    llm: Annotated[str, typer.Option(help="Layer 3 mode.")] = "replay",
+    threshold: Annotated[float, typer.Option(help="Confidence threshold.")] = 0.70,
+) -> None:
+    """Print the full audit trail for one payment in the terminal."""
+    from rich.panel import Panel
+
+    from recon.eval.run import build_resolver, load_truth
+    from recon.io import load_split
+    from recon.matcher.pipeline import run_layered
+    from recon.matcher.types import LinkType
+    from recon.obs.logging import CallLog
+
+    sources = load_split(data_root / split)
+    truth = load_truth(data_root / split)
+    resolver = build_resolver(llm, CallLog(Path("logs/trace.jsonl")), Path("logs/llm_calls.jsonl"))
+    result = run_layered(sources, split, resolver=resolver, threshold=threshold)
+
+    payment = next((p for p in sources.payments if p.payment_id == payment_id), None)
+    if payment is None:
+        console.print(f"[red]{payment_id} is not in the {split} split[/red]")
+        raise typer.Exit(1)
+
+    link = next((x for x in truth.links if x.payment_id == payment_id), None)
+    console.print(
+        Panel(
+            f"gross {payment.gross_paise / 100:,.2f}"
+            f"  net {payment.net_paise / 100:,.2f}\n"
+            f"order_id {payment.order_id or '— absent —'}"
+            f"   receipt {payment.order_receipt}\n"
+            f"settlements {', '.join(payment.settlement_ids)}",
+            title=payment_id,
+        )
+    )
+    for link_type in LinkType:
+        matches = [
+            m
+            for m in result.matches_for(link_type)
+            if m.payment_id == payment_id
+        ]
+        exceptions = [
+            x
+            for x in result.exceptions_for(link_type)
+            if x.subject_id == payment_id
+        ]
+        console.print(f"\n[bold]{link_type.value}[/bold]")
+        for match in matches:
+            want = set()
+            if link:
+                want = (
+                    set(link.bank_txn_ids)
+                    if link_type is LinkType.PAYMENT_TO_BANK
+                    else ({link.invoice_id} if link.invoice_id else set())
+                )
+            verdict = (
+                "[green]correct[/green]"
+                if set(match.counterpart_ids) == want
+                else f"[red]wrong[/red] (expected {sorted(want) or 'nothing'})"
+            )
+            console.print(
+                f"  matched {', '.join(match.counterpart_ids)} via [cyan]{match.rule}[/cyan] "
+                f"({match.layer.value}, confidence {match.confidence:.2f}) {verdict}"
+            )
+            for line in match.evidence:
+                console.print(f"      · {line}")
+        for exception in exceptions:
+            console.print(
+                f"  [yellow]exception[/yellow] {exception.reason.value}: {exception.detail}"
+            )
+            for line in exception.evidence:
+                console.print(f"      · {line}")
+
+
 @app.command("data-report")
 def data_report(
     directory: Annotated[Path, typer.Argument(help="A split directory.")] = Path("data/dev"),

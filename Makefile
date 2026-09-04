@@ -4,7 +4,7 @@ SEED ?= 42
 N ?= 600
 DEV ?= 400
 
-.PHONY: install data data-report baseline reconcile record-llm eval eval-check test lint typecheck check clean
+.PHONY: install data data-report baseline reconcile record-llm audit eval eval-check test lint typecheck check clean
 
 install:
 	$(UV) venv --python 3.12
@@ -34,8 +34,13 @@ record-llm:
 
 ## Every number in the README, reproduced from scratch. Replays the committed
 ## LLM transcript, so it needs no key and gives identical results every run.
+## Self-contained HTML audit trail, one page per split.
+audit:
+	$(PY) -m recon.cli audit --data-root data --split both --llm replay
+
 eval: data
 	$(PY) -m recon.cli eval --data-root data --llm replay
+	$(PY) -m recon.cli audit --data-root data --split both --llm replay
 
 ## Fail if the README's generated results block is stale.
 eval-check:
