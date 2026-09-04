@@ -28,9 +28,11 @@ reconcile:
 	$(PY) -m recon.cli reconcile --data-root data --split both --llm off
 
 ## Record a Layer 3 transcript with live Claude calls. Needs ANTHROPIC_API_KEY.
-## Dev only: the held-out set is scored from the transcript, never recorded ad hoc.
+## Both splits: running the agent on held-out is inference, not tuning, and it is
+## what you would do at evaluation time anyway. What would be peeking is reading
+## the held-out score, editing a prompt, and re-recording -- so record once.
 record-llm:
-	$(PY) -m recon.cli reconcile --data-root data --split dev --llm live
+	$(PY) -m recon.cli reconcile --data-root data --split both --llm live
 
 ## Every number in the README, reproduced from scratch. Replays the committed
 ## LLM transcript, so it needs no key and gives identical results every run.

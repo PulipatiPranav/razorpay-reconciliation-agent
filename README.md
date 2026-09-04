@@ -254,8 +254,11 @@ Three build rules, not promises:
 3. Matching layers take parsed records as arguments and return values. They
    have no I/O, which is also what makes them unit-testable as pure functions.
 
-Layer 3's transcript is recorded on **dev only** (`make record-llm`), and
-`make eval` replays it. A live model is non-deterministic and costs money, so a
+Layer 3's transcript is recorded once across both splits (`make record-llm`) and
+`make eval` replays it. Running the agent on held-out is inference, not tuning —
+it is exactly what happens at evaluation time. What *would* be peeking is reading
+the held-out score, editing a prompt and re-recording, so the transcript is
+recorded once and the prompt is frozen before it is. A live model is non-deterministic and costs money, so a
 README claiming reproducible numbers while calling an API on every run would be
 claiming something untrue. Replay is keyed by a hash of (model, system prompt,
 user prompt): change a prompt and the transcript misses loudly rather than
