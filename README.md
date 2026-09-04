@@ -7,8 +7,38 @@ settlement report, a bank statement of bundled credits, and an invoice/ERP
 ledger — into matched sets with evidence, plus an honest exception list.
 
 **Status: all five phases complete. Layer 3 is built and unit-tested but has not
-yet been run live — no API credentials in this environment, so every measured
-number below is Layers 1–2.**
+yet been run live — no API credentials in the build environment, so every
+measured number below is Layers 1–2.**
+
+---
+
+### In sixty seconds
+
+- **600 synthetic payments** across three disagreeing sources, 400/200 dev and
+  held-out, with a per-payment ground-truth mapping and 17 independently
+  toggleable defect classes.
+- **The number to beat is 46.8%**, not zero. The brief's `amount + date`
+  baseline scores 0.0% on the bank leg — structurally, since one credit covers
+  4 to 60 payments — so a stronger `identifier join` baseline is reported as
+  the real bar. Beating a strawman proves nothing.
+- **76.4% fully reconciled on held-out** [70–81%], bank precision 100.0%,
+  invoice precision 99.5%, **one** false match in 220 payments.
+- **Every number here is generated**, not typed. `make eval` regenerates the
+  corpus from seed 42, re-runs everything and rewrites the results block;
+  `make eval-check` fails the build if it is stale.
+- **A causal ablation**, not a correlation table, says which defect class costs
+  what — each is switched off in the generator and the matcher re-run.
+- **`reports/audit_holdout.html`** is a self-contained audit page: every match
+  with its inputs, layer, rule, confidence and plain-English evidence, each row
+  checked against ground truth so the wrong ones are visible. Download it and
+  open it in a browser — no server, no network.
+
+```bash
+make install && make eval && make audit    # ~40 seconds, no API key needed
+recon trace pay_1ljlngbz4jrvmb --split holdout   # explain one record
+```
+
+---
 
 ## Architecture
 

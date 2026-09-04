@@ -6,4 +6,9 @@ __pycache__/
 .ruff_cache/
 logs/
 reports/
+# ...except the audit page, so reviewers can open it without running anything
+!reports/audit_holdout.html
 .env
+
+# Personal submission material - not part of the deliverable
+VIDEO_SCRIPT.md
