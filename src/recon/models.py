@@ -192,3 +192,57 @@ class GroundTruth(BaseModel):
     links: list[GroundTruthLink]
     orphan_invoice_ids: list[str] = Field(default_factory=list)
     orphan_bank_txn_ids: list[str] = Field(default_factory=list)
+
+
+class PaymentView(BaseModel):
+    """A payment assembled from its gateway rows.
+
+    A split settlement occupies two rows in the report (the capture and the
+    deferred-balance release), so the payment-level view has to aggregate.
+    Both the baseline and the layered matcher consume this same view, which is
+    what keeps the comparison between them like-for-like: any difference in
+    score comes from matching logic, not from one of them reading the file
+    more cleverly than the other.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    payment_id: str
+    order_id: str | None
+    order_receipt: str
+    method: PaymentMethod | None
+    gross_paise: Paise
+    fee_paise: Paise
+    tax_paise: Paise
+    tds_paise: Paise
+    net_paise: Paise
+    settlement_ids: list[str]
+    settlement_utrs: list[str]
+    captured_at: datetime | None
+    settled_dates: list[date]
+    row_count: int
+
+
+class RefundView(BaseModel):
+    """A refund or adjustment row, keyed to the batch it was deducted from."""
+
+    model_config = ConfigDict(frozen=True)
+
+    entity_id: str
+    entity_type: EntityType
+    payment_id: str | None
+    amount_paise: Paise
+    settlement_id: str | None
+    settlement_utr: str | None
+    created_at: datetime
+
+
+class SourceBundle(BaseModel):
+    """The three parsed sources for one split, as the matchers see them."""
+
+    model_config = ConfigDict(frozen=True)
+
+    payments: list[PaymentView]
+    refunds: list[RefundView]
+    bank_rows: list[BankRow]
+    invoices: list[InvoiceRow]

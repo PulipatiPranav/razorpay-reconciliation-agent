@@ -6,7 +6,7 @@ Reconciles three sources that legitimately disagree — a Razorpay-style gateway
 settlement report, a bank statement of bundled credits, and an invoice/ERP
 ledger — into matched sets with evidence, plus an honest exception list.
 
-**Status: Phase 1 complete (synthetic data + ground truth). Phases 2–5 pending.**
+**Status: Phases 1–2 complete (data + scored deterministic baselines). Phases 3–5 pending.**
 
 ## Architecture
 
@@ -41,7 +41,7 @@ flowchart TB
     CONF -->|no| EXC["exceptions<br/>categorised by reason"]
 
     subgraph P4["Phase 4 — eval (pending)"]
-        BASE["Phase 2 baseline<br/>exact amount+date"]
+        BASE["Phase 2 baselines (done)<br/>amount+date · amount · identifier join"]
         EVAL["precision · recall · match rate<br/>per-defect breakdown<br/>cost/latency per 100"]
     end
 
@@ -166,18 +166,115 @@ The held-out set is protected by build rules, not by promises:
 3. Matching layers take parsed records as arguments and return values. They have
    no I/O, which is also what makes them unit-testable as pure functions.
 
+## Phase 2 — deterministic baseline
+
+`make baseline` reproduces every number below. Three baselines, all with zero
+tunable parameters — no tolerances, no windows, no thresholds — which is why
+running them on the held-out set is not a form of peeking.
+
+All three use the rule **unique exact match**: zero candidates is an exception,
+and so is more than one. Picking arbitrarily among equal candidates would
+inflate the match rate with coin flips and destroy precision, which would
+flatter the layered matcher for the wrong reason.
+
+### Results
+
+Held-out (230 payments, 15 batches):
+
+| baseline | bank P | bank R | invoice P | invoice R | **fully reconciled** | 95% CI | hallucinations |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `amount + date` (as specified) | 0.0% | 0.0% | 70.0% | 6.4% | **0.4%** | 0–2% | 0 |
+| `amount only` | 0.0% | 0.0% | 100.0% | 71.2% | **1.7%** | 1–4% | 0 |
+| `identifier join` | 100.0% | 72.3% | 100.0% | 90.0% | **65.7%** | 59.3–71.5% | 0 |
+
+Dev (370 payments, 22 batches):
+
+| baseline | bank P | bank R | invoice P | invoice R | **fully reconciled** | 95% CI |
+|---|---:|---:|---:|---:|---:|---:|
+| `amount + date` | 0.0% | 0.0% | 71.4% | 7.0% | **0.3%** | 0–2% |
+| `amount only` | 0.0% | 0.0% | 100.0% | 70.6% | **0.5%** | 0–2% |
+| `identifier join` | 100.0% | 71.7% | 100.0% | 91.0% | **66.5%** | 61.5–71.1% |
+
+**The number to beat is 65.7% fully reconciled on held-out**, not 0.4%. More on
+that below.
+
+### Why the specified baseline scores zero on the bank leg
+
+Not a bug, and not a weak implementation — it is structural. One bank credit
+covers 4 to 60 payments, so no individual payment's net settled amount is ever
+equal to a bank credit. Exact amount matching on the bank leg cannot work in
+principle, and that is the central finding the whole project is built around.
+
+Reporting only that would be setting up a strawman, so two stronger baselines
+are reported alongside it. `amount only` drops the date predicate — closer to
+what a finance team actually does in a spreadsheet. `identifier join` does what
+a competent controller does first: join the settlement UTR to the bank
+statement's UTR column, and the ERP's `order_id` to the gateway's. **That is
+the honest number to beat**, and quoting the 0.4% figure as "the baseline" while
+knowing the identifier join exists would be misleading.
+
+### Metric definitions
+
+- **Edges, not payments, are the unit of precision and recall.** One payment can
+  legitimately belong to two bank credits (a split settlement), so payment-level
+  scoring would force an all-or-nothing verdict on 5.7% of the corpus. An edge
+  is one `(payment, counterpart)` pair.
+- **Fully reconciled** is the headline: both legs simultaneously correct, where
+  a correctly *empty* prediction on an unresolvable payment counts as correct.
+  This is what a controller means by reconciled — half a payment is not
+  reconciled, and correctly refusing to match an unresolvable record is a right
+  answer, not a gap in coverage.
+- **Hallucination is measured separately** from precision. Roughly 5% of
+  payments have no counterpart at all. Confidently matching one of those is not
+  a small precision loss — it silently closes a real discrepancy. All three
+  baselines score 0, which is expected: an exact matcher cannot hallucinate.
+- **Every rate carries a Wilson interval.** At 230 held-out payments the point
+  estimates are not precise, and quoting them bare would overstate what the
+  evaluation supports.
+
+### Where the strongest baseline loses
+
+Failures attributed by defect tag (held-out, `identifier join`):
+
+| leg | misses | cause |
+|---|---:|---|
+| bank | 62 | **61 of 62 are `narration_corrupt`** — every single payment riding a batch with a corrupted narration fails |
+| invoice | 22 | **22 of 22 are `erp_link_broken`** — every single payment with a broken ERP link fails |
+
+Nothing else is causal. Weekend drift, TDS, paise drift, duplicate refunds and
+chargebacks all appear in the miss list only because they co-occur with those
+two — an identifier join is structurally immune to every one of them. This is
+what the per-defect breakdown is for, and it defines Phase 3's job precisely:
+
+1. **Layer 2** recovers UTRs from narration text (parse, then fuzzy-match
+   transposed and truncated digits) and repairs broken ERP links (typo'd,
+   case-shifted, or absent `order_id`, falling back on amount and customer).
+2. **Layer 3** takes only what is left: batches where no UTR is recoverable at
+   all and the set has to be reconstructed from amounts, and genuinely ambiguous
+   many-to-one cases.
+
+### Known weakness carried into Phase 3
+
+Orphan-counterpart precision is poor — 0.50 on bank credits and 0.08 on
+invoices held-out. Recall is 1.00, so no genuine orphan is missed, but the
+"unmatched counterpart" list is mostly real records the baseline simply failed
+to match. This is the flip side of low recall and should improve as recall
+does; Phase 4 will track it rather than let it hide.
+
 ## Reproduce
 
 ```bash
 make install      # uv venv on Python 3.12 + editable install
 make data         # regenerate both splits from seed 42, verify all invariants
 make data-report  # defect mix per split
+make baseline     # run and score the three deterministic baselines
 make check        # ruff + mypy --strict + pytest
 ```
 
-73 tests currently pass; `mypy --strict` is clean across all source modules.
+100 tests currently pass; `mypy --strict` is clean across all source modules.
+Scorecards are written to `reports/scorecards_{dev,holdout}.json`.
 
-## Limitations (Phase 1)
+## Limitations
 
 - **The held-out set is small.** 230 payments across 15 batches. Batch-level
   metrics will move in ~7% steps and a single bad batch swings the headline
@@ -200,3 +297,9 @@ make check        # ruff + mypy --strict + pytest
 - **Defects compound.** A payment can carry several tags at once. Phase 4 will
   report both marginal prevalence (all records carrying a tag) and isolated
   prevalence (that tag alone), because a marginal-only breakdown is confounded.
+- **The baselines were scored on held-out data.** This is safe only because they
+  have no parameters to tune; the same will not be true of Layer 2, whose
+  tolerances and windows will be fixed on dev before held-out is touched.
+- **The defect attribution above is marginal, not causal.** It reads clearly
+  here only because the identifier join fails on exactly one defect class per
+  leg. Phase 4 needs the isolated-tag view for cases where it does not.

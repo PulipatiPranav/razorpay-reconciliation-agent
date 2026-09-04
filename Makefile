@@ -4,7 +4,7 @@ SEED ?= 42
 N ?= 600
 DEV ?= 400
 
-.PHONY: install data data-report test lint typecheck check clean
+.PHONY: install data data-report baseline test lint typecheck check clean
 
 install:
 	$(UV) venv --python 3.12
@@ -19,6 +19,10 @@ data-report:
 	$(PY) -m recon.cli data-report data/dev
 	$(PY) -m recon.cli data-report data/holdout
 
+## Run the Phase 2 deterministic baselines and score them.
+baseline:
+	$(PY) -m recon.cli baseline --data-root data --split both
+
 test:
 	$(PY) -m pytest tests -q
 
@@ -31,4 +35,4 @@ typecheck:
 check: lint typecheck test
 
 clean:
-	rm -rf data/dev data/holdout .pytest_cache .mypy_cache .ruff_cache
+	rm -rf data/dev data/holdout reports .pytest_cache .mypy_cache .ruff_cache

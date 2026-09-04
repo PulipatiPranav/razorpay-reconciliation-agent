@@ -71,6 +71,34 @@ def generate(
     console.print("[green]all invariants hold[/green]")
 
 
+@app.command()
+def baseline(
+    data_root: Annotated[Path, typer.Option(help="Root of the generated data.")] = Path("data"),
+    split: Annotated[str, typer.Option(help="dev, holdout, or both.")] = "both",
+    reports: Annotated[Path, typer.Option(help="Where to write JSON scorecards.")] = Path(
+        "reports"
+    ),
+) -> None:
+    """Run the Phase 2 deterministic baselines and score them against truth."""
+    from recon.eval.run import (
+        BASELINES,
+        render_comparison,
+        render_exceptions,
+        run_matchers,
+        write_reports,
+    )
+
+    splits = ["dev", "holdout"] if split == "both" else [split]
+    for name in splits:
+        scored = run_matchers(data_root, name, BASELINES)
+        cards = [(label, card) for label, _, card in scored]
+        render_comparison(console, name, cards)
+        write_reports(reports, name, cards)
+    console.print(f"[green]scorecards written to {reports}/[/green]")
+    strongest = scored[-1]
+    render_exceptions(console, strongest[0], strongest[2])
+
+
 @app.command("data-report")
 def data_report(
     directory: Annotated[Path, typer.Argument(help="A split directory.")] = Path("data/dev"),
