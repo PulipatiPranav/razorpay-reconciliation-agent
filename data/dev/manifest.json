@@ -1,0 +1,85 @@
+{
+  "config": {
+    "disabled": [],
+    "gst_on_fee_pct": "18",
+    "large_bundle_payment_share": 0.7,
+    "large_bundle_size": [
+      20,
+      60
+    ],
+    "max_ticket_paise": 25000000,
+    "min_ticket_paise": 45000,
+    "n_customers": 120,
+    "n_dev_payments": 400,
+    "n_noise_bank_credits": 10,
+    "n_orphan_invoices": 6,
+    "n_payments": 600,
+    "price_point_share": 0.2,
+    "rate_chargeback_bundle": 0.12,
+    "rate_duplicate_refund": 0.015,
+    "rate_erp_link_broken": 0.08,
+    "rate_invoice_amount_mismatch": 0.04,
+    "rate_narration_corrupt": 0.25,
+    "rate_paise_drift_bundle": 0.2,
+    "rate_paise_drift_row": 0.12,
+    "rate_refund": 0.08,
+    "rate_split_settlement": 0.06,
+    "rate_tds": 0.15,
+    "rate_tz_boundary": 0.03,
+    "rate_unresolvable_no_bank_credit": 0.01,
+    "rate_unresolvable_no_invoice": 0.025,
+    "rate_unresolvable_orphan_order": 0.015,
+    "refund_partial_share": 0.4,
+    "seed": 42,
+    "settlement_lag_business_days": 2,
+    "small_bundle_size": [
+      4,
+      15
+    ],
+    "tds_pct": "1",
+    "window_end": "2026-03-27",
+    "window_start": "2026-01-05"
+  },
+  "manifest": {
+    "bundle_defect_counts": {
+      "bundled_payout": 22,
+      "chargeback_adjustment": 4,
+      "duplicate_refund": 5,
+      "narration_corrupt": 7,
+      "paise_drift_bundle": 5,
+      "weekend_holiday_drift": 8
+    },
+    "config_hash": "c8f85c417735e8a4",
+    "defect_counts": {
+      "duplicate_refund": 4,
+      "erp_link_broken": 32,
+      "invoice_amount_mismatch": 12,
+      "paise_drift_row": 51,
+      "refund_full": 14,
+      "refund_partial": 11,
+      "split_settlement": 27,
+      "tds_deducted": 51,
+      "tz_boundary": 12,
+      "unresolvable_no_bank_credit": 4,
+      "unresolvable_no_invoice": 6,
+      "unresolvable_orphan_order_id": 7
+    },
+    "generated_at": "2026-01-01T00:00:00+05:30",
+    "generator_version": "1.0.0",
+    "n_bank_rows": 28,
+    "n_bundles": 22,
+    "n_gateway_rows": 431,
+    "n_invoice_rows": 361,
+    "n_payments": 370,
+    "payments_affected_by_bundle_defect": {
+      "bundled_payout": 370,
+      "chargeback_adjustment": 49,
+      "duplicate_refund": 125,
+      "narration_corrupt": 100,
+      "paise_drift_bundle": 48,
+      "weekend_holiday_drift": 168
+    },
+    "seed": 42,
+    "split": "dev"
+  }
+}

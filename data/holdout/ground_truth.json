@@ -1,0 +1,5877 @@
+{
+  "manifest": {
+    "split": "holdout",
+    "seed": 42,
+    "generator_version": "1.0.0",
+    "config_hash": "c8f85c417735e8a4",
+    "generated_at": "2026-01-01T00:00:00+05:30",
+    "n_payments": 230,
+    "n_bundles": 15,
+    "n_gateway_rows": 262,
+    "n_bank_rows": 17,
+    "n_invoice_rows": 221,
+    "defect_counts": {
+      "duplicate_refund": 1,
+      "erp_link_broken": 22,
+      "invoice_amount_mismatch": 7,
+      "paise_drift_row": 28,
+      "refund_full": 5,
+      "refund_partial": 10,
+      "split_settlement": 13,
+      "tds_deducted": 34,
+      "tz_boundary": 8,
+      "unresolvable_no_bank_credit": 4,
+      "unresolvable_no_invoice": 9,
+      "unresolvable_orphan_order_id": 2
+    },
+    "bundle_defect_counts": {
+      "bundled_payout": 15,
+      "chargeback_adjustment": 2,
+      "duplicate_refund": 1,
+      "narration_corrupt": 3,
+      "paise_drift_bundle": 1,
+      "weekend_holiday_drift": 4
+    },
+    "payments_affected_by_bundle_defect": {
+      "bundled_payout": 230,
+      "chargeback_adjustment": 44,
+      "duplicate_refund": 5,
+      "narration_corrupt": 61,
+      "paise_drift_bundle": 5,
+      "weekend_holiday_drift": 107
+    }
+  },
+  "bundles": [
+    {
+      "utr": "ICIC955999773793",
+      "settlement_id": "setl_0lzzbnjmu6te8a",
+      "bank_txn_id": "bank_neitntunwp6e",
+      "expected_credit_paise": 2983884,
+      "payment_ids": [
+        "pay_8ymm7pl990gw31",
+        "pay_cgdtiqyjrv0e7x",
+        "pay_g23dxuj911noxf",
+        "pay_np2y9qh93z331d",
+        "pay_nyu0jdm1nqtsnq"
+      ],
+      "refund_entity_ids": [
+        "rfnd_6zdihxj5qn31o6",
+        "rfnd_wzaa2yik9jhl8i"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "paise_drift_bundle"
+      ]
+    },
+    {
+      "utr": "AXIS441076926265",
+      "settlement_id": "setl_3zpdaa4p5stru3",
+      "bank_txn_id": "bank_bpncxeb5js3i",
+      "expected_credit_paise": 7961563,
+      "payment_ids": [
+        "pay_2ns5mhie2l2fuw",
+        "pay_2s85f22znpsk5k",
+        "pay_37wzq70k65icne",
+        "pay_4cduftawsz6muz",
+        "pay_60maubxcu2o5zf",
+        "pay_8uadwhee70kmpl",
+        "pay_cm3g7n4ytukc97",
+        "pay_grs7esie3qk6g5",
+        "pay_jcxrzr3vt8ut46",
+        "pay_k26y9yzrnlakna",
+        "pay_pgjqmljel532uu",
+        "pay_q553kwki85l8d7",
+        "pay_u2jk7ia1shx59c"
+      ],
+      "refund_entity_ids": [],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ]
+    },
+    {
+      "utr": "AXIS511608958970",
+      "settlement_id": "setl_5fgm29obtv30j2",
+      "bank_txn_id": "bank_umjh9bggmd7u",
+      "expected_credit_paise": 4830363,
+      "payment_ids": [
+        "pay_36cpw90de3d5sc",
+        "pay_9kv913ozll1zbm",
+        "pay_dfyu7m4m5l4sd2",
+        "pay_dj0tc2dnb68c7e",
+        "pay_eq7pmpurdghl2k",
+        "pay_k1kae5gifjtemp",
+        "pay_kahfyzf7m1k1qt",
+        "pay_nifl9np6f13tkm",
+        "pay_sb8rlsw0b2utch",
+        "pay_u98bnvwejrbvy8",
+        "pay_xqfxkdzto1fgan"
+      ],
+      "refund_entity_ids": [],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout"
+      ]
+    },
+    {
+      "utr": "KKBK790259120463",
+      "settlement_id": "setl_7bu954fvuwdyk4",
+      "bank_txn_id": null,
+      "expected_credit_paise": 1685062,
+      "payment_ids": [
+        "pay_h735x7codr082u",
+        "pay_nej5gajt9f5g3u",
+        "pay_tt421f6065ar30",
+        "pay_w7w1vnp444pbmg",
+        "pay_zc5bv1l0b7uyqf"
+      ],
+      "refund_entity_ids": [
+        "rfnd_qogrerb856oqm3",
+        "rfnd_tcjgh17jofn57f"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "duplicate_refund"
+      ]
+    },
+    {
+      "utr": "KKBK355459205596",
+      "settlement_id": "setl_bqw86a4h81etil",
+      "bank_txn_id": "bank_667zzxt8e8j3",
+      "expected_credit_paise": 4874632,
+      "payment_ids": [
+        "pay_24dszcxz621hgj",
+        "pay_52dnr9is25hbpk",
+        "pay_9obyow59bo39hj",
+        "pay_fxby96mk3xpl4m",
+        "pay_ojgfg373h8dmpf",
+        "pay_po1rxiv432wt59",
+        "pay_s5094dfryi0m7p"
+      ],
+      "refund_entity_ids": [
+        "rfnd_3x1avj1dhxknci"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ]
+    },
+    {
+      "utr": "SBIN613500788369",
+      "settlement_id": "setl_ey47tntc5nd2g3",
+      "bank_txn_id": "bank_ow3of7xpef1l",
+      "expected_credit_paise": 5288822,
+      "payment_ids": [
+        "pay_1ljlngbz4jrvmb",
+        "pay_46c17z4g25pf9a",
+        "pay_4i64xly54ikmoc",
+        "pay_5e15wmkhyom0hp",
+        "pay_d7s0z9tuwar7jz",
+        "pay_dfi9p7j3fbflmi",
+        "pay_i5naqj50n1i6gq",
+        "pay_pwkczv1gagqo67",
+        "pay_uoytzi8dvvd22r",
+        "pay_vk65r83rfes7yk",
+        "pay_vvuw2j35n8kyqz",
+        "pay_xmae2of15gu1dw"
+      ],
+      "refund_entity_ids": [
+        "rfnd_pswwvx1lh19nnx"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ]
+    },
+    {
+      "utr": "ICIC391932528267",
+      "settlement_id": "setl_h1p16mue031rap",
+      "bank_txn_id": "bank_ir95q46hhl9k",
+      "expected_credit_paise": 16637521,
+      "payment_ids": [
+        "pay_15byvzk3i8bzbf",
+        "pay_17qky3piarrfp8",
+        "pay_246s6e1wlrqqxq",
+        "pay_3g45uq0glqdyx8",
+        "pay_5519jn7qschpt9",
+        "pay_70zj9fn2khqopd",
+        "pay_7f5kcmhmywwj7z",
+        "pay_80x1fqivw328kc",
+        "pay_8z7ioabt3818yo",
+        "pay_9k2pcigykb5faa",
+        "pay_ak43z5txztfiia",
+        "pay_bi1zlf2kg5skii",
+        "pay_bxvh0tb4qod4k7",
+        "pay_efi7tgh5od8vbo",
+        "pay_g8n5ta1h2m3aq0",
+        "pay_gfknej0g1okr79",
+        "pay_gl64tpkueklv3j",
+        "pay_h735x7codr082u",
+        "pay_ictxcwnpgw90jp",
+        "pay_if6wdg1oevzubr",
+        "pay_ifoad96im7tyd9",
+        "pay_iydh9yp5iynewy",
+        "pay_jk0h80k994rphj",
+        "pay_k7olexi6wd15yk",
+        "pay_khxcyq8ddgbdh0",
+        "pay_mi8qatswzza46j",
+        "pay_n1zt7upjb34x74",
+        "pay_o6fh9b9h9yww7n",
+        "pay_oay4h8wvtzdfx8",
+        "pay_rwap9be0iv9whw",
+        "pay_t7gjslgfsb9z7i",
+        "pay_u8xytinbqejbj4",
+        "pay_vbhqlqcg1wu16h",
+        "pay_xp7i9bsaw0hj1v",
+        "pay_xpxpp6kskyzjg3",
+        "pay_xyb5121f1qworx",
+        "pay_ylzd6szo4xyeur",
+        "pay_zlpxdrbxyyv3cb"
+      ],
+      "refund_entity_ids": [
+        "rfnd_tk0w371nvx642s"
+      ],
+      "adjustment_entity_ids": [
+        "adj_dwxfy9mpe5nys5"
+      ],
+      "defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ]
+    },
+    {
+      "utr": "KKBK528589868184",
+      "settlement_id": "setl_hp4i3gvzdon758",
+      "bank_txn_id": "bank_btim851z4td8",
+      "expected_credit_paise": 182745,
+      "payment_ids": [
+        "pay_0qnxz46rsza29b",
+        "pay_dfyu7m4m5l4sd2",
+        "pay_qz4j72e1beften",
+        "pay_req61cuuasnj01",
+        "pay_uiaa31eucsjdu9",
+        "pay_w5byc5f4q8ffpg"
+      ],
+      "refund_entity_ids": [
+        "rfnd_1vtq63ygvas69s"
+      ],
+      "adjustment_entity_ids": [
+        "adj_yxaqzla48u1jl2"
+      ],
+      "defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ]
+    },
+    {
+      "utr": "ICIC706507612228",
+      "settlement_id": "setl_m0tqxr4zhkg9pf",
+      "bank_txn_id": "bank_whgb05tvgo1o",
+      "expected_credit_paise": 1921204,
+      "payment_ids": [
+        "pay_4ij3u4rd3rbon2",
+        "pay_65puuqdslphz5j",
+        "pay_a373dfdrgvgs4v",
+        "pay_p4vynzlaxaewb9",
+        "pay_uzyofeo89xdnsl",
+        "pay_xzxczd9mx9sey6"
+      ],
+      "refund_entity_ids": [],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout"
+      ]
+    },
+    {
+      "utr": "ICIC126532735514",
+      "settlement_id": "setl_m6usapm0vi9vcl",
+      "bank_txn_id": "bank_4xa99tszmw3y",
+      "expected_credit_paise": 12954147,
+      "payment_ids": [
+        "pay_0lks9l3xcftuxy",
+        "pay_2021s4il6fjax3",
+        "pay_3i0dpjgsxdw3y1",
+        "pay_4i64xly54ikmoc",
+        "pay_4ij3u4rd3rbon2",
+        "pay_65od7b1u9er04h",
+        "pay_estd3zjetocsen",
+        "pay_fc1uqbfobrcl47",
+        "pay_feqo1480kga59e",
+        "pay_gont6tu74gtnju",
+        "pay_grl8h39xlj8lpa",
+        "pay_inzlkhzcyy9w3q",
+        "pay_j7o0trd9l195dw",
+        "pay_jdohcl62uc9odq",
+        "pay_jlrji7r8ntk4y0",
+        "pay_jtgv4fk30m9our",
+        "pay_lh4ztth1apml89",
+        "pay_mm7081b6ou4ce2",
+        "pay_mn62rgepku44cy",
+        "pay_muor8r61r2c6kh",
+        "pay_mzk2q1z1jfwe7p",
+        "pay_n3lyxi3mwrmvic",
+        "pay_n82agsux5aopqi",
+        "pay_nu66wnycjyfeo6",
+        "pay_pk0htutnd20o3o",
+        "pay_psof1gg2ktbcud",
+        "pay_q6fhl0ys3f02b0",
+        "pay_sclzoxv8lsmbf4",
+        "pay_segkrhj5jn7bs0",
+        "pay_uf93axmstp3x5m",
+        "pay_w7y6eljwv3irtz",
+        "pay_wybvsk4d3xt40h",
+        "pay_ylzu7k1ogi6hzq",
+        "pay_yziag0uwu260rv"
+      ],
+      "refund_entity_ids": [
+        "rfnd_s9t03qg11imv05",
+        "rfnd_qbythjj5j4zxme",
+        "rfnd_b60dsmf4fxv49u",
+        "rfnd_9mffgxnlckzsdc"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ]
+    },
+    {
+      "utr": "SBIN318641761302",
+      "settlement_id": "setl_p0xu0eiie79iib",
+      "bank_txn_id": "bank_mnxpcnep949n",
+      "expected_credit_paise": 24861930,
+      "payment_ids": [
+        "pay_08drg5i8ja40km",
+        "pay_1hongwulazuayn",
+        "pay_22pxgx8wdzrmh3",
+        "pay_2x1tex2wxs1lpq",
+        "pay_3fptmitdyslriu",
+        "pay_3hgjsqlfe5xnzg",
+        "pay_4dyvorecqdyjgf",
+        "pay_4lp8q2h1jbljpk",
+        "pay_4rfb62661vn6vc",
+        "pay_5519jn7qschpt9",
+        "pay_6x9stg4evrurqt",
+        "pay_82maxq7kro96rp",
+        "pay_8nsqdtzofgvre7",
+        "pay_8oipd68ep89fv7",
+        "pay_8opqn4xg7y1qc6",
+        "pay_9zxktcyjihuw14",
+        "pay_blug2yi9mmq52s",
+        "pay_buqgevkyke9fv4",
+        "pay_cbk4oaa61zyedh",
+        "pay_dcyueid2dt1egd",
+        "pay_e1d4g5gn8ydfu4",
+        "pay_ecoqfrfme7gh9g",
+        "pay_ew5bolpxxv6aze",
+        "pay_fvlyzxver5ykxp",
+        "pay_gppnxo55fdadbl",
+        "pay_hkdn7qo4vo1wy8",
+        "pay_i780cxbvp5z11c",
+        "pay_jcs877z9dtg6yo",
+        "pay_k7olexi6wd15yk",
+        "pay_ka5n0vgf6ora1w",
+        "pay_kiubhdu94xjuy9",
+        "pay_kz2qrkdozd48vs",
+        "pay_m7swiz0srph0q5",
+        "pay_nt1jr65jm9w7yv",
+        "pay_pivab3n3fmc2kk",
+        "pay_qlusmf0xlzyobb",
+        "pay_s2ydlkbzxourfl",
+        "pay_st89eejhaperlh",
+        "pay_t16wt8jj4tvsxa",
+        "pay_uave861bgy5sql",
+        "pay_uw49jru5u8mmhs",
+        "pay_v03po2rx2cfzuj",
+        "pay_vcoz699snmpmks",
+        "pay_vo6vu4rlfzrpub",
+        "pay_wrom3zaql06g9e",
+        "pay_zfbnkyzsjht51t",
+        "pay_zhi9r1n6uvq2rp",
+        "pay_zvcq3h97macvri",
+        "pay_zwl5fvw8outgfz"
+      ],
+      "refund_entity_ids": [
+        "rfnd_y9xmgxizigc4sf"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ]
+    },
+    {
+      "utr": "KKBK355557020061",
+      "settlement_id": "setl_qdmiipr45es1vc",
+      "bank_txn_id": "bank_q9rwrkkxvvgm",
+      "expected_credit_paise": 1140145,
+      "payment_ids": [
+        "pay_b0kxqm6r7b5ukd",
+        "pay_gzd9l2h4le3nm2",
+        "pay_ho1p6ui358wyhm",
+        "pay_p9a8oczuqdkw9u",
+        "pay_q6fhl0ys3f02b0",
+        "pay_rh8h90evfxvrjo",
+        "pay_se3qmctnudjo8x",
+        "pay_vk65r83rfes7yk"
+      ],
+      "refund_entity_ids": [
+        "rfnd_8927ke98n7ts27"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout"
+      ]
+    },
+    {
+      "utr": "SBIN996585783756",
+      "settlement_id": "setl_t2wgzbqpv6n7vd",
+      "bank_txn_id": "bank_1o9ulo9g9k6m",
+      "expected_credit_paise": 18782966,
+      "payment_ids": [
+        "pay_0du1qkatu1x52v",
+        "pay_0nymafddcd7pe9",
+        "pay_178tw48of2tx0q",
+        "pay_39rrb4ejnezybc",
+        "pay_692bf5mltlcks9",
+        "pay_6gzgu9et83z0pp",
+        "pay_80v0w7g98ga1e5",
+        "pay_8zvs0gkuozcysb",
+        "pay_ag8lwzkt2l90mq",
+        "pay_aobrwmftoo5xcr",
+        "pay_b2r4j01te2z5b9",
+        "pay_bdtymw8d167l6x",
+        "pay_cep9i2ledugppr",
+        "pay_cioscxy32glxfx",
+        "pay_edfopxm8likt3f",
+        "pay_fmx8adqchdteqv",
+        "pay_h4w7d8dn76csqe",
+        "pay_jc7w6e5qui3owm",
+        "pay_lj4eatmmg83vgd",
+        "pay_lje238eit78m2f",
+        "pay_maa7h7aynu0xgj",
+        "pay_mzk2q1z1jfwe7p",
+        "pay_n7i094c2232x3c",
+        "pay_nmic1f1mjquefy",
+        "pay_nt14ktm63rmaj2",
+        "pay_onfjjk4auedi62",
+        "pay_op0laj3xw7leq3",
+        "pay_pm7vlu9aaea0g7",
+        "pay_riyq8nnn12yb6k",
+        "pay_s93f7sj8xypjvg",
+        "pay_svys2sp2ahswmg",
+        "pay_ugzjhxp912zpwm",
+        "pay_y7dms2zts3k1sd",
+        "pay_zy6ye1nriflvsx"
+      ],
+      "refund_entity_ids": [],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout"
+      ]
+    },
+    {
+      "utr": "SBIN612898993074",
+      "settlement_id": "setl_wklhnmy7yda6mr",
+      "bank_txn_id": "bank_ijqzlz4fpkai",
+      "expected_credit_paise": 3560932,
+      "payment_ids": [
+        "pay_6ynn40f6vh8zlz",
+        "pay_j1tv28ini8mit7",
+        "pay_qa0wt4q2zvcbqf",
+        "pay_qrybzbyqoazwim",
+        "pay_u98bnvwejrbvy8",
+        "pay_x0jsiiaebj51if"
+      ],
+      "refund_entity_ids": [],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout"
+      ]
+    },
+    {
+      "utr": "AXIS368681114330",
+      "settlement_id": "setl_yp3quklul0qqt7",
+      "bank_txn_id": "bank_of2361vapr2x",
+      "expected_credit_paise": 2440317,
+      "payment_ids": [
+        "pay_3w1n9myxlam2x7",
+        "pay_4rfb62661vn6vc",
+        "pay_80x1fqivw328kc",
+        "pay_9zxktcyjihuw14",
+        "pay_ajj28sy2mnutt1",
+        "pay_cdm8eqymqiltkg",
+        "pay_d0x9tuu301ptut",
+        "pay_eux2nlu3o3xvmq",
+        "pay_ijesg687cviyjk"
+      ],
+      "refund_entity_ids": [
+        "rfnd_ye2lgxdvjaxovm",
+        "rfnd_yc8i885tu62fid",
+        "rfnd_kklouq9c2as2nh"
+      ],
+      "adjustment_entity_ids": [],
+      "defect_tags": [
+        "bundled_payout"
+      ]
+    }
+  ],
+  "links": [
+    {
+      "payment_id": "pay_3fptmitdyslriu",
+      "order_id": "order_f3fhflflubkanx",
+      "invoice_id": "INV-2026-00001",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 513000,
+      "net_paise": 507552,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_gppnxo55fdadbl",
+      "order_id": "order_ok6ct8waljc0gd",
+      "invoice_id": "INV-2026-00002",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 416706,
+      "net_paise": 408114,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ew5bolpxxv6aze",
+      "order_id": "order_y3pgyiuizus1z8",
+      "invoice_id": "INV-2026-00003",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 78089,
+      "net_paise": 77259,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_buqgevkyke9fv4",
+      "order_id": "order_05yw8yg4ok2ecs",
+      "invoice_id": "INV-2026-00004",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 109400,
+      "net_paise": 108238,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_zfbnkyzsjht51t",
+      "order_id": "order_indsude9yfzqlp",
+      "invoice_id": "INV-2026-00005",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 588300,
+      "net_paise": 582052,
+      "defect_tags": [
+        "erp_link_broken",
+        "invoice_amount_mismatch"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_4lp8q2h1jbljpk",
+      "order_id": "order_7gpng4b62zdhtz",
+      "invoice_id": "INV-2026-00006",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 703900,
+      "net_paise": 696425,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_fvlyzxver5ykxp",
+      "order_id": "order_wp134pr9xl4owz",
+      "invoice_id": "INV-2026-00007",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 1127900,
+      "net_paise": 1104643,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_zhi9r1n6uvq2rp",
+      "order_id": "order_4rqywn6sck8etf",
+      "invoice_id": "INV-2026-00008",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 67600,
+      "net_paise": 65042,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_kz2qrkdozd48vs",
+      "order_id": "order_75iedrz0i3ubgw",
+      "invoice_id": "INV-2026-00009",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 939800,
+      "net_paise": 929820,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ecoqfrfme7gh9g",
+      "order_id": "order_6hgiuyjt5099ns",
+      "invoice_id": "INV-2026-00010",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 376300,
+      "net_paise": 365820,
+      "defect_tags": [
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_cbk4oaa61zyedh",
+      "order_id": "order_7uvhqmrz8jpt6r",
+      "invoice_id": "INV-2026-00011",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 249643,
+      "net_paise": 246992,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_08drg5i8ja40km",
+      "order_id": "order_oay60lqc62gaa0",
+      "invoice_id": "INV-2026-00012",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 249900,
+      "net_paise": 247246,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_st89eejhaperlh",
+      "order_id": "order_bgiqksq0k1nkxg",
+      "invoice_id": "INV-2026-00013",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 474800,
+      "net_paise": 464716,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_s2ydlkbzxourfl",
+      "order_id": "order_tbgogfg36ygbjv",
+      "invoice_id": "INV-2026-00014",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1978661,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_6x9stg4evrurqt",
+      "order_id": "order_tr1yw3qn3t7zga",
+      "invoice_id": "INV-2026-00015",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 253110,
+      "net_paise": 246062,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_k7olexi6wd15yk",
+      "order_id": "order_68hzama18wp7c2",
+      "invoice_id": "INV-2026-00016",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib",
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "SBIN318641761302",
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n",
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 756600,
+      "net_paise": 735530,
+      "defect_tags": [
+        "duplicate_refund",
+        "refund_partial",
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jcs877z9dtg6yo",
+      "order_id": "order_p3yjxa404e0lg5",
+      "invoice_id": "INV-2026-00017",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 499900,
+      "net_paise": 489282,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ka5n0vgf6ora1w",
+      "order_id": "order_2nfvphfq8pc4r8",
+      "invoice_id": "INV-2026-00018",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 148308,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_hkdn7qo4vo1wy8",
+      "order_id": "order_flw2ar2i0qk1ej",
+      "invoice_id": "INV-2026-00019",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 499900,
+      "net_paise": 483103,
+      "defect_tags": [
+        "erp_link_broken",
+        "invoice_amount_mismatch",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_vo6vu4rlfzrpub",
+      "order_id": "order_i09cr3lm71reaa",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 371716,
+      "net_paise": 367769,
+      "defect_tags": [
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_1hongwulazuayn",
+      "order_id": "order_gkkc06guu9mn8z",
+      "invoice_id": "INV-2026-00020",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 181000,
+      "net_paise": 177156,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_zvcq3h97macvri",
+      "order_id": "order_7xr4ap11sunug4",
+      "invoice_id": "INV-2026-00021",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 182100,
+      "net_paise": 177802,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_uw49jru5u8mmhs",
+      "order_id": "order_3re2ymrjxd4poa",
+      "invoice_id": "INV-2026-00022",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 365395,
+      "net_paise": 356772,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8oipd68ep89fv7",
+      "order_id": "order_fhido8h94zid7l",
+      "invoice_id": "INV-2026-00023",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 177700,
+      "net_paise": 172751,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8nsqdtzofgvre7",
+      "order_id": "order_5gnv56vktx1m5e",
+      "invoice_id": "INV-2026-00024",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 225500,
+      "net_paise": 220850,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_m7swiz0srph0q5",
+      "order_id": "order_6p0a7rm59pd1ny",
+      "invoice_id": "INV-2026-00025",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 499900,
+      "net_paise": 494591,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_2x1tex2wxs1lpq",
+      "order_id": "order_uqkaoscpdhbxz5",
+      "invoice_id": "INV-2026-00026",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 1201981,
+      "net_paise": 1177196,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_4dyvorecqdyjgf",
+      "order_id": "order_br8o5ozofwljhk",
+      "invoice_id": "INV-2026-00027",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 390690,
+      "net_paise": 386541,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_v03po2rx2cfzuj",
+      "order_id": "order_01dtwj781ayedy",
+      "invoice_id": "INV-2026-00028",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 980900,
+      "net_paise": 957751,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8opqn4xg7y1qc6",
+      "order_id": "order_jsay1l6mr0mmt7",
+      "invoice_id": "INV-2026-00029",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 972054,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_uave861bgy5sql",
+      "order_id": "order_ffbn7q2gvz4w01",
+      "invoice_id": "INV-2026-00030",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 381100,
+      "net_paise": 377053,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_i780cxbvp5z11c",
+      "order_id": "order_6jep2rvv0efqcs",
+      "invoice_id": "INV-2026-00031",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 135900,
+      "net_paise": 134457,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_zwl5fvw8outgfz",
+      "order_id": "order_wwpr2du3qkn99u",
+      "invoice_id": "INV-2026-00032",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 195900,
+      "net_paise": 193820,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_t16wt8jj4tvsxa",
+      "order_id": "order_mi6qw042lpicdi",
+      "invoice_id": "INV-2026-00033",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 373000,
+      "net_paise": 365309,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_5519jn7qschpt9",
+      "order_id": "order_nglnqvwd169l1g",
+      "invoice_id": "INV-2026-00034",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib",
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "SBIN318641761302",
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n",
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 189761,
+      "net_paise": 185730,
+      "defect_tags": [
+        "paise_drift_row",
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_dcyueid2dt1egd",
+      "order_id": "order_g4pvdv7pe2g2hf",
+      "invoice_id": "INV-2026-00035",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 376700,
+      "net_paise": 372700,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_3hgjsqlfe5xnzg",
+      "order_id": null,
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 4477300,
+      "net_paise": 4429751,
+      "defect_tags": [
+        "unresolvable_orphan_order_id"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": "no_order_id_and_no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_qlusmf0xlzyobb",
+      "order_id": "order_mtufhkp7i0u24i",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 156570,
+      "net_paise": 150644,
+      "defect_tags": [
+        "tds_deducted",
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_blug2yi9mmq52s",
+      "order_id": "order_opgly0edqhce2x",
+      "invoice_id": "INV-2026-00036",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 695300,
+      "net_paise": 675937,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_82maxq7kro96rp",
+      "order_id": "order_putbhsw02bylev",
+      "invoice_id": "INV-2026-00037",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 149500,
+      "net_paise": 146325,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_nt1jr65jm9w7yv",
+      "order_id": "order_dtlyzwnyh43pg3",
+      "invoice_id": "INV-2026-00038",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 229200,
+      "net_paise": 222817,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_kiubhdu94xjuy9",
+      "order_id": "order_j2y9k2ugr3rm3s",
+      "invoice_id": "INV-2026-00039",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 49370,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_pivab3n3fmc2kk",
+      "order_id": "order_xm08bav34ubdg5",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 443231,
+      "net_paise": 434092,
+      "defect_tags": [
+        "tds_deducted",
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_wrom3zaql06g9e",
+      "order_id": "order_rzwzzm7aef9s9w",
+      "invoice_id": "INV-2026-00040",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 307200,
+      "net_paise": 300865,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_9zxktcyjihuw14",
+      "order_id": "order_hdorstqicz4rv1",
+      "invoice_id": "INV-2026-00041",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib",
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "SBIN318641761302",
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n",
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 2285000,
+      "net_paise": 2221367,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_vcoz699snmpmks",
+      "order_id": "order_kpwecjxvwdhovs",
+      "invoice_id": "INV-2026-00042",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 100500,
+      "net_paise": 98365,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_e1d4g5gn8ydfu4",
+      "order_id": "order_jhmq6vt9qjdnum",
+      "invoice_id": "INV-2026-00043",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 252294,
+      "net_paise": 246936,
+      "defect_tags": [
+        "refund_full"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_4rfb62661vn6vc",
+      "order_id": "order_z42nbz4h9ill00",
+      "invoice_id": "INV-2026-00044",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib",
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "SBIN318641761302",
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n",
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 633500,
+      "net_paise": 618549,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_22pxgx8wdzrmh3",
+      "order_id": "order_y3x80j0g50rcxn",
+      "invoice_id": "INV-2026-00045",
+      "settlement_ids": [
+        "setl_p0xu0eiie79iib"
+      ],
+      "utrs": [
+        "SBIN318641761302"
+      ],
+      "bank_txn_ids": [
+        "bank_mnxpcnep949n"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 48510,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_vbhqlqcg1wu16h",
+      "order_id": "order_toobmzvrerw6z8",
+      "invoice_id": "INV-2026-00046",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1944206,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_gl64tpkueklv3j",
+      "order_id": "order_zzzgor5nknwssa",
+      "invoice_id": "INV-2026-00047",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 182700,
+      "net_paise": 177612,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_17qky3piarrfp8",
+      "order_id": "order_vqnbv11dg9ys83",
+      "invoice_id": "INV-2026-00048",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 533300,
+      "net_paise": 527636,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_rwap9be0iv9whw",
+      "order_id": "order_ad3mrlmc32o5ju",
+      "invoice_id": "INV-2026-00049",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 56100,
+      "net_paise": 54908,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_khxcyq8ddgbdh0",
+      "order_id": "order_iv5wmkzbooinb6",
+      "invoice_id": "INV-2026-00050",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1944206,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_246s6e1wlrqqxq",
+      "order_id": "order_86jrovotacg6ez",
+      "invoice_id": "INV-2026-00051",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 399800,
+      "net_paise": 395554,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_o6fh9b9h9yww7n",
+      "order_id": "order_w5suqricus9ssv",
+      "invoice_id": "INV-2026-00052",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 613865,
+      "net_paise": 607345,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_t7gjslgfsb9z7i",
+      "order_id": "order_pmncsm1yvn8al3",
+      "invoice_id": "INV-2026-00053",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 98839,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_bxvh0tb4qod4k7",
+      "order_id": "order_6iuukztv6685t4",
+      "invoice_id": "INV-2026-00054",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 103600,
+      "net_paise": 100363,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ak43z5txztfiia",
+      "order_id": "order_qvlnlfqg18bazh",
+      "invoice_id": "INV-2026-00055",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 249900,
+      "net_paise": 247246,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_7f5kcmhmywwj7z",
+      "order_id": "order_etlu3mh1btohnz",
+      "invoice_id": "INV-2026-00056",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 155200,
+      "net_paise": 153552,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ictxcwnpgw90jp",
+      "order_id": "order_2919ahej8cx9j1",
+      "invoice_id": "INV-2026-00057",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 300256,
+      "net_paise": 291895,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jk0h80k994rphj",
+      "order_id": "order_ntexu24vlstg9k",
+      "invoice_id": "INV-2026-00058",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1978661,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_80x1fqivw328kc",
+      "order_id": "order_98juw0lzx3wsj5",
+      "invoice_id": "INV-2026-00059",
+      "settlement_ids": [
+        "setl_h1p16mue031rap",
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "ICIC391932528267",
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k",
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 52870,
+      "net_paise": 52308,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ifoad96im7tyd9",
+      "order_id": "order_dfu1e0e3m9qq6f",
+      "invoice_id": "INV-2026-00060",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 136900,
+      "net_paise": 132623,
+      "defect_tags": [
+        "invoice_amount_mismatch",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_bi1zlf2kg5skii",
+      "order_id": "order_vswlofu8i7yocr",
+      "invoice_id": "INV-2026-00061",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 249900,
+      "net_paise": 247246,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_gfknej0g1okr79",
+      "order_id": "order_t1jek4yakxc8l0",
+      "invoice_id": "INV-2026-00062",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 597000,
+      "net_paise": 584320,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_xp7i9bsaw0hj1v",
+      "order_id": "order_zh30b2lnt9o7ou",
+      "invoice_id": "INV-2026-00063",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 225062,
+      "net_paise": 218795,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_70zj9fn2khqopd",
+      "order_id": "order_kpfxwvf0ve5z8d",
+      "invoice_id": "INV-2026-00064",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 499900,
+      "net_paise": 480979,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_h735x7codr082u",
+      "order_id": "order_rmb8q93a1du10r",
+      "invoice_id": "INV-2026-00065",
+      "settlement_ids": [
+        "setl_h1p16mue031rap",
+        "setl_7bu954fvuwdyk4"
+      ],
+      "utrs": [
+        "ICIC391932528267",
+        "KKBK790259120463"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 422900,
+      "net_paise": 411124,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment",
+        "duplicate_refund"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_u8xytinbqejbj4",
+      "order_id": "order_wi5bgo3hjrm1w9",
+      "invoice_id": "INV-2026-00066",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 1093900,
+      "net_paise": 1082283,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_15byvzk3i8bzbf",
+      "order_id": "order_by4awty088o5or",
+      "invoice_id": "INV-2026-00067",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 249900,
+      "net_paise": 247246,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_zlpxdrbxyyv3cb",
+      "order_id": "order_165jiu7m5c8u7a",
+      "invoice_id": "INV-2026-00068",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 51160,
+      "net_paise": 50617,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8z7ioabt3818yo",
+      "order_id": "order_li0xy2yyf8iwhl",
+      "invoice_id": "INV-2026-00069",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 559122,
+      "net_paise": 553184,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_n1zt7upjb34x74",
+      "order_id": "order_6mr6ms9ow91k05",
+      "invoice_id": "INV-2026-00070",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 779000,
+      "net_paise": 770727,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_xpxpp6kskyzjg3",
+      "order_id": "order_8nxmqw8ew1u2j8",
+      "invoice_id": "INV-2026-00071",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 330700,
+      "net_paise": 323881,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_3g45uq0glqdyx8",
+      "order_id": "order_bf3kkisdxd20q8",
+      "invoice_id": "INV-2026-00072",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 143800,
+      "net_paise": 139795,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ylzd6szo4xyeur",
+      "order_id": "order_pa5uo9th9ujaeo",
+      "invoice_id": "INV-2026-00073",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 771185,
+      "net_paise": 762995,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_g8n5ta1h2m3aq0",
+      "order_id": "order_43g8duem4h2f4m",
+      "invoice_id": "INV-2026-00074",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 170000,
+      "net_paise": 168195,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_9k2pcigykb5faa",
+      "order_id": "order_8iunclvehrj0kx",
+      "invoice_id": "INV-2026-00075",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 57900,
+      "net_paise": 56288,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_xyb5121f1qworx",
+      "order_id": "order_zrpsoy4bpe2byw",
+      "invoice_id": "INV-2026-00076",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 261800,
+      "net_paise": 259020,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_oay4h8wvtzdfx8",
+      "order_id": "order_cyrjvza6541ze8",
+      "invoice_id": "INV-2026-00077",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 48510,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_iydh9yp5iynewy",
+      "order_id": "order_rsbknpwe3tzx1t",
+      "invoice_id": "INV-2026-00078",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 61100,
+      "net_paise": 60451,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_efi7tgh5od8vbo",
+      "order_id": "order_75mn46ww9ie21y",
+      "invoice_id": "INV-2026-00079",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 197400,
+      "net_paise": 193207,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_mi8qatswzza46j",
+      "order_id": "order_oghexc8mvmvqtr",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 231900,
+      "net_paise": 226975,
+      "defect_tags": [
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_if6wdg1oevzubr",
+      "order_id": "order_lubnjzetkpy8vy",
+      "invoice_id": "INV-2026-00080",
+      "settlement_ids": [
+        "setl_h1p16mue031rap"
+      ],
+      "utrs": [
+        "ICIC391932528267"
+      ],
+      "bank_txn_ids": [
+        "bank_ir95q46hhl9k"
+      ],
+      "gross_paise": 1053500,
+      "net_paise": 1042311,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ajj28sy2mnutt1",
+      "order_id": "order_g2ltzegyu5dfni",
+      "invoice_id": "INV-2026-00081",
+      "settlement_ids": [
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 972054,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_eux2nlu3o3xvmq",
+      "order_id": "order_tm9f2pu8q97sbi",
+      "invoice_id": "INV-2026-00082",
+      "settlement_ids": [
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 147144,
+      "net_paise": 145582,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_cdm8eqymqiltkg",
+      "order_id": "order_hy3wln8ngot8f9",
+      "invoice_id": "INV-2026-00083",
+      "settlement_ids": [
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 49300,
+      "net_paise": 48253,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_d0x9tuu301ptut",
+      "order_id": "order_euocmdtsa228fg",
+      "invoice_id": "INV-2026-00084",
+      "settlement_ids": [
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 165100,
+      "net_paise": 163347,
+      "defect_tags": [
+        "refund_full"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_3w1n9myxlam2x7",
+      "order_id": "order_rj1925qh91wlbx",
+      "invoice_id": "INV-2026-00085",
+      "settlement_ids": [
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 63500,
+      "net_paise": 61731,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ijesg687cviyjk",
+      "order_id": "order_7f16xbxtlnv5mo",
+      "invoice_id": "INV-2026-00086",
+      "settlement_ids": [
+        "setl_yp3quklul0qqt7"
+      ],
+      "utrs": [
+        "AXIS368681114330"
+      ],
+      "bank_txn_ids": [
+        "bank_of2361vapr2x"
+      ],
+      "gross_paise": 408100,
+      "net_paise": 403766,
+      "defect_tags": [
+        "refund_full"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_w7w1vnp444pbmg",
+      "order_id": "order_xzntpf6d2njbci",
+      "invoice_id": "INV-2026-00087",
+      "settlement_ids": [
+        "setl_7bu954fvuwdyk4"
+      ],
+      "utrs": [
+        "KKBK790259120463"
+      ],
+      "bank_txn_ids": [],
+      "gross_paise": 270200,
+      "net_paise": 267330,
+      "defect_tags": [
+        "paise_drift_row",
+        "unresolvable_no_bank_credit"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "duplicate_refund"
+      ],
+      "unresolvable_reason": "settlement_never_credited"
+    },
+    {
+      "payment_id": "pay_zc5bv1l0b7uyqf",
+      "order_id": "order_46bh8lbrnp2f8u",
+      "invoice_id": "INV-2026-00088",
+      "settlement_ids": [
+        "setl_7bu954fvuwdyk4"
+      ],
+      "utrs": [
+        "KKBK790259120463"
+      ],
+      "bank_txn_ids": [],
+      "gross_paise": 117700,
+      "net_paise": 114422,
+      "defect_tags": [
+        "unresolvable_no_bank_credit"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "duplicate_refund"
+      ],
+      "unresolvable_reason": "settlement_never_credited"
+    },
+    {
+      "payment_id": "pay_tt421f6065ar30",
+      "order_id": "order_zuff9gu6n2rz1e",
+      "invoice_id": "INV-2026-00089",
+      "settlement_ids": [
+        "setl_7bu954fvuwdyk4"
+      ],
+      "utrs": [
+        "KKBK790259120463"
+      ],
+      "bank_txn_ids": [],
+      "gross_paise": 586100,
+      "net_paise": 573651,
+      "defect_tags": [
+        "unresolvable_no_bank_credit"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "duplicate_refund"
+      ],
+      "unresolvable_reason": "settlement_never_credited"
+    },
+    {
+      "payment_id": "pay_nej5gajt9f5g3u",
+      "order_id": "order_k677v2ivsx1cyp",
+      "invoice_id": "INV-2026-00090",
+      "settlement_ids": [
+        "setl_7bu954fvuwdyk4"
+      ],
+      "utrs": [
+        "KKBK790259120463"
+      ],
+      "bank_txn_ids": [],
+      "gross_paise": 807100,
+      "net_paise": 784623,
+      "defect_tags": [
+        "unresolvable_no_bank_credit"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "duplicate_refund"
+      ],
+      "unresolvable_reason": "settlement_never_credited"
+    },
+    {
+      "payment_id": "pay_nyu0jdm1nqtsnq",
+      "order_id": "order_fnas6xj53w7y4d",
+      "invoice_id": "INV-2026-00091",
+      "settlement_ids": [
+        "setl_0lzzbnjmu6te8a"
+      ],
+      "utrs": [
+        "ICIC955999773793"
+      ],
+      "bank_txn_ids": [
+        "bank_neitntunwp6e"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1978661,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "paise_drift_bundle"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8ymm7pl990gw31",
+      "order_id": "order_0xdr7ceten7ggo",
+      "invoice_id": "INV-2026-00092",
+      "settlement_ids": [
+        "setl_0lzzbnjmu6te8a"
+      ],
+      "utrs": [
+        "ICIC955999773793"
+      ],
+      "bank_txn_ids": [
+        "bank_neitntunwp6e"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 97118,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "paise_drift_bundle"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_cgdtiqyjrv0e7x",
+      "order_id": "order_i4599vhcupt81s",
+      "invoice_id": "INV-2026-00093",
+      "settlement_ids": [
+        "setl_0lzzbnjmu6te8a"
+      ],
+      "utrs": [
+        "ICIC955999773793"
+      ],
+      "bank_txn_ids": [
+        "bank_neitntunwp6e"
+      ],
+      "gross_paise": 458866,
+      "net_paise": 448037,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "paise_drift_bundle"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_np2y9qh93z331d",
+      "order_id": "order_teiqyavfzq8o9u",
+      "invoice_id": "INV-2026-00094",
+      "settlement_ids": [
+        "setl_0lzzbnjmu6te8a"
+      ],
+      "utrs": [
+        "ICIC955999773793"
+      ],
+      "bank_txn_ids": [
+        "bank_neitntunwp6e"
+      ],
+      "gross_paise": 360818,
+      "net_paise": 356987,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "paise_drift_bundle"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_g23dxuj911noxf",
+      "order_id": "order_v18hfp58frvabk",
+      "invoice_id": "INV-2026-00095",
+      "settlement_ids": [
+        "setl_0lzzbnjmu6te8a"
+      ],
+      "utrs": [
+        "ICIC955999773793"
+      ],
+      "bank_txn_ids": [
+        "bank_neitntunwp6e"
+      ],
+      "gross_paise": 316500,
+      "net_paise": 313139,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt",
+        "paise_drift_bundle"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_24dszcxz621hgj",
+      "order_id": "order_eac074ye0q8h8b",
+      "invoice_id": "INV-2026-00297",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 296700,
+      "net_paise": 288438,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_52dnr9is25hbpk",
+      "order_id": "order_uquhz6a830dm7x",
+      "invoice_id": "INV-2026-00298",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 98839,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_po1rxiv432wt59",
+      "order_id": "order_emu52vtjxu1kau",
+      "invoice_id": "INV-2026-00299",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 174000,
+      "net_paise": 172152,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ojgfg373h8dmpf",
+      "order_id": "order_sdspnnnwm7quhz",
+      "invoice_id": "INV-2026-00300",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 297159,
+      "net_paise": 294004,
+      "defect_tags": [
+        "invoice_amount_mismatch"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_9obyow59bo39hj",
+      "order_id": "order_gqs4903si9clf6",
+      "invoice_id": "INV-2026-00301",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 146716,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_fxby96mk3xpl4m",
+      "order_id": "order_00mboi6f0bupk4",
+      "invoice_id": "INV-2026-00302",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1978661,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_s5094dfryi0m7p",
+      "order_id": "order_5by1lwnlrr2jcp",
+      "invoice_id": "INV-2026-00303",
+      "settlement_ids": [
+        "setl_bqw86a4h81etil"
+      ],
+      "utrs": [
+        "KKBK355459205596"
+      ],
+      "bank_txn_ids": [
+        "bank_667zzxt8e8j3"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1957422,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "narration_corrupt"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_nifl9np6f13tkm",
+      "order_id": "order_poy7ul2ae5emdj",
+      "invoice_id": "INV-2026-00304",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 423800,
+      "net_paise": 419299,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_36cpw90de3d5sc",
+      "order_id": "order_p5pm2elgiffdh7",
+      "invoice_id": "INV-2026-00305",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 499900,
+      "net_paise": 494591,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_u98bnvwejrbvy8",
+      "order_id": "order_44ci4j38v30d7t",
+      "invoice_id": "INV-2026-00306",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2",
+        "setl_wklhnmy7yda6mr"
+      ],
+      "utrs": [
+        "AXIS511608958970",
+        "SBIN612898993074"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u",
+        "bank_ijqzlz4fpkai"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 145725,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_k1kae5gifjtemp",
+      "order_id": "order_ynu295wld4aibq",
+      "invoice_id": "INV-2026-00307",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 54578,
+      "net_paise": 53999,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_9kv913ozll1zbm",
+      "order_id": "order_22uetchbvgkp7l",
+      "invoice_id": "INV-2026-00308",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 2437100,
+      "net_paise": 2411218,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_eq7pmpurdghl2k",
+      "order_id": "order_216tg8r5fqyikb",
+      "invoice_id": "INV-2026-00309",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 249000,
+      "net_paise": 246356,
+      "defect_tags": [
+        "erp_link_broken",
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_dfyu7m4m5l4sd2",
+      "order_id": "order_vghdimflffa1on",
+      "invoice_id": "INV-2026-00310",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2",
+        "setl_hp4i3gvzdon758"
+      ],
+      "utrs": [
+        "AXIS511608958970",
+        "KKBK528589868184"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u",
+        "bank_btim851z4td8"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 48840,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_xqfxkdzto1fgan",
+      "order_id": "order_3bhk23a1mitkrf",
+      "invoice_id": "INV-2026-00311",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 325576,
+      "net_paise": 322119,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_sb8rlsw0b2utch",
+      "order_id": "order_1d3sch53xdxq1v",
+      "invoice_id": "INV-2026-00312",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 48840,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_dj0tc2dnb68c7e",
+      "order_id": "order_dgyqj6fvam2ch4",
+      "invoice_id": "INV-2026-00313",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 608000,
+      "net_paise": 601543,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_kahfyzf7m1k1qt",
+      "order_id": "order_y1pp4cxbjq3jqp",
+      "invoice_id": "INV-2026-00314",
+      "settlement_ids": [
+        "setl_5fgm29obtv30j2"
+      ],
+      "utrs": [
+        "AXIS511608958970"
+      ],
+      "bank_txn_ids": [
+        "bank_umjh9bggmd7u"
+      ],
+      "gross_paise": 116900,
+      "net_paise": 115659,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_qa0wt4q2zvcbqf",
+      "order_id": "order_v6bj7zbycs9bll",
+      "invoice_id": "INV-2026-00315",
+      "settlement_ids": [
+        "setl_wklhnmy7yda6mr"
+      ],
+      "utrs": [
+        "SBIN612898993074"
+      ],
+      "bank_txn_ids": [
+        "bank_ijqzlz4fpkai"
+      ],
+      "gross_paise": 1463300,
+      "net_paise": 1447759,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_x0jsiiaebj51if",
+      "order_id": "order_zuyzy18nl4im9y",
+      "invoice_id": "INV-2026-00316",
+      "settlement_ids": [
+        "setl_wklhnmy7yda6mr"
+      ],
+      "utrs": [
+        "SBIN612898993074"
+      ],
+      "bank_txn_ids": [
+        "bank_ijqzlz4fpkai"
+      ],
+      "gross_paise": 499900,
+      "net_paise": 488102,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_qrybzbyqoazwim",
+      "order_id": "order_c08ksmkompdjno",
+      "invoice_id": "INV-2026-00317",
+      "settlement_ids": [
+        "setl_wklhnmy7yda6mr"
+      ],
+      "utrs": [
+        "SBIN612898993074"
+      ],
+      "bank_txn_ids": [
+        "bank_ijqzlz4fpkai"
+      ],
+      "gross_paise": 76300,
+      "net_paise": 75489,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_6ynn40f6vh8zlz",
+      "order_id": "order_dd2z81k31pol9n",
+      "invoice_id": "INV-2026-00318",
+      "settlement_ids": [
+        "setl_wklhnmy7yda6mr"
+      ],
+      "utrs": [
+        "SBIN612898993074"
+      ],
+      "bank_txn_ids": [
+        "bank_ijqzlz4fpkai"
+      ],
+      "gross_paise": 1357400,
+      "net_paise": 1342984,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_j1tv28ini8mit7",
+      "order_id": "order_b9rojvzify7o0p",
+      "invoice_id": "INV-2026-00319",
+      "settlement_ids": [
+        "setl_wklhnmy7yda6mr"
+      ],
+      "utrs": [
+        "SBIN612898993074"
+      ],
+      "bank_txn_ids": [
+        "bank_ijqzlz4fpkai"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 148308,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_uiaa31eucsjdu9",
+      "order_id": "order_ir0pb1h0ie8x1p",
+      "invoice_id": "INV-2026-00320",
+      "settlement_ids": [
+        "setl_hp4i3gvzdon758"
+      ],
+      "utrs": [
+        "KKBK528589868184"
+      ],
+      "bank_txn_ids": [
+        "bank_btim851z4td8"
+      ],
+      "gross_paise": 167847,
+      "net_paise": 163173,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_qz4j72e1beften",
+      "order_id": "order_8ia6or8z86oc1i",
+      "invoice_id": "INV-2026-00321",
+      "settlement_ids": [
+        "setl_hp4i3gvzdon758"
+      ],
+      "utrs": [
+        "KKBK528589868184"
+      ],
+      "bank_txn_ids": [
+        "bank_btim851z4td8"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 148308,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_w5byc5f4q8ffpg",
+      "order_id": "order_4c5c5uwbq4y8g1",
+      "invoice_id": "INV-2026-00322",
+      "settlement_ids": [
+        "setl_hp4i3gvzdon758"
+      ],
+      "utrs": [
+        "KKBK528589868184"
+      ],
+      "bank_txn_ids": [
+        "bank_btim851z4td8"
+      ],
+      "gross_paise": 76300,
+      "net_paise": 74680,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_req61cuuasnj01",
+      "order_id": "order_q0es2ru5ng7n58",
+      "invoice_id": "INV-2026-00323",
+      "settlement_ids": [
+        "setl_hp4i3gvzdon758"
+      ],
+      "utrs": [
+        "KKBK528589868184"
+      ],
+      "bank_txn_ids": [
+        "bank_btim851z4td8"
+      ],
+      "gross_paise": 128500,
+      "net_paise": 125771,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_0qnxz46rsza29b",
+      "order_id": "order_n9pb53vu9ifkyl",
+      "invoice_id": "INV-2026-00324",
+      "settlement_ids": [
+        "setl_hp4i3gvzdon758"
+      ],
+      "utrs": [
+        "KKBK528589868184"
+      ],
+      "bank_txn_ids": [
+        "bank_btim851z4td8"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 49370,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "chargeback_adjustment"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_u2jk7ia1shx59c",
+      "order_id": "order_c9r2hoxghpwbum",
+      "invoice_id": "INV-2026-00325",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 133400,
+      "net_paise": 131983,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8uadwhee70kmpl",
+      "order_id": "order_51izn2t8tvo60j",
+      "invoice_id": "INV-2026-00326",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 258700,
+      "net_paise": 251496,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_4cduftawsz6muz",
+      "order_id": "order_8genatm9mcprfc",
+      "invoice_id": "INV-2026-00327",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 248200,
+      "net_paise": 245564,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_k26y9yzrnlakna",
+      "order_id": "order_6bkriscdmz586e",
+      "invoice_id": "INV-2026-00328",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 1144400,
+      "net_paise": 1132246,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_grs7esie3qk6g5",
+      "order_id": "order_fcktvgcfcamkz5",
+      "invoice_id": "INV-2026-00329",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 148308,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_60maubxcu2o5zf",
+      "order_id": "order_vga3zibh7rpx24",
+      "invoice_id": "INV-2026-00330",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 244668,
+      "net_paise": 242070,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_2s85f22znpsk5k",
+      "order_id": "order_1qtxs3vjmehimj",
+      "invoice_id": "INV-2026-00331",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 706315,
+      "net_paise": 691751,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_pgjqmljel532uu",
+      "order_id": "order_tvovke6h76mwwj",
+      "invoice_id": "INV-2026-00332",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 1229700,
+      "net_paise": 1216641,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_cm3g7n4ytukc97",
+      "order_id": "order_ze84lmqyahpy2p",
+      "invoice_id": "INV-2026-00333",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 156600,
+      "net_paise": 153371,
+      "defect_tags": [
+        "erp_link_broken",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jcxrzr3vt8ut46",
+      "order_id": "order_60kp7s5e1b0e9f",
+      "invoice_id": "INV-2026-00334",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 972054,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_2ns5mhie2l2fuw",
+      "order_id": "order_zurphbl57y9hqq",
+      "invoice_id": "INV-2026-00335",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 249900,
+      "net_paise": 247246,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_37wzq70k65icne",
+      "order_id": "order_ceyias375z98z7",
+      "invoice_id": "INV-2026-00336",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 649700,
+      "net_paise": 642801,
+      "defect_tags": [
+        "invoice_amount_mismatch",
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_q553kwki85l8d7",
+      "order_id": "order_bq90sjmvoyp59v",
+      "invoice_id": "INV-2026-00337",
+      "settlement_ids": [
+        "setl_3zpdaa4p5stru3"
+      ],
+      "utrs": [
+        "AXIS441076926265"
+      ],
+      "bank_txn_ids": [
+        "bank_bpncxeb5js3i"
+      ],
+      "gross_paise": 1926960,
+      "net_paise": 1886032,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_s93f7sj8xypjvg",
+      "order_id": "order_d6xesslb2qkz0y",
+      "invoice_id": "INV-2026-00338",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 97840,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_h4w7d8dn76csqe",
+      "order_id": "order_mjqxfnxdaegvsz",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 1488400,
+      "net_paise": 1441903,
+      "defect_tags": [
+        "tds_deducted",
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_maa7h7aynu0xgj",
+      "order_id": "order_4ywg1iq4ofs80q",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 317260,
+      "net_paise": 308425,
+      "defect_tags": [
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_39rrb4ejnezybc",
+      "order_id": "order_htjq3nhb4lahfp",
+      "invoice_id": "INV-2026-00339",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 162200,
+      "net_paise": 160477,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_lj4eatmmg83vgd",
+      "order_id": "order_x7q43nvik74au0",
+      "invoice_id": "INV-2026-00340",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 559500,
+      "net_paise": 553558,
+      "defect_tags": [
+        "invoice_amount_mismatch"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_zy6ye1nriflvsx",
+      "order_id": "order_r5v3zrvmxp1x4r",
+      "invoice_id": "INV-2026-00341",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 1054700,
+      "net_paise": 1032298,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_svys2sp2ahswmg",
+      "order_id": "order_joaswniofy338e",
+      "invoice_id": "INV-2026-00342",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 972054,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_0du1qkatu1x52v",
+      "order_id": "order_it7qldsyyr9115",
+      "invoice_id": "INV-2026-00343",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 79000,
+      "net_paise": 78161,
+      "defect_tags": [
+        "erp_link_broken",
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_bdtymw8d167l6x",
+      "order_id": "order_t5sd7cmft8lud8",
+      "invoice_id": "INV-2026-00344",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 114600,
+      "net_paise": 111408,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ugzjhxp912zpwm",
+      "order_id": "order_cg2cy3rc581l7u",
+      "invoice_id": "INV-2026-00345",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1978661,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_cioscxy32glxfx",
+      "order_id": "order_7ykjvj2uzdakip",
+      "invoice_id": "INV-2026-00346",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 408300,
+      "net_paise": 396930,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_178tw48of2tx0q",
+      "order_id": "order_bcwu438r92i8l3",
+      "invoice_id": "INV-2026-00347",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 50100,
+      "net_paise": 49036,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_n7i094c2232x3c",
+      "order_id": "order_na6qy7w0a1yl0e",
+      "invoice_id": "INV-2026-00348",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 326400,
+      "net_paise": 319669,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_lje238eit78m2f",
+      "order_id": "order_3x2k9x5vw7i7hd",
+      "invoice_id": "INV-2026-00349",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 214380,
+      "net_paise": 208410,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_nt14ktm63rmaj2",
+      "order_id": "order_ku0zkhi804eyni",
+      "invoice_id": "INV-2026-00350",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 355800,
+      "net_paise": 352022,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_nmic1f1mjquefy",
+      "order_id": "order_4p4tfzc67jh2lk",
+      "invoice_id": "INV-2026-00351",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 524200,
+      "net_paise": 513066,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_692bf5mltlcks9",
+      "order_id": "order_c1nqslcr1e4uvg",
+      "invoice_id": "INV-2026-00352",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 260700,
+      "net_paise": 257932,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_pm7vlu9aaea0g7",
+      "order_id": "order_7cg8w1rvrrgqz3",
+      "invoice_id": "INV-2026-00353",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 1632600,
+      "net_paise": 1615262,
+      "defect_tags": [
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_aobrwmftoo5xcr",
+      "order_id": "order_b2hwywylah3xm2",
+      "invoice_id": "INV-2026-00354",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 71500,
+      "net_paise": 69266,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_riyq8nnn12yb6k",
+      "order_id": "order_i71maheijbd7s6",
+      "invoice_id": "INV-2026-00355",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 437800,
+      "net_paise": 433151,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_cep9i2ledugppr",
+      "order_id": "order_nr03wte8jp186g",
+      "invoice_id": "INV-2026-00356",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 129600,
+      "net_paise": 124694,
+      "defect_tags": [
+        "paise_drift_row",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_edfopxm8likt3f",
+      "order_id": "order_aqvdx1mle4scbo",
+      "invoice_id": "INV-2026-00357",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 1037800,
+      "net_paise": 1008899,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_0nymafddcd7pe9",
+      "order_id": "order_b9vrnj5hzmdmpu",
+      "invoice_id": "INV-2026-00358",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 961600,
+      "net_paise": 931559,
+      "defect_tags": [
+        "paise_drift_row",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_6gzgu9et83z0pp",
+      "order_id": "order_u35be4hw43kswi",
+      "invoice_id": "INV-2026-00359",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 1494305,
+      "net_paise": 1478435,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_op0laj3xw7leq3",
+      "order_id": "order_3v982ulfk1tkzc",
+      "invoice_id": "INV-2026-00360",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 249900,
+      "net_paise": 244592,
+      "defect_tags": [
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_b2r4j01te2z5b9",
+      "order_id": "order_2nt6kvuor1a2ti",
+      "invoice_id": "INV-2026-00361",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 110900,
+      "net_paise": 108613,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_80v0w7g98ga1e5",
+      "order_id": "order_7q4s2dukig5hhr",
+      "invoice_id": "INV-2026-00362",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 237774,
+      "net_paise": 235249,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jc7w6e5qui3owm",
+      "order_id": "order_bi8f6jio62sajz",
+      "invoice_id": "INV-2026-00363",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 106500,
+      "net_paise": 103987,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ag8lwzkt2l90mq",
+      "order_id": "order_kxtnuxfzk9kllw",
+      "invoice_id": "INV-2026-00364",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 967500,
+      "net_paise": 957225,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_y7dms2zts3k1sd",
+      "order_id": "order_87c7g23cp78zc9",
+      "invoice_id": "INV-2026-00365",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 170500,
+      "net_paise": 166879,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_mzk2q1z1jfwe7p",
+      "order_id": "order_7w211q5bnh9avm",
+      "invoice_id": "INV-2026-00366",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd",
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "SBIN996585783756",
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m",
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 1373500,
+      "net_paise": 1341085,
+      "defect_tags": [
+        "refund_partial",
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_onfjjk4auedi62",
+      "order_id": "order_nrlqgi7yvr4nka",
+      "invoice_id": "INV-2026-00367",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 185700,
+      "net_paise": 181871,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_fmx8adqchdteqv",
+      "order_id": "order_5hxgbodaigu1ok",
+      "invoice_id": "INV-2026-00368",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 502843,
+      "net_paise": 497502,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_8zvs0gkuozcysb",
+      "order_id": "order_2woe9cw5zpfcfb",
+      "invoice_id": "INV-2026-00369",
+      "settlement_ids": [
+        "setl_t2wgzbqpv6n7vd"
+      ],
+      "utrs": [
+        "SBIN996585783756"
+      ],
+      "bank_txn_ids": [
+        "bank_1o9ulo9g9k6m"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 989281,
+      "defect_tags": [
+        "paise_drift_row",
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_1ljlngbz4jrvmb",
+      "order_id": "order_32jjy0biuyjzxa",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 145725,
+      "defect_tags": [
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_vk65r83rfes7yk",
+      "order_id": "order_rru4vjfowmf4uw",
+      "invoice_id": "INV-2026-00370",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3",
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "SBIN613500788369",
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l",
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 187400,
+      "net_paise": 183420,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_pwkczv1gagqo67",
+      "order_id": "order_ye24z8608cx8fg",
+      "invoice_id": "INV-2026-00371",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1957422,
+      "defect_tags": [
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_46c17z4g25pf9a",
+      "order_id": "order_3ra1ppu1oja0cc",
+      "invoice_id": "INV-2026-00372",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 400200,
+      "net_paise": 395950,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_4i64xly54ikmoc",
+      "order_id": "order_rjmgilbrooobwf",
+      "invoice_id": "INV-2026-00373",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3",
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "SBIN613500788369",
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l",
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 1560913,
+      "net_paise": 1544336,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_xmae2of15gu1dw",
+      "order_id": "order_2j0zbimwex6xbe",
+      "invoice_id": "INV-2026-00374",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 173500,
+      "net_paise": 169922,
+      "defect_tags": [
+        "paise_drift_row",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_i5naqj50n1i6gq",
+      "order_id": "order_nv8t0qcxhcm98a",
+      "invoice_id": "INV-2026-00375",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 223800,
+      "net_paise": 221423,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_d7s0z9tuwar7jz",
+      "order_id": "order_ja7efvuzk1dzcj",
+      "invoice_id": "INV-2026-00376",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 249200,
+      "net_paise": 244061,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_5e15wmkhyom0hp",
+      "order_id": "order_96efn7dz7kdhna",
+      "invoice_id": "INV-2026-00377",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 835200,
+      "net_paise": 826330,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_vvuw2j35n8kyqz",
+      "order_id": "order_obuoes30v8y49a",
+      "invoice_id": "INV-2026-00378",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 153600,
+      "net_paise": 147786,
+      "defect_tags": [
+        "refund_full",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_uoytzi8dvvd22r",
+      "order_id": "order_c12m9oqt86m9tl",
+      "invoice_id": "INV-2026-00379",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 685898,
+      "net_paise": 678614,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_dfi9p7j3fbflmi",
+      "order_id": "order_bszhcd3lodq10b",
+      "invoice_id": "INV-2026-00380",
+      "settlement_ids": [
+        "setl_ey47tntc5nd2g3"
+      ],
+      "utrs": [
+        "SBIN613500788369"
+      ],
+      "bank_txn_ids": [
+        "bank_ow3of7xpef1l"
+      ],
+      "gross_paise": 334200,
+      "net_paise": 324893,
+      "defect_tags": [
+        "invoice_amount_mismatch"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_nu66wnycjyfeo6",
+      "order_id": "order_xv0x4sbkxcsjbg",
+      "invoice_id": "INV-2026-00381",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 97840,
+      "defect_tags": [
+        "erp_link_broken",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_uf93axmstp3x5m",
+      "order_id": "order_exh6dlo7cze3st",
+      "invoice_id": "INV-2026-00382",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 1168891,
+      "net_paise": 1156477,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_mm7081b6ou4ce2",
+      "order_id": "order_qugjlqtqe64saj",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 315392,
+      "net_paise": 312042,
+      "defect_tags": [
+        "paise_drift_row",
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_inzlkhzcyy9w3q",
+      "order_id": "order_s9a9xw36cakqsm",
+      "invoice_id": "INV-2026-00383",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 333769,
+      "net_paise": 330224,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_lh4ztth1apml89",
+      "order_id": "order_8474k75meqktx0",
+      "invoice_id": "INV-2026-00384",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 978662,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_4ij3u4rd3rbon2",
+      "order_id": "order_s637nebmgqwyru",
+      "invoice_id": "INV-2026-00385",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl",
+        "setl_m0tqxr4zhkg9pf"
+      ],
+      "utrs": [
+        "ICIC126532735514",
+        "ICIC706507612228"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y",
+        "bank_whgb05tvgo1o"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 148308,
+      "defect_tags": [
+        "split_settlement"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_mn62rgepku44cy",
+      "order_id": "order_rbmnqsxbu1yu99",
+      "invoice_id": "INV-2026-00386",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 215500,
+      "net_paise": 213211,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_ylzu7k1ogi6hzq",
+      "order_id": "order_x7uvk1p9zmzd1i",
+      "invoice_id": "INV-2026-00387",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 439346,
+      "net_paise": 430287,
+      "defect_tags": [
+        "paise_drift_row",
+        "tds_deducted",
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_sclzoxv8lsmbf4",
+      "order_id": "order_1ngtqf3cysykwx",
+      "invoice_id": "INV-2026-00388",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 185300,
+      "net_paise": 180140,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_w7y6eljwv3irtz",
+      "order_id": "order_c2cwi33rakw66n",
+      "invoice_id": "INV-2026-00389",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 433600,
+      "net_paise": 421525,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_fc1uqbfobrcl47",
+      "order_id": "order_dkts2h3tzr6852",
+      "invoice_id": "INV-2026-00390",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 558608,
+      "net_paise": 541157,
+      "defect_tags": [
+        "erp_link_broken",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_segkrhj5jn7bs0",
+      "order_id": "order_h488s2xem3ffzl",
+      "invoice_id": "INV-2026-00391",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 1823700,
+      "net_paise": 1784964,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_2021s4il6fjax3",
+      "order_id": "order_1wiz9pshvvgcew",
+      "invoice_id": "INV-2026-00392",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 279983,
+      "net_paise": 272186,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jlrji7r8ntk4y0",
+      "order_id": "order_adnw6ldhzmcfu4",
+      "invoice_id": "INV-2026-00393",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 77593,
+      "net_paise": 75432,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_n82agsux5aopqi",
+      "order_id": "order_hhyivbz9mxqztz",
+      "invoice_id": "INV-2026-00394",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 960200,
+      "net_paise": 950002,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_grl8h39xlj8lpa",
+      "order_id": "order_ofdls941kpbmee",
+      "invoice_id": "INV-2026-00395",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 1149800,
+      "net_paise": 1137589,
+      "defect_tags": [
+        "erp_link_broken",
+        "refund_partial"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_estd3zjetocsen",
+      "order_id": "order_qpgum7mfjizaba",
+      "invoice_id": "INV-2026-00396",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 267383,
+      "net_paise": 264544,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_n3lyxi3mwrmvic",
+      "order_id": "order_uogp0myoe45d1j",
+      "invoice_id": "INV-2026-00397",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 98839,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_gont6tu74gtnju",
+      "order_id": "order_645kle1tg2v8lm",
+      "invoice_id": "INV-2026-00398",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 123200,
+      "net_paise": 120583,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jdohcl62uc9odq",
+      "order_id": "order_fr9ue2lqrq5iol",
+      "invoice_id": "INV-2026-00399",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 181300,
+      "net_paise": 176251,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_muor8r61r2c6kh",
+      "order_id": "order_c5sif1tcdz7mzi",
+      "invoice_id": "INV-2026-00400",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 274600,
+      "net_paise": 271684,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_0lks9l3xcftuxy",
+      "order_id": "order_ndljdwcjctvfdg",
+      "invoice_id": "INV-2026-00401",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 71200,
+      "net_paise": 69218,
+      "defect_tags": [
+        "refund_full"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_jtgv4fk30m9our",
+      "order_id": "order_ovn90i9vpjsmy5",
+      "invoice_id": "INV-2026-00402",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 370500,
+      "net_paise": 366565,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_q6fhl0ys3f02b0",
+      "order_id": "order_kyswznmg3itanz",
+      "invoice_id": "INV-2026-00403",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl",
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "ICIC126532735514",
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y",
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 45000,
+      "net_paise": 43488,
+      "defect_tags": [
+        "split_settlement",
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_psof1gg2ktbcud",
+      "order_id": "order_e4qvzfv8yu58ce",
+      "invoice_id": "INV-2026-00404",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 1999900,
+      "net_paise": 1978661,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_feqo1480kga59e",
+      "order_id": "order_7x6ddg84pftnfu",
+      "invoice_id": "INV-2026-00405",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 124700,
+      "net_paise": 123376,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_65od7b1u9er04h",
+      "order_id": "order_zdvag1059sc5z5",
+      "invoice_id": "INV-2026-00406",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 263200,
+      "net_paise": 260405,
+      "defect_tags": [
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_yziag0uwu260rv",
+      "order_id": "order_8pa2jmzhd8dj0f",
+      "invoice_id": "INV-2026-00407",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 79300,
+      "net_paise": 77092,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_wybvsk4d3xt40h",
+      "order_id": "order_vhat8r8ct2nh8f",
+      "invoice_id": "INV-2026-00408",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 45000,
+      "net_paise": 44522,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_3i0dpjgsxdw3y1",
+      "order_id": "order_tzpjbo2q5z33xn",
+      "invoice_id": "INV-2026-00409",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 45000,
+      "net_paise": 44522,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_pk0htutnd20o3o",
+      "order_id": "order_ripxhrlyhsdq8m",
+      "invoice_id": "INV-2026-00410",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 207500,
+      "net_paise": 205296,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_j7o0trd9l195dw",
+      "order_id": "order_z2o8ndi6souupt",
+      "invoice_id": "INV-2026-00411",
+      "settlement_ids": [
+        "setl_m6usapm0vi9vcl"
+      ],
+      "utrs": [
+        "ICIC126532735514"
+      ],
+      "bank_txn_ids": [
+        "bank_4xa99tszmw3y"
+      ],
+      "gross_paise": 49900,
+      "net_paise": 49370,
+      "defect_tags": [
+        "paise_drift_row"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout",
+        "weekend_holiday_drift"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_se3qmctnudjo8x",
+      "order_id": "order_z8bc9ujrydjf52",
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 389600,
+      "net_paise": 385463,
+      "defect_tags": [
+        "unresolvable_no_invoice"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": "no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_b0kxqm6r7b5ukd",
+      "order_id": "order_xelitzjhmusfw5",
+      "invoice_id": "INV-2026-00412",
+      "settlement_ids": [
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 194400,
+      "net_paise": 187042,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_p9a8oczuqdkw9u",
+      "order_id": "order_l03lqryoh2kr21",
+      "invoice_id": "INV-2026-00413",
+      "settlement_ids": [
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 97778,
+      "defect_tags": [
+        "tz_boundary"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_rh8h90evfxvrjo",
+      "order_id": "order_ermx6k0ju1ybpe",
+      "invoice_id": "INV-2026-00414",
+      "settlement_ids": [
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 91800,
+      "net_paise": 90825,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_gzd9l2h4le3nm2",
+      "order_id": null,
+      "invoice_id": null,
+      "settlement_ids": [
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 268100,
+      "net_paise": 260634,
+      "defect_tags": [
+        "unresolvable_orphan_order_id"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": "no_order_id_and_no_erp_counterpart"
+    },
+    {
+      "payment_id": "pay_ho1p6ui358wyhm",
+      "order_id": "order_zg38f3ankgfkay",
+      "invoice_id": "INV-2026-00415",
+      "settlement_ids": [
+        "setl_qdmiipr45es1vc"
+      ],
+      "utrs": [
+        "KKBK355557020061"
+      ],
+      "bank_txn_ids": [
+        "bank_q9rwrkkxvvgm"
+      ],
+      "gross_paise": 99900,
+      "net_paise": 98839,
+      "defect_tags": [
+        "erp_link_broken"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_a373dfdrgvgs4v",
+      "order_id": "order_0fitp6xi8sdziz",
+      "invoice_id": "INV-2026-00416",
+      "settlement_ids": [
+        "setl_m0tqxr4zhkg9pf"
+      ],
+      "utrs": [
+        "ICIC706507612228"
+      ],
+      "bank_txn_ids": [
+        "bank_whgb05tvgo1o"
+      ],
+      "gross_paise": 486200,
+      "net_paise": 467799,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_xzxczd9mx9sey6",
+      "order_id": "order_nwdds54s8ag1iq",
+      "invoice_id": "INV-2026-00417",
+      "settlement_ids": [
+        "setl_m0tqxr4zhkg9pf"
+      ],
+      "utrs": [
+        "ICIC706507612228"
+      ],
+      "bank_txn_ids": [
+        "bank_whgb05tvgo1o"
+      ],
+      "gross_paise": 157478,
+      "net_paise": 155806,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_65puuqdslphz5j",
+      "order_id": "order_mjbcd1t30ettj2",
+      "invoice_id": "INV-2026-00418",
+      "settlement_ids": [
+        "setl_m0tqxr4zhkg9pf"
+      ],
+      "utrs": [
+        "ICIC706507612228"
+      ],
+      "bank_txn_ids": [
+        "bank_whgb05tvgo1o"
+      ],
+      "gross_paise": 149900,
+      "net_paise": 144226,
+      "defect_tags": [
+        "tds_deducted"
+      ],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_uzyofeo89xdnsl",
+      "order_id": "order_v4a91fneqx9tmq",
+      "invoice_id": "INV-2026-00419",
+      "settlement_ids": [
+        "setl_m0tqxr4zhkg9pf"
+      ],
+      "utrs": [
+        "ICIC706507612228"
+      ],
+      "bank_txn_ids": [
+        "bank_whgb05tvgo1o"
+      ],
+      "gross_paise": 999900,
+      "net_paise": 989281,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    },
+    {
+      "payment_id": "pay_p4vynzlaxaewb9",
+      "order_id": "order_t0vkg3c5oaoo3n",
+      "invoice_id": "INV-2026-00420",
+      "settlement_ids": [
+        "setl_m0tqxr4zhkg9pf"
+      ],
+      "utrs": [
+        "ICIC706507612228"
+      ],
+      "bank_txn_ids": [
+        "bank_whgb05tvgo1o"
+      ],
+      "gross_paise": 107300,
+      "net_paise": 104768,
+      "defect_tags": [],
+      "bundle_defect_tags": [
+        "bundled_payout"
+      ],
+      "unresolvable_reason": null
+    }
+  ],
+  "orphan_invoice_ids": [
+    "INV-2026-00578",
+    "INV-2026-00580"
+  ],
+  "orphan_bank_txn_ids": [
+    "bank_r4554qsryqpc",
+    "bank_sbvnyiufjnhe",
+    "bank_yo6fhbwaii8k"
+  ]
+}
