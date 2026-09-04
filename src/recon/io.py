@@ -20,6 +20,7 @@ from recon.models import (
     PaymentMethod,
     PaymentView,
     RefundView,
+    SettlementBatch,
     SourceBundle,
 )
 from recon.money import Paise, parse_rupees
@@ -183,6 +184,66 @@ def build_refund_views(gateway: list[GatewayRow]) -> list[RefundView]:
     )
 
 
+def build_settlement_batches(gateway: list[GatewayRow]) -> list[SettlementBatch]:
+    """Reconstruct payout batches from the settlement report.
+
+    ``expected_credit_paise`` is what the bank should have moved: the batch's
+    credits less its debits.  ``expected_credit_dedup_paise`` repeats the sum
+    with duplicate refund rows collapsed, because a phantom duplicate is
+    reported twice but paid once.  Both figures are carried rather than one
+    being guessed, so the matcher can try each and say in its evidence which
+    one tied out.
+    """
+    grouped: dict[str, list[GatewayRow]] = defaultdict(list)
+    for row in gateway:
+        if row.settlement_id:
+            grouped[row.settlement_id].append(row)
+
+    batches: list[SettlementBatch] = []
+    for settlement_id, rows in grouped.items():
+        credits = sum(r.credit_paise for r in rows)
+        debit_rows = [r for r in rows if r.debit_paise]
+
+        seen: set[tuple[str | None, int]] = set()
+        deduped: list[GatewayRow] = []
+        duplicates = False
+        for row in sorted(debit_rows, key=lambda r: r.created_at):
+            key = (row.payment_id, row.debit_paise)
+            if row.entity_type is EntityType.REFUND and key in seen:
+                duplicates = True
+                continue
+            seen.add(key)
+            deduped.append(row)
+
+        settled = [r.settled_at.date() for r in rows if r.settled_at]
+        utrs = {r.settlement_utr for r in rows if r.settlement_utr}
+        batches.append(
+            SettlementBatch(
+                settlement_id=settlement_id,
+                utr=next(iter(utrs)) if len(utrs) == 1 else None,
+                payment_ids=sorted(
+                    {
+                        r.payment_id
+                        for r in rows
+                        if r.entity_type is EntityType.PAYMENT and r.payment_id
+                    }
+                ),
+                settled_date=min(settled) if settled else None,
+                expected_credit_paise=credits - sum(r.debit_paise for r in debit_rows),
+                expected_credit_dedup_paise=credits - sum(r.debit_paise for r in deduped),
+                refund_entity_ids=sorted(
+                    r.entity_id for r in rows if r.entity_type is EntityType.REFUND
+                ),
+                adjustment_entity_ids=sorted(
+                    r.entity_id for r in rows if r.entity_type is EntityType.ADJUSTMENT
+                ),
+                has_duplicate_refund_rows=duplicates,
+            )
+        )
+    batches.sort(key=lambda b: b.settlement_id)
+    return batches
+
+
 def load_split(directory: Path) -> SourceBundle:
     """Read one split directory into the parsed form the matchers consume."""
     gateway = read_gateway(directory / "gateway_settlements.csv")
@@ -191,4 +252,5 @@ def load_split(directory: Path) -> SourceBundle:
         refunds=build_refund_views(gateway),
         bank_rows=read_bank(directory / "bank_statement.csv"),
         invoices=read_invoices(directory / "erp_invoices.csv"),
+        batches=build_settlement_batches(gateway),
     )

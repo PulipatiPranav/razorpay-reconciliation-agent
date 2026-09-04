@@ -91,6 +91,10 @@ class _Bundle:
     bank_txn_id: str | None = None
     tags: set[DefectTag] = field(default_factory=set)
     has_bank_row: bool = True
+    #: Deduction the bank applied that no settlement-report row explains.
+    unexplained_deduction_paise: Paise = 0
+    #: How the narration is degraded, chosen before credits are computed.
+    narration_corruption_mode: str = ""
 
 
 # Defects that belong to a settlement batch rather than to one payment.
@@ -104,6 +108,8 @@ BUNDLE_LEVEL_TAGS: frozenset[DefectTag] = frozenset(
         DefectTag.DUPLICATE_REFUND,
         DefectTag.SPLIT_SETTLEMENT,
         DefectTag.NO_BANK_CREDIT,
+        DefectTag.NARRATION_OPAQUE,
+        DefectTag.UNEXPLAINED_DEDUCTION,
     }
 )
 
@@ -429,12 +435,38 @@ NARRATION_TEMPLATES = [
     "RTGS-{utr}-RZPY SETTLEMENT-BATCH",
 ]
 
+# Narrations that carry no UTR at all.  Real statements are full of these:
+# the reference is on a separate advice note the reconciler does not have.
+OPAQUE_NARRATIONS = [
+    "NEFT CR-RAZORPAY SOFTWARE PVT LTD-MERCHANT SETTLEMENT",
+    "RTGS CR/RAZORPAYSOFT/PAYOUT BATCH",
+    "NEFT-RZPY-SETTLEMENT-{ref}",
+    "BULK CR RAZORPAY SOFTWARE PRIVATE LIMITED",
+]
+
 NOISE_NARRATIONS = [
     "NEFT-{utr}-{name}-VENDOR REFUND",
     "UPI/{utr}/{name}/DIRECT COLLECTION",
     "INT.PD:{utr} SAVINGS INTEREST CREDIT",
     "NEFT-{utr}-{name}-ADVANCE",
 ]
+
+
+def _assign_narration_modes(rng: random.Random, cfg: MessConfig, bundles: list[_Bundle]) -> None:
+    """Decide how each batch's bank narration will be degraded.
+
+    Run before credits are computed so that an unitemised deduction can be
+    conditioned on the narration being opaque -- the two share a root cause, and
+    treating them as independent made the genuinely hard case vanishingly rare.
+    """
+    for bundle in bundles:
+        if rng.random() < cfg.rate_for(DefectTag.NARRATION_OPAQUE):
+            bundle.tags.add(DefectTag.NARRATION_OPAQUE)
+        elif rng.random() < cfg.rate_for(DefectTag.NARRATION_CORRUPT):
+            bundle.tags.add(DefectTag.NARRATION_CORRUPT)
+            bundle.narration_corruption_mode = rng.choice(
+                ["column_null", "truncated", "conflicting"]
+            )
 
 
 def _compute_bundle_credits(
@@ -458,6 +490,22 @@ def _compute_bundle_credits(
         for adj in adjustments:
             if adj.bundle_id == bundle.bundle_id:
                 total -= adj.amount
+        # An unitemised deduction: rolling reserve, platform fee or an FX
+        # adjustment that never appears as a row in the settlement report.  The
+        # batch total simply will not tie, and no deterministic rule can say by
+        # how much it should have.
+        deduction_odds = cfg.rate_for(DefectTag.UNEXPLAINED_DEDUCTION)
+        if DefectTag.NARRATION_OPAQUE in bundle.tags and cfg.enabled(
+            DefectTag.UNEXPLAINED_DEDUCTION
+        ):
+            deduction_odds = cfg.unexplained_deduction_given_opaque
+        if rng.random() < deduction_odds:
+            pct = rng.choice([Decimal("0.25"), Decimal("0.40"), Decimal("0.50"), Decimal("0.75")])
+            deduction = max(500, pct_of(total, pct))
+            total -= deduction
+            bundle.unexplained_deduction_paise = deduction
+            bundle.tags.add(DefectTag.UNEXPLAINED_DEDUCTION)
+
         # Bank-side truncation: the credit lands a few paise off the sum of the
         # report rows.  Forces the matcher to carry an explicit tolerance
         # instead of relying on exact equality.
@@ -478,9 +526,15 @@ def _build_bank_rows(
         bundle.bank_txn_id = txn_id
         utr_in_narration = bundle.utr
         utr_column: str | None = bundle.utr
+        narration = ""
 
-        if rng.random() < cfg.rate_for(DefectTag.NARRATION_CORRUPT):
-            mode = rng.choice(["column_null", "truncated", "conflicting"])
+        if DefectTag.NARRATION_OPAQUE in bundle.tags:
+            # No reference anywhere: the only route left is reconstructing the
+            # batch total from the settlement report and matching on amount.
+            utr_column = None
+            narration = rng.choice(OPAQUE_NARRATIONS).format(ref=ids.bank_ref_no(rng))
+        elif DefectTag.NARRATION_CORRUPT in bundle.tags:
+            mode = bundle.narration_corruption_mode
             if mode == "column_null":
                 # UTR recoverable only by parsing the narration string
                 utr_column = None
@@ -490,7 +544,9 @@ def _build_bank_rows(
             else:
                 # structured column disagrees with the narration
                 utr_column = _transpose(bundle.utr, rng)
-            bundle.tags.add(DefectTag.NARRATION_CORRUPT)
+
+        if not narration:
+            narration = rng.choice(NARRATION_TEMPLATES).format(utr=utr_in_narration)
 
         posted = bundle.settled_date
         if rng.random() < 0.12:
@@ -500,7 +556,7 @@ def _build_bank_rows(
             txn_id=txn_id,
             value_date=bundle.settled_date,
             posted_date=posted,
-            narration=rng.choice(NARRATION_TEMPLATES).format(utr=utr_in_narration),
+            narration=narration,
             utr=utr_column,
             credit_paise=max(0, bundle.credit_total),
             debit_paise=0 if bundle.credit_total >= 0 else -bundle.credit_total,
@@ -546,6 +602,7 @@ def _build_invoices(
     customers: list[tuple[str, str]],
 ) -> tuple[list[InvoiceRow], list[str]]:
     invoices: list[InvoiceRow] = []
+    twin_ids: list[str] = []
     seq = 1
     for pay in payments:
         if pay.invoice_id is None and DefectTag.NO_INVOICE in pay.tags:
@@ -597,7 +654,32 @@ def _build_invoices(
         if rng.random() < 0.35:
             pay.receipt = invoice_id
 
-    orphan_ids: list[str] = []
+        # A twin invoice: same customer, same amount, issued days apart, still
+        # open.  Entirely ordinary in a B2B ledger, and it makes amount-and-date
+        # matching genuinely ambiguous rather than merely approximate.
+        if rng.random() < cfg.rate_for(DefectTag.DUPLICATE_CUSTOMER_INVOICE):
+            twin_id = ids.invoice_id(rng, seq)
+            seq += 1
+            twin_ids.append(twin_id)
+            twin_issue = issue + timedelta(days=rng.choice([-3, -2, -1, 1, 2, 3]))
+            invoices.append(
+                InvoiceRow(
+                    invoice_id=twin_id,
+                    customer_id=cust_id,
+                    customer_name=cust_name,
+                    invoice_amount_paise=amount,
+                    tax_amount_paise=amount - int(round(amount / Decimal("1.18"))),
+                    issue_date=twin_issue,
+                    due_date=twin_issue + timedelta(days=30),
+                    order_id=ids.order_id(rng),
+                    po_number=ids.po_number(rng),
+                    status="open",
+                    notes="Awaiting payment",
+                )
+            )
+            pay.tags.add(DefectTag.DUPLICATE_CUSTOMER_INVOICE)
+
+    orphan_ids: list[str] = list(twin_ids)
     for _ in range(cfg.n_orphan_invoices):
         invoice_id = ids.invoice_id(rng, seq)
         seq += 1
@@ -693,6 +775,7 @@ def generate_universe(cfg: MessConfig) -> Universe:
     _apply_splits(rng, cfg, by_id, bundles)
     refunds = _build_refunds(rng, cfg, payments, bundles)
     adjustments = _build_adjustments(rng, cfg, bundles)
+    _assign_narration_modes(rng, cfg, bundles)
     _compute_bundle_credits(cfg, rng, by_id, bundles, refunds, adjustments)
     bank_rows = _build_bank_rows(rng, cfg, bundles)
     noise_rows = _build_noise_bank_rows(rng, cfg, customers)

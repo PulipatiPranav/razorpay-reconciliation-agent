@@ -38,6 +38,7 @@ def check_universe(universe: Universe) -> list[str]:
         for adj in universe.adjustments:
             if adj.bundle_id == bundle.bundle_id:
                 expected -= adj.amount
+        expected -= bundle.unexplained_deduction_paise
         drift = bundle.credit_total - expected
         allowed = 5 if DefectTag.PAISE_DRIFT_BUNDLE in bundle.tags else 0
         if abs(drift) > allowed:

@@ -70,6 +70,21 @@ class MessConfig:
     rate_erp_link_broken: float = 0.08
     rate_invoice_amount_mismatch: float = 0.04
     rate_chargeback_bundle: float = 0.12   # per bundle; 2% gave <1 case in 37 bundles
+
+    # --- defects that cannot be undone by a deterministic rule --------------
+    # Without these the corpus is mechanically invertible: every corruption has
+    # an exact inverse, Layers 1-2 recover everything, and Layer 3 is left with
+    # nothing to do.  See README, "why the corpus was hardened".
+    rate_narration_opaque: float = 0.18       # per bank credit: no UTR anywhere
+    rate_unexplained_deduction: float = 0.10  # per bundle: credit short, unitemised
+    # Opacity and unitemised deductions share a root cause -- a payout that went
+    # out through a manual or cross-border path rather than the normal automated
+    # one.  Modelling them as independent made the genuinely hard case (no
+    # reference *and* no tie-out) occur about 4% of the time, which is too rare
+    # to measure.  Conditioning one on the other reproduces the real correlation
+    # without inflating either marginal rate.
+    unexplained_deduction_given_opaque: float = 0.65
+    rate_duplicate_customer_invoice: float = 0.06  # per payment: twin open invoice
     rate_tz_boundary: float = 0.03
 
     # --- genuinely unresolvable (5% of payments, split across reasons) ------
@@ -99,6 +114,9 @@ class MessConfig:
         DefectTag.NO_INVOICE: "rate_unresolvable_no_invoice",
         DefectTag.ORPHAN_ORDER_ID: "rate_unresolvable_orphan_order",
         DefectTag.NO_BANK_CREDIT: "rate_unresolvable_no_bank_credit",
+        DefectTag.NARRATION_OPAQUE: "rate_narration_opaque",
+        DefectTag.UNEXPLAINED_DEDUCTION: "rate_unexplained_deduction",
+        DefectTag.DUPLICATE_CUSTOMER_INVOICE: "rate_duplicate_customer_invoice",
     }
 
     def rate_for(self, tag: DefectTag) -> float:

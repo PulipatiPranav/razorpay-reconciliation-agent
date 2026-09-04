@@ -34,6 +34,10 @@ class DefectTag(StrEnum):
     ERP_LINK_BROKEN = "erp_link_broken"
     INVOICE_AMOUNT_MISMATCH = "invoice_amount_mismatch"
     CHARGEBACK_ADJUSTMENT = "chargeback_adjustment"
+    # --- classes that resist mechanical inversion (see README, Phase 3) ---
+    NARRATION_OPAQUE = "narration_opaque"
+    UNEXPLAINED_DEDUCTION = "unexplained_deduction"
+    DUPLICATE_CUSTOMER_INVOICE = "duplicate_customer_invoice"
     TZ_BOUNDARY = "tz_boundary"
     NO_INVOICE = "unresolvable_no_invoice"
     NO_BANK_CREDIT = "unresolvable_no_bank_credit"
@@ -237,6 +241,33 @@ class RefundView(BaseModel):
     created_at: datetime
 
 
+class SettlementBatch(BaseModel):
+    """One payout batch, reconstructed from the gateway report.
+
+    The bank leg is a batch-level problem, not a payment-level one: a bank
+    credit corresponds to a *batch*, and every payment in that batch inherits
+    the answer.  Resolving batches and then propagating is both how a human
+    does it and what makes many-to-one matching tractable.
+    """
+
+    model_config = ConfigDict(frozen=True)
+
+    settlement_id: str
+    utr: str | None
+    payment_ids: list[str]
+    settled_date: date | None
+    # sum(credits) - sum(debits) across the batch's rows
+    expected_credit_paise: Paise
+    # the same, after collapsing refund rows that duplicate an identical
+    # (payment_id, amount) pair.  A phantom duplicate appears twice in the
+    # report while the bank moved the money once, so the naive figure is short
+    # by exactly one refund; carrying both lets the matcher try each.
+    expected_credit_dedup_paise: Paise
+    refund_entity_ids: list[str]
+    adjustment_entity_ids: list[str]
+    has_duplicate_refund_rows: bool
+
+
 class SourceBundle(BaseModel):
     """The three parsed sources for one split, as the matchers see them."""
 
@@ -246,3 +277,4 @@ class SourceBundle(BaseModel):
     refunds: list[RefundView]
     bank_rows: list[BankRow]
     invoices: list[InvoiceRow]
+    batches: list[SettlementBatch] = Field(default_factory=list)
