@@ -99,8 +99,8 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     matcher <code>layered+llm</code> ·
     220 payments · 12 settlement batches ·
     corpus <code>8e3f18b579291d2d</code> ·
-    commit <code>83f5d4c</code> ·
-    generated 2026-09-05 07:51 UTC
+    commit <code>0a08cf2</code> ·
+    generated 2026-09-05 14:43 UTC
   </div>
   <div class="sub" style="margin-top:6px">Rendered in <strong>evaluation mode</strong>: every row is checked against ground truth, so wrong matches are visible rather than implied. In production there is no ground truth and the verdict column would be absent.</div>
 </header>
@@ -12824,6 +12824,138 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   genuine orphans.</p>
   
 <details class="row" data-layer="exception" data-verdict="correct"
+         data-searchable="pay_bdsae0w4o40isk llm_declined">
+  <summary>
+    <span class="mono">pay_bdsae0w4o40isk</span>
+    <span class="leg">→ invoice</span>
+    <span class="rule">the model was consulted and declined to assert a link</span>
+    <span class="badge b-baseline">llm_declined</span>
+    <span class="conf"></span>
+    <span class="badge v-ok">rightly open</span>
+  </summary>
+  <div class="detail">
+    <dl>
+      <dt>subject</dt><dd class="mono">pay_bdsae0w4o40isk
+        (payment)</dd>
+      <dt>reason</dt><dd class="mono">llm_declined</dd>
+      <dt>reached</dt><dd>l3_llm</dd>
+      <dt>candidates</dt><dd>0</dd>
+    </dl>
+    <h4 style="margin-top:14px">What was considered</h4>
+    <ul class="evidence"><li>no invoice could be tied to this payment</li><li>Layer 3 (gemini-3.6-flash) considered 1 candidate(s) and declined</li><li>model reasoning: The single invoice candidate (INV-2026-00128) has a mismatched order ID (order_fz26hh1380ialu vs payment&#x27;s order_7ckdor8bsis40d) and an unexplained amount discrepancy of 23.56.</li><li>model confidence 0.00, call call_81457e5d4aaf (replayed from transcript)</li></ul>
+  </div>
+</details>
+<details class="row" data-layer="exception" data-verdict="correct"
+         data-searchable="pay_h4w7d8dn76csqe llm_declined">
+  <summary>
+    <span class="mono">pay_h4w7d8dn76csqe</span>
+    <span class="leg">→ invoice</span>
+    <span class="rule">the model was consulted and declined to assert a link</span>
+    <span class="badge b-baseline">llm_declined</span>
+    <span class="conf"></span>
+    <span class="badge v-ok">rightly open</span>
+  </summary>
+  <div class="detail">
+    <dl>
+      <dt>subject</dt><dd class="mono">pay_h4w7d8dn76csqe
+        (payment)</dd>
+      <dt>reason</dt><dd class="mono">llm_declined</dd>
+      <dt>reached</dt><dd>l3_llm</dd>
+      <dt>candidates</dt><dd>0</dd>
+    </dl>
+    <h4 style="margin-top:14px">What was considered</h4>
+    <ul class="evidence"><li>no invoice could be tied to this payment</li><li>Layer 3 (gemini-3.6-flash) considered 1 candidate(s) and declined</li><li>model reasoning: The single invoice candidate INV-2026-00576 has a mismatched amount (13,605.00 vs gross 14,884.00), a non-matching order_id (order_tv9tc9ii4bzcyt vs order_mjqxfnxdaegvsz), and was issued on 2026-03-09, after the payment capture date of 2026-02-21.</li><li>model confidence 0.95, call call_c1aa277b46fc (replayed from transcript)</li></ul>
+  </div>
+</details>
+<details class="row" data-layer="exception" data-verdict="correct"
+         data-searchable="pay_maa7h7aynu0xgj llm_declined">
+  <summary>
+    <span class="mono">pay_maa7h7aynu0xgj</span>
+    <span class="leg">→ invoice</span>
+    <span class="rule">the model was consulted and declined to assert a link</span>
+    <span class="badge b-baseline">llm_declined</span>
+    <span class="conf"></span>
+    <span class="badge v-ok">rightly open</span>
+  </summary>
+  <div class="detail">
+    <dl>
+      <dt>subject</dt><dd class="mono">pay_maa7h7aynu0xgj
+        (payment)</dd>
+      <dt>reason</dt><dd class="mono">llm_declined</dd>
+      <dt>reached</dt><dd>l3_llm</dd>
+      <dt>candidates</dt><dd>0</dd>
+    </dl>
+    <h4 style="margin-top:14px">What was considered</h4>
+    <ul class="evidence"><li>no invoice could be tied to this payment</li><li>Layer 3 (gemini-3.1-flash-lite) considered 1 candidate(s) and declined</li><li>model reasoning: The payment gross (3172.60) does not match the invoice amount (3202.00) within an expected variance, and the order_id (order_4ywg1iq4ofs80q) does not correspond to the invoice&#x27;s order_id (order_g9uo0c758c2iai).</li><li>model confidence 0.90, call call_292a8aaa2a9f (replayed from transcript)</li></ul>
+  </div>
+</details>
+<details class="row" data-layer="exception" data-verdict="correct"
+         data-searchable="pay_mi8qatswzza46j llm_declined">
+  <summary>
+    <span class="mono">pay_mi8qatswzza46j</span>
+    <span class="leg">→ invoice</span>
+    <span class="rule">the model was consulted and declined to assert a link</span>
+    <span class="badge b-baseline">llm_declined</span>
+    <span class="conf"></span>
+    <span class="badge v-ok">rightly open</span>
+  </summary>
+  <div class="detail">
+    <dl>
+      <dt>subject</dt><dd class="mono">pay_mi8qatswzza46j
+        (payment)</dd>
+      <dt>reason</dt><dd class="mono">llm_declined</dd>
+      <dt>reached</dt><dd>l3_llm</dd>
+      <dt>candidates</dt><dd>0</dd>
+    </dl>
+    <h4 style="margin-top:14px">What was considered</h4>
+    <ul class="evidence"><li>no invoice could be tied to this payment</li><li>Layer 3 (gemini-3.1-flash-lite) considered 2 candidate(s) and declined</li><li>model reasoning: The payment gross of 2319.00 does not match either invoice amount (2586.44 or 2203.00), and neither order_id (order_fz26hh1380ialu or order_5448ny21b4tgcx) matches the order_id associated with the payment (order_oghexc8mvmvqtr).</li><li>model confidence 0.95, call call_036b4e25034f (replayed from transcript)</li></ul>
+  </div>
+</details>
+<details class="row" data-layer="exception" data-verdict="correct"
+         data-searchable="pay_vo6vu4rlfzrpub llm_declined">
+  <summary>
+    <span class="mono">pay_vo6vu4rlfzrpub</span>
+    <span class="leg">→ invoice</span>
+    <span class="rule">the model was consulted and declined to assert a link</span>
+    <span class="badge b-baseline">llm_declined</span>
+    <span class="conf"></span>
+    <span class="badge v-ok">rightly open</span>
+  </summary>
+  <div class="detail">
+    <dl>
+      <dt>subject</dt><dd class="mono">pay_vo6vu4rlfzrpub
+        (payment)</dd>
+      <dt>reason</dt><dd class="mono">llm_declined</dd>
+      <dt>reached</dt><dd>l3_llm</dd>
+      <dt>candidates</dt><dd>0</dd>
+    </dl>
+    <h4 style="margin-top:14px">What was considered</h4>
+    <ul class="evidence"><li>no invoice could be tied to this payment</li><li>Layer 3 (gemini-3.1-flash-lite) considered 1 candidate(s) and declined</li><li>model reasoning: The payment gross of 3717.16 does not match the invoice amount of 3307.00. Additionally, the order_id associated with the payment (order_i09cr3lm71reaa) does not match the order_id linked to the invoice (order_m8xncaccd1niv6).</li><li>model confidence 0.90, call call_59f942c9f682 (replayed from transcript)</li></ul>
+  </div>
+</details>
+<details class="row" data-layer="exception" data-verdict="correct"
+         data-searchable="pay_w9fuyas0yf9p7k llm_declined">
+  <summary>
+    <span class="mono">pay_w9fuyas0yf9p7k</span>
+    <span class="leg">→ invoice</span>
+    <span class="rule">the model was consulted and declined to assert a link</span>
+    <span class="badge b-baseline">llm_declined</span>
+    <span class="conf"></span>
+    <span class="badge v-ok">rightly open</span>
+  </summary>
+  <div class="detail">
+    <dl>
+      <dt>subject</dt><dd class="mono">pay_w9fuyas0yf9p7k
+        (payment)</dd>
+      <dt>reason</dt><dd class="mono">llm_declined</dd>
+      <dt>reached</dt><dd>l3_llm</dd>
+      <dt>candidates</dt><dd>0</dd>
+    </dl>
+    <h4 style="margin-top:14px">What was considered</h4>
+    <ul class="evidence"><li>no invoice could be tied to this payment</li><li>Layer 3 (gemini-3.1-flash-lite) considered 1 candidate(s) and declined</li><li>model reasoning: The payment gross (1854.00) and the invoice amount (2016.00) differ by 162.00, which cannot be explained by standard processing fees or expected rounding, and the dates are separated by nearly three weeks.</li><li>model confidence 0.90, call call_e514830e8a6f (replayed from transcript)</li></ul>
+  </div>
+</details>
+<details class="row" data-layer="exception" data-verdict="correct"
          data-searchable="pay_3hgjsqlfe5xnzg no_candidate">
   <summary>
     <span class="mono">pay_3hgjsqlfe5xnzg</span>
@@ -12836,28 +12968,6 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   <div class="detail">
     <dl>
       <dt>subject</dt><dd class="mono">pay_3hgjsqlfe5xnzg
-        (payment)</dd>
-      <dt>reason</dt><dd class="mono">no_candidate</dd>
-      <dt>reached</dt><dd>l3_llm</dd>
-      <dt>candidates</dt><dd>0</dd>
-    </dl>
-    <h4 style="margin-top:14px">What was considered</h4>
-    <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
-  </div>
-</details>
-<details class="row" data-layer="exception" data-verdict="correct"
-         data-searchable="pay_bdsae0w4o40isk no_candidate">
-  <summary>
-    <span class="mono">pay_bdsae0w4o40isk</span>
-    <span class="leg">→ invoice</span>
-    <span class="rule">no invoice could be tied to this payment</span>
-    <span class="badge b-baseline">no_candidate</span>
-    <span class="conf"></span>
-    <span class="badge v-ok">rightly open</span>
-  </summary>
-  <div class="detail">
-    <dl>
-      <dt>subject</dt><dd class="mono">pay_bdsae0w4o40isk
         (payment)</dd>
       <dt>reason</dt><dd class="mono">no_candidate</dd>
       <dt>reached</dt><dd>l3_llm</dd>
@@ -12889,28 +12999,6 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
   </div>
 </details>
-<details class="row" data-layer="exception" data-verdict="correct"
-         data-searchable="pay_h4w7d8dn76csqe no_candidate">
-  <summary>
-    <span class="mono">pay_h4w7d8dn76csqe</span>
-    <span class="leg">→ invoice</span>
-    <span class="rule">no invoice could be tied to this payment</span>
-    <span class="badge b-baseline">no_candidate</span>
-    <span class="conf"></span>
-    <span class="badge v-ok">rightly open</span>
-  </summary>
-  <div class="detail">
-    <dl>
-      <dt>subject</dt><dd class="mono">pay_h4w7d8dn76csqe
-        (payment)</dd>
-      <dt>reason</dt><dd class="mono">no_candidate</dd>
-      <dt>reached</dt><dd>l3_llm</dd>
-      <dt>candidates</dt><dd>0</dd>
-    </dl>
-    <h4 style="margin-top:14px">What was considered</h4>
-    <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
-  </div>
-</details>
 <details class="row" data-layer="exception" data-verdict="incorrect"
          data-searchable="pay_h735x7codr082u no_candidate">
   <summary>
@@ -12931,50 +13019,6 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     </dl>
     <h4 style="margin-top:14px">What was considered</h4>
     <ul class="evidence"><li>settlement setl_7bu954fvuwdyk4 could not be tied to a bank credit</li></ul>
-  </div>
-</details>
-<details class="row" data-layer="exception" data-verdict="correct"
-         data-searchable="pay_maa7h7aynu0xgj no_candidate">
-  <summary>
-    <span class="mono">pay_maa7h7aynu0xgj</span>
-    <span class="leg">→ invoice</span>
-    <span class="rule">no invoice could be tied to this payment</span>
-    <span class="badge b-baseline">no_candidate</span>
-    <span class="conf"></span>
-    <span class="badge v-ok">rightly open</span>
-  </summary>
-  <div class="detail">
-    <dl>
-      <dt>subject</dt><dd class="mono">pay_maa7h7aynu0xgj
-        (payment)</dd>
-      <dt>reason</dt><dd class="mono">no_candidate</dd>
-      <dt>reached</dt><dd>l3_llm</dd>
-      <dt>candidates</dt><dd>0</dd>
-    </dl>
-    <h4 style="margin-top:14px">What was considered</h4>
-    <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
-  </div>
-</details>
-<details class="row" data-layer="exception" data-verdict="correct"
-         data-searchable="pay_mi8qatswzza46j no_candidate">
-  <summary>
-    <span class="mono">pay_mi8qatswzza46j</span>
-    <span class="leg">→ invoice</span>
-    <span class="rule">no invoice could be tied to this payment</span>
-    <span class="badge b-baseline">no_candidate</span>
-    <span class="conf"></span>
-    <span class="badge v-ok">rightly open</span>
-  </summary>
-  <div class="detail">
-    <dl>
-      <dt>subject</dt><dd class="mono">pay_mi8qatswzza46j
-        (payment)</dd>
-      <dt>reason</dt><dd class="mono">no_candidate</dd>
-      <dt>reached</dt><dd>l3_llm</dd>
-      <dt>candidates</dt><dd>0</dd>
-    </dl>
-    <h4 style="margin-top:14px">What was considered</h4>
-    <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
   </div>
 </details>
 <details class="row" data-layer="exception" data-verdict="correct"
@@ -13110,28 +13154,6 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
   </div>
 </details>
 <details class="row" data-layer="exception" data-verdict="correct"
-         data-searchable="pay_vo6vu4rlfzrpub no_candidate">
-  <summary>
-    <span class="mono">pay_vo6vu4rlfzrpub</span>
-    <span class="leg">→ invoice</span>
-    <span class="rule">no invoice could be tied to this payment</span>
-    <span class="badge b-baseline">no_candidate</span>
-    <span class="conf"></span>
-    <span class="badge v-ok">rightly open</span>
-  </summary>
-  <div class="detail">
-    <dl>
-      <dt>subject</dt><dd class="mono">pay_vo6vu4rlfzrpub
-        (payment)</dd>
-      <dt>reason</dt><dd class="mono">no_candidate</dd>
-      <dt>reached</dt><dd>l3_llm</dd>
-      <dt>candidates</dt><dd>0</dd>
-    </dl>
-    <h4 style="margin-top:14px">What was considered</h4>
-    <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
-  </div>
-</details>
-<details class="row" data-layer="exception" data-verdict="correct"
          data-searchable="pay_w7w1vnp444pbmg no_candidate">
   <summary>
     <span class="mono">pay_w7w1vnp444pbmg</span>
@@ -13151,28 +13173,6 @@ td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; }
     </dl>
     <h4 style="margin-top:14px">What was considered</h4>
     <ul class="evidence"><li>settlement setl_7bu954fvuwdyk4 could not be tied to a bank credit</li></ul>
-  </div>
-</details>
-<details class="row" data-layer="exception" data-verdict="correct"
-         data-searchable="pay_w9fuyas0yf9p7k no_candidate">
-  <summary>
-    <span class="mono">pay_w9fuyas0yf9p7k</span>
-    <span class="leg">→ invoice</span>
-    <span class="rule">no invoice could be tied to this payment</span>
-    <span class="badge b-baseline">no_candidate</span>
-    <span class="conf"></span>
-    <span class="badge v-ok">rightly open</span>
-  </summary>
-  <div class="detail">
-    <dl>
-      <dt>subject</dt><dd class="mono">pay_w9fuyas0yf9p7k
-        (payment)</dd>
-      <dt>reason</dt><dd class="mono">no_candidate</dd>
-      <dt>reached</dt><dd>l3_llm</dd>
-      <dt>candidates</dt><dd>0</dd>
-    </dl>
-    <h4 style="margin-top:14px">What was considered</h4>
-    <ul class="evidence"><li>no invoice could be tied to this payment</li></ul>
   </div>
 </details>
 <details class="row" data-layer="exception" data-verdict="correct"

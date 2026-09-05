@@ -447,8 +447,9 @@ An exception is *correct* when the subject genuinely has no counterpart, and a *
 
 | reason | subject | raised | correctly raised | misses | precision |
 |---|---|---:|---:|---:|---:|
-| `no_candidate` | payment | 18 | 17 | 1 | 94.4% |
 | `unmatched_counterpart` | invoice | 16 | 16 | 0 | 100.0% |
+| `no_candidate` | payment | 12 | 11 | 1 | 91.7% |
+| `llm_declined` | payment | 6 | 6 | 0 | 100.0% |
 | `unmatched_counterpart` | bank_txn | 3 | 3 | 0 | 100.0% |
 
 ### Behaviour on records that have no answer

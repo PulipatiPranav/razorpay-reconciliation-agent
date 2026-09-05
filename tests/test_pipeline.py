@@ -158,3 +158,52 @@ def test_the_pipeline_is_deterministic() -> None:
     sources = make_sources()
     first = run_layered(sources, "t").model_dump_json()
     assert first == run_layered(sources, "t").model_dump_json()
+
+
+def test_a_model_decline_is_recorded_with_its_reasoning() -> None:
+    """A refusal is a decision. An audit trail that logs matches but not
+    refusals is half a trail -- refusals are where a reviewer most wants to
+    know what was considered."""
+    stub = StubClient(
+        {
+            "invoice:pay_1": LinkDecision(
+                chosen_id=None,
+                confidence=0.0,
+                reasoning="Amount matches but no connecting identifier exists.",
+            )
+        }
+    )
+    sources = make_sources(
+        payments=[make_payment(order_id=None)],
+        invoices=[make_invoice(amount=95_000, order_id=None)],
+    )
+    result = run_layered(sources, "test", resolver=LLMResolver(stub))
+    exception = next(
+        x
+        for x in result.exceptions_for(LinkType.PAYMENT_TO_INVOICE)
+        if x.subject_type is SubjectType.PAYMENT
+    )
+    assert exception.reason is ExceptionReason.LLM_DECLINED
+    assert any("no connecting identifier" in line for line in exception.evidence)
+    assert any("declined" in line for line in exception.evidence)
+
+
+def test_a_hallucinated_identifier_says_so_in_the_exception() -> None:
+    stub = StubClient(
+        {
+            "invoice:pay_1": LinkDecision(
+                chosen_id="INV-DOES-NOT-EXIST", confidence=0.99, reasoning="confident"
+            )
+        }
+    )
+    sources = make_sources(
+        payments=[make_payment(order_id=None)],
+        invoices=[make_invoice(amount=95_000, order_id=None)],
+    )
+    result = run_layered(sources, "test", resolver=LLMResolver(stub))
+    exception = next(
+        x
+        for x in result.exceptions_for(LinkType.PAYMENT_TO_INVOICE)
+        if x.subject_type is SubjectType.PAYMENT
+    )
+    assert any("not among the candidates offered" in line for line in exception.evidence)

@@ -42,6 +42,10 @@ from recon.money import format_rupees
 class Layer3Resolver(Protocol):
     """Whatever resolves the residue Layers 1-2 refused to guess at."""
 
+    #: Why the resolver refused, keyed by subject id.  Surfaced on the resulting
+    #: exception so a refusal is as auditable as a match.
+    decline_evidence: dict[str, list[str]]
+
     def resolve_batches(
         self, batches: list[SettlementBatch], bank_rows: list[BankRow]
     ) -> dict[str, Resolution]: ...
@@ -99,16 +103,22 @@ def _exception_from(
     resolution: Resolution | None,
     threshold: float,
     detail: str,
+    decline_evidence: list[str] | None = None,
 ) -> ReconException:
     if resolution is None:
+        declined = bool(decline_evidence)
         return ReconException.build(
             subject_type=SubjectType.PAYMENT,
             subject_id=subject_id,
             link_type=link_type,
-            reason=ExceptionReason.NO_CANDIDATE,
-            detail=detail,
+            reason=ExceptionReason.LLM_DECLINED if declined else ExceptionReason.NO_CANDIDATE,
+            detail=(
+                "the model was consulted and declined to assert a link"
+                if declined
+                else detail
+            ),
             layer_reached=MatchLayer.L3_LLM,
-            evidence=[detail],
+            evidence=[detail, *(decline_evidence or [])],
         )
     return ReconException.build(
         subject_type=SubjectType.PAYMENT,
@@ -135,6 +145,7 @@ def run_layered(
     """Run all available layers and turn their verdicts into matches and exceptions."""
     bank = resolve_bank_leg(sources, resolver)
     invoice = resolve_invoice_leg(sources, resolver)
+    declines: dict[str, list[str]] = getattr(resolver, "decline_evidence", {}) or {}
 
     matches: list[Match] = []
     exceptions: list[ReconException] = []
@@ -183,6 +194,7 @@ def run_layered(
                         part,
                         threshold,
                         f"settlement {settlement_id} could not be tied to a bank credit",
+                        declines.get(settlement_id),
                     )
                 )
 
@@ -214,6 +226,7 @@ def run_layered(
                     invoice_part,
                     threshold,
                     "no invoice could be tied to this payment",
+                    declines.get(payment.payment_id),
                 )
             )
 

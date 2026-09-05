@@ -27,7 +27,7 @@ from __future__ import annotations
 from datetime import timedelta
 
 from recon.llm.client import LLMClient
-from recon.llm.schemas import BANK_DECISION_SCHEMA, INVOICE_DECISION_SCHEMA
+from recon.llm.schemas import BANK_DECISION_SCHEMA, INVOICE_DECISION_SCHEMA, LinkDecision
 from recon.matcher.confidence import (
     L3_LLM_BANK,
     L3_LLM_INVOICE,
@@ -176,6 +176,33 @@ def _evidence(record: CallRecord, reasoning: str, raw_confidence: float, rule: s
     ]
 
 
+def _decline_evidence(
+    record: CallRecord, decision: LinkDecision, offered: set[str], n_candidates: int
+) -> list[str]:
+    """Record a refusal as carefully as a match.
+
+    Two different refusals land here and they are not the same thing, so the
+    evidence says which: the model declining outright, and the model naming an
+    identifier that was never offered -- a hallucination the pipeline downgrades
+    to a decline rather than trusting.
+    """
+    lines = [
+        f"Layer 3 ({record.model}) considered {n_candidates} candidate(s) and declined",
+        f"model reasoning: {decision.reasoning}",
+    ]
+    if decision.chosen_id is not None and decision.chosen_id not in offered:
+        lines.append(
+            f"the model named {decision.chosen_id}, which was not among the candidates "
+            "offered -- treated as a decline rather than trusted"
+        )
+    lines.append(
+        f"model confidence {decision.confidence:.2f}"
+        + (f", call {record.call_id}" if record.call_id else "")
+        + (" (replayed from transcript)" if record.replayed else "")
+    )
+    return lines
+
+
 class LLMResolver:
     """Layer 3 as the pipeline sees it: batches in, resolutions out."""
 
@@ -183,6 +210,11 @@ class LLMResolver:
         self.client = client
         self.declined: list[str] = []
         self.schema_failures: list[str] = []
+        #: Why the model refused, keyed by subject id.  A decline is a decision,
+        #: and an audit trail that records the matches but not the refusals is
+        #: only half a trail -- the refusals are where a reviewer most wants to
+        #: know what was considered.
+        self.decline_evidence: dict[str, list[str]] = {}
 
     def resolve_batches(
         self, batches: list[SettlementBatch], bank_rows: list[BankRow]
@@ -222,6 +254,9 @@ class LLMResolver:
                 # A chosen id outside the offered list is a hallucination, and
                 # is treated exactly like a decline rather than trusted.
                 self.declined.append(batch.settlement_id)
+                self.decline_evidence[batch.settlement_id] = _decline_evidence(
+                    record, decision, valid_ids, len(candidates)
+                )
                 continue
             evidence = _evidence(record, decision.reasoning, decision.confidence, L3_LLM_BANK)
             if decision.inferred_deduction_paise:
@@ -274,6 +309,9 @@ class LLMResolver:
             valid_ids = {invoice.invoice_id for invoice in candidates[:12]}
             if decision.chosen_id is None or decision.chosen_id not in valid_ids:
                 self.declined.append(payment.payment_id)
+                self.decline_evidence[payment.payment_id] = _decline_evidence(
+                    record, decision, valid_ids, len(candidates[:12])
+                )
                 continue
             out[payment.payment_id] = Resolution(
                 subject_id=payment.payment_id,
