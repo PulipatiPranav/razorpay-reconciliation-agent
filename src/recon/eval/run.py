@@ -32,25 +32,40 @@ BASELINES: dict[str, MatcherFn] = {
 
 
 def build_resolver(
-    mode: str, log: CallLog, transcript: Path = DEFAULT_LOG_PATH
+    mode: str,
+    log: CallLog,
+    transcript: Path = DEFAULT_LOG_PATH,
+    provider: str = "anthropic",
 ) -> Layer3Resolver | None:
     """Construct Layer 3 in one of three modes.
 
     ``off``     Layers 1-2 only.
     ``replay``  answers from a committed transcript -- deterministic, free, and
                 what ``make eval`` uses so the README numbers reproduce.
-    ``live``    real Claude calls; use it to *record* a transcript, not to
-                report numbers, since a live model is non-deterministic.
+    ``live``    real model calls; use it to *record* a transcript, not to report
+                numbers, since a live model is non-deterministic.
+
+    ``provider`` selects the transport for ``live``.  Replay does not need it:
+    a transcript records the model id it was produced with, so a run recorded
+    through either provider replays identically.
     """
     if mode == "off":
         return None
-    from recon.llm.client import AnthropicClient, ReplayClient
+    from recon.llm.client import ReplayClient
     from recon.matcher.layer3 import LLMResolver
 
     if mode == "replay":
         return LLMResolver(ReplayClient(transcript, log))
     if mode == "live":
-        return LLMResolver(AnthropicClient(log))
+        if provider == "gemini":
+            from recon.llm.gemini import GeminiClient
+
+            return LLMResolver(GeminiClient(log))
+        if provider == "anthropic":
+            from recon.llm.client import AnthropicClient
+
+            return LLMResolver(AnthropicClient(log))
+        raise ValueError(f"unknown provider: {provider!r}")
     raise ValueError(f"unknown llm mode: {mode!r}")
 
 

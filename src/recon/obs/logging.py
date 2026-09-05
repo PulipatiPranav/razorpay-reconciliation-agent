@@ -23,12 +23,19 @@ from typing import Any
 
 DEFAULT_LOG_PATH = Path("logs/llm_calls.jsonl")
 
-# Claude API list pricing, USD per million tokens.  Cached 2026-06-24; update
-# alongside the model id if either changes.
+# List pricing, USD per million tokens (input, output).  Cached 2026-09-05;
+# update alongside the model id if either changes.  Gemini Flash models also
+# have a free tier, on which the billed cost is zero -- the figures here are the
+# paid-tier rates, so the cost column states what the run *would* cost rather
+# than pretending free work is worthless.
 PRICE_PER_MTOK: dict[str, tuple[float, float]] = {
     "claude-opus-5": (5.00, 25.00),
     "claude-sonnet-5": (2.00, 10.00),
     "claude-haiku-4-5": (1.00, 5.00),
+    "gemini-3.8-flash": (0.75, 3.75),
+    "gemini-3.5-flash": (1.50, 9.00),
+    "gemini-3.1-pro-preview": (2.00, 12.00),
+    "gemini-2.5-flash": (0.30, 2.50),
 }
 CACHE_READ_MULTIPLIER = 0.10
 CACHE_WRITE_MULTIPLIER = 1.25

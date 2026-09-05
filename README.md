@@ -63,7 +63,7 @@ flowchart TB
     subgraph P3["Phase 3 — layered matcher (done)"]
         L1["Layer 1 · exact deterministic"]
         L2["Layer 2 · fuzzy: amount tolerance,<br/>date windows, net→gross reconstruction"]
-        L3["Layer 3 · Claude on the residue only"]
+        L3["Layer 3 · LLM on the residue only<br/>Claude or Gemini"]
         L1 -->|unmatched| L2 -->|unmatched| L3
     end
 
@@ -169,7 +169,7 @@ on dev** — invoice issue-to-capture lag p99 = 12 days → a 14-day window; wor
 batch amount residual = 5 paise → a 10-paise tolerance — never guessed and
 never read off the generator.
 
-**Layer 3 — Claude on the residue only.** What reaches it is batches whose bank
+**Layer 3 — an LLM on the residue only.** What reaches it is batches whose bank
 credit carries no reference of any kind *and* whose total does not tie because
 of an unitemised deduction. Three rules govern it: declining is a correct
 answer, stated in the prompt and a first-class `null` in the schema; its
@@ -177,9 +177,18 @@ confidence is capped at 0.85× whatever it reports, so it can never outrank a
 rule whose precision was measured; and a chosen id outside the offered
 candidate list is treated as a decline, not trusted.
 
-Output is constrained by `output_config.format` at generation time *and*
-re-validated locally with pydantic, so anything that slips through becomes a
-typed `llm_schema_invalid` exception rather than a bad match.
+Output is constrained by a JSON schema at generation time *and* re-validated
+locally with pydantic, so anything that slips through becomes a typed
+`llm_schema_invalid` exception rather than a bad match.
+
+**The provider is swappable.** `LLMClient` is a protocol with one method and
+`layer3.py` is pure with respect to it, so Claude (`--provider anthropic`) and
+Gemini (`--provider gemini`) are two classes rather than two code paths. The
+prompts, schema, confidence cap, decline handling and transcript format are
+identical, so a transcript recorded through either replays the same way — replay
+keys on the prompt, not the vendor. Gemini's Flash tier is free, which is the
+difference between Layer 3 being demonstrable and being theoretical for anyone
+without a billing account.
 
 **A counterpart can only be claimed once**, on every layer. A credit belongs to
 one batch and an invoice to one payment; letting two subjects claim the same
@@ -463,7 +472,7 @@ make reconcile    # layered matcher, Layers 1+2 (no API key needed)
 make audit        # self-contained HTML audit trail, one page per split
 make eval         # regenerate the data, re-run everything, rewrite the results above
 make eval-check   # fail if the committed results block is stale
-make record-llm   # re-record the Layer 3 transcript live (dev only; needs a key)
+make record-llm   # record the Layer 3 transcript live (PROVIDER=gemini for the free tier)
 make check        # ruff + mypy --strict + pytest + eval-check
 ```
 

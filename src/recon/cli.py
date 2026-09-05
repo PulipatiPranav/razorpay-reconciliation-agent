@@ -111,6 +111,9 @@ def reconcile(
     transcript: Annotated[Path, typer.Option(help="LLM call transcript.")] = Path(
         "logs/llm_calls.jsonl"
     ),
+    provider: Annotated[
+        str, typer.Option(help="Live provider: anthropic or gemini.")
+    ] = "anthropic",
     reports: Annotated[Path, typer.Option(help="Where to write scorecards.")] = Path("reports"),
 ) -> None:
     """Run the layered matcher alongside the baselines and score everything."""
@@ -125,7 +128,7 @@ def reconcile(
     from recon.obs.logging import CallLog
 
     log = CallLog(transcript if llm == "live" else Path("logs/replay.jsonl"))
-    resolver = build_resolver(llm, log, transcript)
+    resolver = build_resolver(llm, log, transcript, provider)
 
     scored: list[tuple[str, ReconResult, ScoreCard]] = []
     for name in ["dev", "holdout"] if split == "both" else [split]:

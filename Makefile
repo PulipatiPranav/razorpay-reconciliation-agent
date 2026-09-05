@@ -31,8 +31,12 @@ reconcile:
 ## Both splits: running the agent on held-out is inference, not tuning, and it is
 ## what you would do at evaluation time anyway. What would be peeking is reading
 ## the held-out score, editing a prompt, and re-recording -- so record once.
+## PROVIDER=gemini uses Gemini's free tier (no payment details needed);
+## PROVIDER=anthropic uses Claude. Either way the transcript replays identically.
+PROVIDER ?= anthropic
 record-llm:
-	$(PY) -m recon.cli reconcile --data-root data --split both --llm live
+	$(PY) -m recon.cli reconcile --data-root data --split both --llm live \
+		--provider $(PROVIDER)
 
 ## Every number in the README, reproduced from scratch. Replays the committed
 ## LLM transcript, so it needs no key and gives identical results every run.
