@@ -6,9 +6,8 @@ Reconciles three sources that legitimately disagree — a Razorpay-style gateway
 settlement report, a bank statement of bundled credits, and an invoice/ERP
 ledger — into matched sets with evidence, plus an honest exception list.
 
-**Status: all five phases complete. Layer 3 is built and unit-tested but has not
-yet been run live — no API credentials in the build environment, so every
-measured number below is Layers 1–2.**
+**Status: all five phases complete, Layer 3 recorded live.** Every number below
+is measured on a held-out set, reproducible with `make eval`.
 
 ---
 
@@ -21,8 +20,12 @@ measured number below is Layers 1–2.**
   baseline scores 0.0% on the bank leg — structurally, since one credit covers
   4 to 60 payments — so a stronger `identifier join` baseline is reported as
   the real bar. Beating a strawman proves nothing.
-- **76.4% fully reconciled on held-out** [70–81%], bank precision 100.0%,
-  invoice precision 99.5%, **one** false match in 220 payments.
+- **99.5% fully reconciled on held-out** [97–100%], bank precision and recall
+  both 100.0%, invoice precision 99.5%, **one** false match in 220 payments.
+  Layer 3 asserted 51 links and got **none** wrong.
+- **The LLM declined 11 of 18 prompts.** Refusing to match a record that has no
+  counterpart is the correct answer, and it is measured separately from
+  precision because a confident wrong match silently closes a real discrepancy.
 - **Every number here is generated**, not typed. `make eval` regenerates the
   corpus from seed 42, re-runs everything and rewrites the results block;
   `make eval-check` fails the build if it is stale.
@@ -263,7 +266,10 @@ Three build rules, not promises:
 3. Matching layers take parsed records as arguments and return values. They
    have no I/O, which is also what makes them unit-testable as pure functions.
 
-Layer 3's transcript is recorded once across both splits (`make record-llm`) and
+Layer 3 was recorded on Gemini (`gemini-3.6-flash`, with four calls on
+`gemini-3.1-flash-lite` after the first model's free-tier quota ran out —
+each record carries the model that answered it). The transcript is recorded once
+across both splits (`make record-llm`) and
 `make eval` replays it. Running the agent on held-out is inference, not tuning —
 it is exactly what happens at evaluation time. What *would* be peeking is reading
 the held-out score, editing a prompt and re-recording, so the transcript is
@@ -333,7 +339,7 @@ Largest batch-level mix gap: `duplicate_refund` rides 33% of dev payments agains
 | amount+date | 0.0% | 0.0% | 70.0% | 7.6% | **0.3%** | 0–1% | 1 |
 | amount only | 0.0% | 0.0% | 99.6% | 67.3% | **0.5%** | 0–2% | 1 |
 | identifier join | 100.0% | 53.5% | 100.0% | 93.0% | **52.6%** | 48–58% | 0 |
-| layered +LLM | 100.0% | 84.2% | 100.0% | 100.0% | **83.4%** | 79–87% | 0 |
+| layered +LLM | 100.0% | 100.0% | 100.0% | 100.0% | **100.0%** | 99–100% | 0 |
 
 **holdout** (220 payments):
 
@@ -342,7 +348,7 @@ Largest batch-level mix gap: `duplicate_refund` rides 33% of dev payments agains
 | amount+date | 0.0% | 0.0% | 86.7% | 6.3% | **0.0%** | 0–2% | 0 |
 | amount only | 0.0% | 0.0% | 100.0% | 71.8% | **1.8%** | 1–5% | 0 |
 | identifier join | 100.0% | 49.1% | 100.0% | 92.2% | **46.8%** | 40–53% | 0 |
-| layered +LLM | 100.0% | 77.4% | 99.5% | 100.0% | **76.4%** | 70–81% | 1 |
+| layered +LLM | 100.0% | 100.0% | 99.5% | 100.0% | **99.5%** | 97–100% | 1 |
 
 *Fully reconciled* means both legs simultaneously correct, counting a correctly empty prediction on an unresolvable payment as correct. *False matches* are links asserted on payments that have no counterpart at all — the metric that matters most, and the one precision alone hides.
 
@@ -351,15 +357,19 @@ Largest batch-level mix gap: `duplicate_refund` rides 33% of dev payments agains
 | layer | rule | leg | edges asserted | correct | precision |
 |---|---|---|---:|---:|---:|
 | l1_exact | `l1_order_id_join` | payment_to_invoice | 190 | 190 | 100.0% |
-| l1_exact | `l1_utr_column_join` | payment_to_bank | 114 | 114 | 100.0% |
-| l2_fuzzy | `l2_narration_utr_truncated` | payment_to_bank | 34 | 34 | 100.0% |
+| l1_exact | `l1_utr_column_join` | payment_to_bank | 112 | 112 | 100.0% |
+| l2_fuzzy | `l2_narration_utr_truncated` | payment_to_bank | 33 | 33 | 100.0% |
 | l2_fuzzy | `l2_narration_utr_exact` | payment_to_bank | 14 | 14 | 100.0% |
-| l2_fuzzy | `l2_batch_amount_reconstruction` | payment_to_bank | 11 | 11 | 100.0% |
+| l2_fuzzy | `l2_batch_amount_reconstruction` | payment_to_bank | 10 | 10 | 100.0% |
 | l2_fuzzy | `l2_invoice_amount_date_window` | payment_to_invoice | 6 | 5 | 83.3% |
 | l2_fuzzy | `l2_order_id_fuzzy` | payment_to_invoice | 6 | 6 | 100.0% |
 | l2_fuzzy | `l2_receipt_invoice_hint` | payment_to_invoice | 4 | 4 | 100.0% |
 | l2_fuzzy | `l1_utr_column_join+l2_batch_amount_reconstruction` | payment_to_bank | 2 | 2 | 100.0% |
 | l2_fuzzy | `l2_order_id_normalised` | payment_to_invoice | 1 | 1 | 100.0% |
+| l3_llm | `l3_llm_batch_disambiguation` | payment_to_bank | 47 | 47 | 100.0% |
+| l3_llm | `l1_utr_column_join+l3_llm_batch_disambiguation` | payment_to_bank | 4 | 4 | 100.0% |
+| l3_llm | `l2_batch_amount_reconstruction+l3_llm_batch_disambiguation` | payment_to_bank | 2 | 2 | 100.0% |
+| l3_llm | `l2_narration_utr_truncated+l3_llm_batch_disambiguation` | payment_to_bank | 2 | 2 | 100.0% |
 
 ### Per-defect resolution (holdout, observational)
 
@@ -367,24 +377,24 @@ Resolution rate among payments carrying each defect. This view is **confounded**
 
 | defect | leg | carrying it | resolved | rate | isolated n | isolated rate |
 |---|---|---:|---:|---:|---:|---:|
-| `narration_opaque` | bank | 62 | 11 | 17.7% | 0 | — |
-| `unexplained_deduction` | bank | 89 | 38 | 42.7% | 1 | 100.0% |
-| `unresolvable_orphan_order_id` | bank | 4 | 2 | 50.0% | 1 | 100.0% |
-| `weekend_holiday_drift` | bank | 111 | 60 | 54.1% | 20 | 100.0% |
-| `split_settlement` | bank | 11 | 7 | 63.6% | 0 | — |
-| `tz_boundary` | bank | 9 | 6 | 66.7% | 0 | — |
-| `paise_drift_row` | bank | 21 | 15 | 71.4% | 0 | — |
-| `erp_link_broken` | bank | 16 | 12 | 75.0% | 0 | — |
-| `refund_partial` | bank | 9 | 7 | 77.8% | 0 | — |
-| `refund_full` | bank | 6 | 5 | 83.3% | 2 | 100.0% |
-| `tds_deducted` | bank | 37 | 31 | 83.8% | 3 | 100.0% |
-| `unresolvable_no_invoice` | bank | 10 | 9 | 90.0% | 1 | 100.0% |
-| `paise_drift_bundle` | bank | 12 | 11 | 91.7% | 0 | — |
-| `narration_corrupt` | bank | 48 | 47 | 97.9% | 0 | — |
 | `chargeback_adjustment` | bank | 52 | 52 | 100.0% | 24 | 100.0% |
 | `duplicate_customer_invoice` | bank | 15 | 15 | 100.0% | 2 | 100.0% |
 | `duplicate_refund` | bank | 2 | 2 | 100.0% | 0 | — |
+| `erp_link_broken` | bank | 16 | 16 | 100.0% | 0 | — |
 | `invoice_amount_mismatch` | bank | 4 | 4 | 100.0% | 1 | 100.0% |
+| `narration_corrupt` | bank | 48 | 48 | 100.0% | 0 | — |
+| `narration_opaque` | bank | 62 | 62 | 100.0% | 0 | — |
+| `paise_drift_bundle` | bank | 12 | 12 | 100.0% | 0 | — |
+| `paise_drift_row` | bank | 21 | 21 | 100.0% | 0 | — |
+| `refund_full` | bank | 6 | 6 | 100.0% | 2 | 100.0% |
+| `refund_partial` | bank | 9 | 9 | 100.0% | 0 | — |
+| `split_settlement` | bank | 11 | 11 | 100.0% | 0 | — |
+| `tds_deducted` | bank | 37 | 37 | 100.0% | 3 | 100.0% |
+| `tz_boundary` | bank | 9 | 9 | 100.0% | 0 | — |
+| `unexplained_deduction` | bank | 89 | 89 | 100.0% | 1 | 100.0% |
+| `unresolvable_no_invoice` | bank | 10 | 10 | 100.0% | 1 | 100.0% |
+| `unresolvable_orphan_order_id` | bank | 4 | 4 | 100.0% | 1 | 100.0% |
+| `weekend_holiday_drift` | bank | 111 | 111 | 100.0% | 20 | 100.0% |
 | `chargeback_adjustment` | invoice | 51 | 51 | 100.0% | 24 | 100.0% |
 | `duplicate_customer_invoice` | invoice | 15 | 15 | 100.0% | 2 | 100.0% |
 | `duplicate_refund` | invoice | 6 | 6 | 100.0% | 0 | — |
@@ -437,9 +447,9 @@ An exception is *correct* when the subject genuinely has no counterpart, and a *
 
 | reason | subject | raised | correctly raised | misses | precision |
 |---|---|---:|---:|---:|---:|
-| `no_candidate` | payment | 69 | 17 | 52 | 24.6% |
+| `no_candidate` | payment | 18 | 17 | 1 | 94.4% |
 | `unmatched_counterpart` | invoice | 16 | 16 | 0 | 100.0% |
-| `unmatched_counterpart` | bank_txn | 5 | 3 | 2 | 60.0% |
+| `unmatched_counterpart` | bank_txn | 3 | 3 | 0 | 100.0% |
 
 ### Behaviour on records that have no answer
 
@@ -452,12 +462,12 @@ An exception is *correct* when the subject genuinely has no counterpart, and a *
 
 ### Cost and latency per 100 records
 
-**Layer 3 answered nothing.** The pipeline issued 18 prompts and all 18 missed the transcript, because no transcript has been recorded yet — this environment has no API credentials. Every number in this report is therefore Layers 1–2 only, and the rows below are what the pipeline *attempted*, not work that was done. Run `make record-llm` with a key set, then `make eval`, and these become measured figures.
-
 | split | records | prompts | answered | misses | tokens in/out | cost USD | cost/100 | latency/100 |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
-| dev | 380 | 10 | 0 | 10 | 0/0 | $0.0000 | $0.0000 | 0.0s |
-| holdout | 220 | 8 | 0 | 8 | 0/0 | $0.0000 | $0.0000 | 0.0s |
+| dev | 380 | 10 | 10 | 0 | 6246/8518 | $0.0366 | $0.0096 | 39.98s |
+| holdout | 220 | 8 | 8 | 0 | 4443/3016 | $0.0126 | $0.0057 | 33.94s |
+
+Token counts, latency and cost are the figures **recorded during the live run that produced the transcript**, replayed here. The replay itself makes no calls and costs nothing.
 
 <!-- END GENERATED: results -->
 

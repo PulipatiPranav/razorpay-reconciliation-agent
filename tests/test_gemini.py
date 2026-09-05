@@ -81,7 +81,9 @@ def test_missing_credentials_fail_with_a_useful_message(monkeypatch, tmp_path) -
 def test_the_request_carries_the_schema_and_the_system_prompt(fake_sdk, tmp_path) -> None:
     client = _client(tmp_path)
     client.decide(purpose="bank:setl_1", system="SYS", user="USER", schema=BANK_DECISION_SCHEMA)
-    assert fake_sdk["model"] == "gemini-3.8-flash"
+    from recon.llm.gemini import DEFAULT_GEMINI_MODEL
+
+    assert fake_sdk["model"] == DEFAULT_GEMINI_MODEL
     assert fake_sdk["input"] == "USER"
     assert fake_sdk["system_instruction"] == "SYS"
     assert fake_sdk["response_format"]["mime_type"] == "application/json"
@@ -176,3 +178,97 @@ def test_a_gemini_transcript_replays_like_any_other(fake_sdk, tmp_path) -> None:
     decision, replayed = replay.decide(purpose="p", system="SYS", user="USER", schema={})
     assert decision is not None and decision.chosen_id == "bank_1"
     assert replayed.replayed and replay.misses == []
+
+
+# --- free-tier rate limiting ------------------------------------------------
+class _RateLimitError(Exception):
+    def __str__(self) -> str:
+        return (
+            "Error code: 429 - Quota exceeded for metric: "
+            "generate_content_free_tier_requests, limit: 5. Please retry in 42.3s"
+        )
+
+
+def test_a_quota_bounce_is_retried_not_dropped(fake_sdk, tmp_path) -> None:
+    """Losing a record to a 429 would silently shrink Layer 3's coverage."""
+    from recon.llm.gemini import GeminiClient
+
+    calls = {"n": 0}
+
+    class _Flaky:
+        def create(self, **kwargs):
+            calls["n"] += 1
+            if calls["n"] == 1:
+                raise _RateLimitError()
+            return _Interaction()
+
+    slept: list[float] = []
+    client = GeminiClient(
+        CallLog(tmp_path / "c.jsonl"), sleep=slept.append, requests_per_minute=0
+    )
+    client._client = types.SimpleNamespace(interactions=_Flaky())
+    decision, record = client.decide(
+        purpose="p", system="s", user="u", schema=BANK_DECISION_SCHEMA
+    )
+    assert decision is not None and decision.chosen_id == "bank_1"
+    assert record.error is None
+    assert record.metadata["attempts"] == 2
+    assert slept and 42 < slept[0] <= 44  # honoured the server's retry hint
+
+
+def test_the_server_hint_is_preferred_over_the_fallback(fake_sdk, tmp_path) -> None:
+    from recon.llm.gemini import FALLBACK_BACKOFF_S, _retry_after_seconds
+
+    assert 42 < _retry_after_seconds(_RateLimitError()) <= 44
+    assert _retry_after_seconds(Exception("429 no hint here")) == FALLBACK_BACKOFF_S
+
+
+def test_persistent_quota_failure_becomes_an_error_record(fake_sdk, tmp_path) -> None:
+    from recon.llm.gemini import GeminiClient
+
+    class _AlwaysLimited:
+        def create(self, **kwargs):
+            raise _RateLimitError()
+
+    client = GeminiClient(
+        CallLog(tmp_path / "c.jsonl"), sleep=lambda _: None, requests_per_minute=0
+    )
+    client._client = types.SimpleNamespace(interactions=_AlwaysLimited())
+    decision, record = client.decide(
+        purpose="p", system="s", user="u", schema=BANK_DECISION_SCHEMA
+    )
+    assert decision is None
+    assert record.error is not None and "429" in record.error
+
+
+def test_a_non_quota_error_is_not_retried(fake_sdk, tmp_path) -> None:
+    from recon.llm.gemini import GeminiClient
+
+    calls = {"n": 0}
+
+    class _Broken:
+        def create(self, **kwargs):
+            calls["n"] += 1
+            raise ValueError("bad request")
+
+    client = GeminiClient(
+        CallLog(tmp_path / "c.jsonl"), sleep=lambda _: None, requests_per_minute=0
+    )
+    client._client = types.SimpleNamespace(interactions=_Broken())
+    _, record = client.decide(purpose="p", system="s", user="u", schema=BANK_DECISION_SCHEMA)
+    assert calls["n"] == 1
+    assert record.error is not None and "bad request" in record.error
+
+
+def test_calls_are_paced_below_the_free_tier_limit(fake_sdk, tmp_path) -> None:
+    from recon.llm.gemini import GeminiClient
+
+    slept: list[float] = []
+    client = GeminiClient(
+        CallLog(tmp_path / "c.jsonl"), sleep=slept.append, requests_per_minute=5
+    )
+    for _ in range(3):
+        client.decide(purpose="p", system="s", user="u", schema=BANK_DECISION_SCHEMA)
+    # first call is free; the next two wait out the 12s interval
+    assert len(slept) == 2
+    assert all(10 < s <= 12 for s in slept)

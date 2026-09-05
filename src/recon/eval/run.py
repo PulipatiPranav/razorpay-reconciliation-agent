@@ -57,15 +57,20 @@ def build_resolver(
     if mode == "replay":
         return LLMResolver(ReplayClient(transcript, log))
     if mode == "live":
+        from recon.llm.client import LLMClient, ResumingClient
+
         if provider == "gemini":
             from recon.llm.gemini import GeminiClient
 
-            return LLMResolver(GeminiClient(log))
-        if provider == "anthropic":
+            live: LLMClient = GeminiClient(log)
+        elif provider == "anthropic":
             from recon.llm.client import AnthropicClient
 
-            return LLMResolver(AnthropicClient(log))
-        raise ValueError(f"unknown provider: {provider!r}")
+            live = AnthropicClient(log)
+        else:
+            raise ValueError(f"unknown provider: {provider!r}")
+        # Resume: only call the model for prompts the transcript is still missing.
+        return LLMResolver(ResumingClient(live, transcript, log))
     raise ValueError(f"unknown llm mode: {mode!r}")
 
 

@@ -20,6 +20,8 @@ typed ``llm_schema_invalid`` exception, exactly as before.
 from __future__ import annotations
 
 import os
+import re
+import time
 import uuid
 from typing import Any
 
@@ -27,8 +29,38 @@ from recon.llm.client import _validate
 from recon.llm.schemas import LinkDecision
 from recon.obs.logging import CallLog, CallRecord, prompt_hash, timed
 
-DEFAULT_GEMINI_MODEL = "gemini-3.8-flash"
+#: Overridable with GEMINI_MODEL.  The default is a workhorse Flash model with a
+#: usable free-tier quota; the newest premium models are metered far tighter
+#: (gemini-3.8-flash allows twenty free requests, fewer than one recording run).
+DEFAULT_GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-3.6-flash")
 DEFAULT_MAX_TOKENS = 4096
+
+#: Gemini's free tier allows five requests per minute on the Flash models.  A
+#: recording run issues roughly twenty, so without pacing it trips the quota
+#: about a third of the way in and silently loses those records.  Self-pacing
+#: below the limit avoids most 429s; the retry loop handles the rest.
+DEFAULT_REQUESTS_PER_MINUTE = 5.0
+MAX_ATTEMPTS = 6
+#: Fallback wait when the server does not tell us how long to hold off.
+FALLBACK_BACKOFF_S = 20.0
+
+_RETRY_HINT = re.compile(r"retry(?:Delay|\s+in)?[\"':\s]*([0-9]+(?:\.[0-9]+)?)", re.IGNORECASE)
+
+
+def _is_rate_limit(exc: Exception) -> bool:
+    text = f"{type(exc).__name__} {exc}"
+    return "429" in text or "RESOURCE_EXHAUSTED" in text or "RateLimit" in text
+
+
+def _retry_after_seconds(exc: Exception) -> float:
+    """How long the server asked us to wait, if it said."""
+    match = _RETRY_HINT.search(str(exc))
+    if match:
+        try:
+            return min(float(match.group(1)) + 1.0, 120.0)
+        except ValueError:  # pragma: no cover - defensive
+            pass
+    return FALLBACK_BACKOFF_S
 
 #: The SDK reads either name; checked only to fail with a useful message.
 API_KEY_VARS = ("GEMINI_API_KEY", "GOOGLE_API_KEY")
@@ -43,6 +75,8 @@ class GeminiClient:
         *,
         model: str = DEFAULT_GEMINI_MODEL,
         max_tokens: int = DEFAULT_MAX_TOKENS,
+        requests_per_minute: float = DEFAULT_REQUESTS_PER_MINUTE,
+        sleep: Any = time.sleep,
     ) -> None:
         from google import genai  # imported lazily so offline runs need no SDK
 
@@ -55,6 +89,17 @@ class GeminiClient:
         self._log = log
         self.model = model
         self.max_tokens = max_tokens
+        self._min_interval = 60.0 / requests_per_minute if requests_per_minute > 0 else 0.0
+        self._sleep = sleep
+        self._last_call_at = 0.0
+
+    def _pace(self) -> None:
+        """Hold off so the free tier's per-minute quota is never the thing that fails."""
+        if self._min_interval <= 0 or self._last_call_at == 0.0:
+            return
+        waited = time.monotonic() - self._last_call_at
+        if waited < self._min_interval:
+            self._sleep(self._min_interval - waited)
 
     def decide(
         self, *, purpose: str, system: str, user: str, schema: dict[str, Any]
@@ -69,26 +114,46 @@ class GeminiClient:
             user=user,
             response_text="",
         )
-        with timed() as elapsed:
-            try:
-                interaction = self._client.interactions.create(
-                    model=self.model,
-                    input=user,
-                    system_instruction=system,
-                    response_format={
-                        "type": "text",
-                        "mime_type": "application/json",
-                        "schema": schema,
-                    },
-                    generation_config={"max_output_tokens": self.max_tokens},
-                )
-            except Exception as exc:  # noqa: BLE001 - any failure becomes an exception row
-                record.error = f"{type(exc).__name__}: {exc}"
-                record.latency_ms = elapsed[0]
-                self._log.append(record)
-                return None, record
+        interaction = None
+        attempts = 0
+        for attempt in range(1, MAX_ATTEMPTS + 1):
+            attempts = attempt
+            self._pace()
+            with timed() as elapsed:
+                try:
+                    interaction = self._client.interactions.create(
+                        model=self.model,
+                        input=user,
+                        system_instruction=system,
+                        response_format={
+                            "type": "text",
+                            "mime_type": "application/json",
+                            "schema": schema,
+                        },
+                        generation_config={"max_output_tokens": self.max_tokens},
+                    )
+                except Exception as exc:  # noqa: BLE001 - failures become exception rows
+                    self._last_call_at = time.monotonic()
+                    if _is_rate_limit(exc) and attempt < MAX_ATTEMPTS:
+                        # A quota bounce is not a failed decision -- waiting and
+                        # retrying is. Dropping the record instead would silently
+                        # shrink Layer 3's coverage and flatter the layers below it.
+                        self._sleep(_retry_after_seconds(exc))
+                        continue
+                    record.error = f"{type(exc).__name__}: {exc}"
+                    record.latency_ms = elapsed[0]
+                    record.metadata["attempts"] = attempt
+                    self._log.append(record)
+                    return None, record
+            self._last_call_at = time.monotonic()
+            break
 
         record.latency_ms = elapsed[0]
+        record.metadata["attempts"] = attempts
+        if interaction is None:  # pragma: no cover - guarded by the loop above
+            record.error = "no response after retries"
+            self._log.append(record)
+            return None, record
         record.request_id = getattr(interaction, "id", None)
         status = str(getattr(interaction, "status", "") or "")
         record.stop_reason = status

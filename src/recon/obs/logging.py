@@ -33,6 +33,9 @@ PRICE_PER_MTOK: dict[str, tuple[float, float]] = {
     "claude-sonnet-5": (2.00, 10.00),
     "claude-haiku-4-5": (1.00, 5.00),
     "gemini-3.8-flash": (0.75, 3.75),
+    "gemini-3.6-flash": (0.75, 3.75),
+    "gemini-3.5-flash-lite": (0.30, 2.50),
+    "gemini-3.1-flash-lite": (0.25, 1.50),
     "gemini-3.5-flash": (1.50, 9.00),
     "gemini-3.1-pro-preview": (2.00, 12.00),
     "gemini-2.5-flash": (0.30, 2.50),
@@ -84,9 +87,22 @@ class CallRecord:
 
 
 def prompt_hash(system: str, user: str, model: str) -> str:
-    """Stable key for replay.  Any prompt change invalidates the transcript."""
+    """Identity of one prompt *as sent to one model*.  Recorded for provenance."""
     digest = hashlib.sha256("\x00".join([model, system, user]).encode()).hexdigest()
     return digest[:20]
+
+
+def content_key(system: str, user: str) -> str:
+    """Replay key: the prompt alone, independent of which model answered it.
+
+    Keying replay on the model as well was a real bug: a transcript recorded
+    through Gemini would miss every lookup made by a replay client defaulting to
+    the Anthropic model id, silently and with no error -- the run would look like
+    Layer 3 had simply declined everything.  Replay is about "have I already
+    asked this exact question", and the answer does not depend on who answered.
+    The record still carries its model, so provenance is not lost.
+    """
+    return hashlib.sha256("\x00".join([system, user]).encode()).hexdigest()[:20]
 
 
 class CallLog:
@@ -130,7 +146,12 @@ class CallLog:
 
 
 def load_transcript(path: Path) -> dict[str, dict[str, Any]]:
-    """Read a JSONL call log into a prompt-hash -> record map for replay."""
+    """Read a JSONL call log into a content-key -> record map for replay.
+
+    Errored calls are excluded: a quota bounce or a transport failure is not an
+    answer, and replaying one as though it were would understate Layer 3.
+    Later successful records win, so re-recording a prompt supersedes the old one.
+    """
     if not path.exists():
         return {}
     out: dict[str, dict[str, Any]] = {}
@@ -139,7 +160,7 @@ def load_transcript(path: Path) -> dict[str, dict[str, Any]]:
             continue
         record = json.loads(line)
         if not record.get("error"):
-            out[record["prompt_hash"]] = record
+            out[content_key(record.get("system", ""), record.get("user", ""))] = record
     return out
 
 

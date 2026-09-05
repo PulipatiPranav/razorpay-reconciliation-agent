@@ -26,7 +26,14 @@ from typing import TYPE_CHECKING, Any, Protocol, cast
 from pydantic import ValidationError
 
 from recon.llm.schemas import LinkDecision
-from recon.obs.logging import CallLog, CallRecord, load_transcript, prompt_hash, timed
+from recon.obs.logging import (
+    CallLog,
+    CallRecord,
+    content_key,
+    load_transcript,
+    prompt_hash,
+    timed,
+)
 
 if TYPE_CHECKING:
     from anthropic.types import MessageParam, OutputConfigParam
@@ -155,7 +162,7 @@ class ReplayClient:
     def decide(
         self, *, purpose: str, system: str, user: str, schema: dict[str, Any]
     ) -> tuple[LinkDecision | None, CallRecord]:
-        key = prompt_hash(system, user, self.model)
+        key = content_key(system, user)
         hit = self._transcript.get(key)
         if hit is None:
             self.misses.append(f"{purpose}:{key}")
@@ -196,6 +203,57 @@ class ReplayClient:
             record.error = problem
         self._log.append(record)
         return decision, record
+
+
+class ResumingClient:
+    """Answer from an existing transcript when possible, call the model when not.
+
+    Recording is not always one clean pass: a free-tier quota can run out
+    part-way through, and re-running from scratch would spend the remaining
+    budget re-asking questions that are already answered. Wrapping the live
+    client makes ``make record-llm`` resumable -- run it again and it only calls
+    the model for prompts the transcript is still missing.
+
+    Errored records are not hits (``load_transcript`` drops them), so a call that
+    failed on quota is retried on the next run rather than cached as a refusal.
+    """
+
+    def __init__(self, live: LLMClient, transcript: Path, log: CallLog) -> None:
+        self._live = live
+        self._transcript = load_transcript(transcript)
+        self._log = log
+        self.reused = 0
+        self.called = 0
+
+    def decide(
+        self, *, purpose: str, system: str, user: str, schema: dict[str, Any]
+    ) -> tuple[LinkDecision | None, CallRecord]:
+        hit = self._transcript.get(content_key(system, user))
+        if hit is not None:
+            self.reused += 1
+            record = CallRecord(
+                call_id=hit.get("call_id", "resumed"),
+                purpose=purpose,
+                model=hit.get("model", "unknown"),
+                prompt_hash=hit.get("prompt_hash", ""),
+                system=system,
+                user=user,
+                response_text=hit.get("response_text", ""),
+                input_tokens=hit.get("input_tokens", 0),
+                output_tokens=hit.get("output_tokens", 0),
+                latency_ms=hit.get("latency_ms", 0.0),
+                stop_reason=hit.get("stop_reason"),
+                request_id=hit.get("request_id"),
+                replayed=True,
+            )
+            decision, problem = _validate(record.response_text)
+            record.schema_valid = problem is None
+            if problem:
+                record.error = problem
+            self._log.append(record)
+            return decision, record
+        self.called += 1
+        return self._live.decide(purpose=purpose, system=system, user=user, schema=schema)
 
 
 class StubClient:
