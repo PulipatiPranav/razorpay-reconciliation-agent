@@ -37,8 +37,10 @@ is measured on a held-out set, reproducible with `make eval`.
   open it in a browser — no server, no network.
 
 ```bash
-make install && make eval && make audit    # ~40 seconds, no API key needed
-recon trace pay_1ljlngbz4jrvmb --split holdout   # explain one record
+make install                       # uv venv on Python 3.12 + editable install
+source .venv/bin/activate          # `recon` lives in the venv, not on PATH
+make eval && make audit            # ~40 seconds, no API key needed
+recon trace pay_70vjo232i1zu0m --split dev   # why the agent refused a match
 ```
 
 ---
@@ -493,11 +495,17 @@ from `make data` — a clean regeneration from seed 42. Scorecards land in
 `reports/results.md`, the audit pages in `reports/audit_{dev,holdout}.html`, and
 every LLM call in `logs/llm_calls.jsonl`.
 
-To interrogate one record:
+To interrogate one record (activate the venv first, or use `.venv/bin/recon`):
 
 ```bash
-.venv/bin/recon trace pay_1ljlngbz4jrvmb --split holdout
+source .venv/bin/activate
+recon trace pay_1ljlngbz4jrvmb --split holdout   # the one false positive
+recon trace pay_70vjo232i1zu0m --split dev       # a refusal, and why
 ```
+
+The second is the more interesting one: an invoice exists for exactly that
+payment's amount, and Layer 3 declined at confidence 0.00 because no identifier
+connects them. Ground truth confirms the payment has no ERP counterpart at all.
 
 ## Limitations
 
